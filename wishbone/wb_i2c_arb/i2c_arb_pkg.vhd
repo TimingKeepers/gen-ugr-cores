@@ -45,7 +45,8 @@ constant c_I2C_ARB_SDB_DEVICE : t_sdb_device := (
 
    component i2c_arbiter_redirector
    generic (
-	g_num_inputs : natural range 2 to 32 := 2
+	g_num_inputs : natural range 2 to 32 := 2;
+	g_enable_output_enable_signal : boolean := false
    );
    port (
 	-- Clock & Reset
@@ -56,16 +57,20 @@ constant c_I2C_ARB_SDB_DEVICE : t_sdb_device := (
 	-- I2C input buses
 	input_sda_i : in std_logic_vector(g_num_inputs-1 downto 0);
 	input_sda_o : out std_logic_vector(g_num_inputs-1 downto 0);
+	input_sda_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 	input_scl_i : in std_logic_vector(g_num_inputs-1 downto 0);
 	input_scl_o : out std_logic_vector(g_num_inputs-1 downto 0);
+	input_scl_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 	-- I2C output bus
 	output_sda_i : in std_logic;
 	output_sda_o : out std_logic;
+	output_sda_oen : out std_logic;
 	
 	output_scl_i : in std_logic;
 	output_scl_o : out std_logic;
+	output_scl_oen : out std_logic;
 
 	-- Redirector index & enable
 	input_enabled_i : std_logic;
@@ -112,7 +117,8 @@ constant c_I2C_ARB_SDB_DEVICE : t_sdb_device := (
 		g_num_inputs : natural range 2 to 32 := 2;
 		g_interface_mode      : t_wishbone_interface_mode      := CLASSIC;
     	g_address_granularity : t_wishbone_address_granularity := WORD;
-        g_enable_bypass_mode : boolean := true
+        g_enable_bypass_mode : boolean := true;
+		g_enable_output_enable_signal : boolean := false
 	);
 	port (
 		-- Clock & Reset
@@ -122,16 +128,20 @@ constant c_I2C_ARB_SDB_DEVICE : t_sdb_device := (
 		-- I2C input buses
 		input_sda_i : in std_logic_vector(g_num_inputs-1 downto 0);
 		input_sda_o : out std_logic_vector(g_num_inputs-1 downto 0);
+		input_sda_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 		input_scl_i : in std_logic_vector(g_num_inputs-1 downto 0);
 		input_scl_o : out std_logic_vector(g_num_inputs-1 downto 0);
+		input_scl_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 		-- I2C output bus
 		output_sda_i : in std_logic;
 		output_sda_o : out std_logic;
+		output_sda_oen : out std_logic;
 	
 		output_scl_i : in std_logic;
 		output_scl_o : out std_logic;
+		output_scl_oen : out std_logic;
 
 		-- WB Slave bus
 		wb_adr_i   				                 : in  std_logic_vector(31 downto 0);
@@ -151,7 +161,8 @@ component xwb_i2c_arbiter
       g_num_inputs : natural range 2 to 32 := 2;
       g_interface_mode      : t_wishbone_interface_mode      := CLASSIC;
       g_address_granularity : t_wishbone_address_granularity := WORD;
-      g_enable_bypass_mode : boolean := true
+      g_enable_bypass_mode : boolean := true;
+      g_enable_output_enable_signal : boolean := false
   );
   port (
       -- Clock & Reset
@@ -161,16 +172,20 @@ component xwb_i2c_arbiter
       -- I2C input buses
       input_sda_i : in std_logic_vector(g_num_inputs-1 downto 0);
       input_sda_o : out std_logic_vector(g_num_inputs-1 downto 0);
+      input_sda_oen : in std_logic_vector(g_num_inputs-1 downto 0);
       
       input_scl_i : in std_logic_vector(g_num_inputs-1 downto 0);
       input_scl_o : out std_logic_vector(g_num_inputs-1 downto 0);
+      input_scl_oen : in std_logic_vector(g_num_inputs-1 downto 0);
       
       -- I2C output bus
       output_sda_i : in std_logic;
       output_sda_o : out std_logic;
+      output_sda_oen : out std_logic;
       
       output_scl_i : in std_logic;
       output_scl_o : out std_logic;
+      output_scl_oen : out std_logic;
   
       -- WB Slave bus
       slave_i : in  t_wishbone_slave_in;

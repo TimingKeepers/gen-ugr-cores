@@ -58,7 +58,8 @@ generic (
 	g_num_inputs : natural range 2 to 32 := 2;
 	g_interface_mode      : t_wishbone_interface_mode      := CLASSIC;
     g_address_granularity : t_wishbone_address_granularity := WORD;
-    g_enable_bypass_mode : boolean := true
+    g_enable_bypass_mode : boolean := true;
+    g_enable_output_enable_signal : boolean := false
 );
 port (
 	-- Clock & Reset
@@ -68,16 +69,20 @@ port (
 	-- I2C input buses
 	input_sda_i : in std_logic_vector(g_num_inputs-1 downto 0);
 	input_sda_o : out std_logic_vector(g_num_inputs-1 downto 0);
+	input_sda_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 	input_scl_i : in std_logic_vector(g_num_inputs-1 downto 0);
 	input_scl_o : out std_logic_vector(g_num_inputs-1 downto 0);
+	input_scl_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 	-- I2C output bus
 	output_sda_i : in std_logic;
 	output_sda_o : out std_logic;
+	output_sda_oen : out std_logic;
 	
 	output_scl_i : in std_logic;
 	output_scl_o : out std_logic;
+	output_scl_oen : out std_logic;
 
 	-- WB Slave bus
 	wb_adr_i   				 : in  std_logic_vector(31 downto 0);
@@ -199,7 +204,8 @@ begin
    -- I2C Redirector
    I2C_REDIRECTOR: i2c_arbiter_redirector
         generic map (
-	       g_num_inputs => g_num_inputs
+	       g_num_inputs => g_num_inputs,
+	       g_enable_output_enable_signal => g_enable_output_enable_signal
         )
         port map (
 	       clk_i => clk_i,
@@ -208,15 +214,19 @@ begin
 
 	       input_sda_i => input_sda_i,
 	       input_sda_o => input_sda_o,
+	       input_sda_oen => input_sda_oen,
 	
 	       input_scl_i => input_scl_i,
 	       input_scl_o => input_scl_o,
+	       input_scl_oen => input_scl_oen,
 	
 	       output_sda_i => output_sda_i,
 	       output_sda_o => output_sda_o,
+	       output_sda_oen => output_sda_oen,
 	
 	       output_scl_i => output_scl_i,
 	       output_scl_o => output_scl_o,
+	       output_scl_oen => output_scl_oen,
 
 	       input_enabled_i => redirector_enable_input,
 	       input_idx_enabled_i => active_input

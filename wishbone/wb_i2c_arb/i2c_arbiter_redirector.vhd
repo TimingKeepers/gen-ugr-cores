@@ -50,7 +50,8 @@ use UNISIM.vcomponents.all;
 entity i2c_arbiter_redirector is
 
 generic (
-	g_num_inputs : natural range 2 to 32 := 2
+	g_num_inputs : natural range 2 to 32 := 2;
+    g_enable_output_enable_signal : boolean := false
 );
 port (
 	-- Clock & Reset
@@ -61,16 +62,20 @@ port (
 	-- I2C input buses
 	input_sda_i : in std_logic_vector(g_num_inputs-1 downto 0);
 	input_sda_o : out std_logic_vector(g_num_inputs-1 downto 0);
+	input_sda_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 	input_scl_i : in std_logic_vector(g_num_inputs-1 downto 0);
 	input_scl_o : out std_logic_vector(g_num_inputs-1 downto 0);
+	input_scl_oen : in std_logic_vector(g_num_inputs-1 downto 0);
 	
 	-- I2C output bus
 	output_sda_i : in std_logic;
 	output_sda_o : out std_logic;
+	output_sda_oen : out std_logic;
 	
 	output_scl_i : in std_logic;
 	output_scl_o : out std_logic;
+	output_scl_oen : out std_logic;
 
 	-- Redirector index & enable
 	input_enabled_i : std_logic;
@@ -125,6 +130,35 @@ begin
     end if;
 
 end process output_logic;
+
+gen_output_en_signal: if g_enable_output_enable_signal generate
+
+	output_logic_en : process (clk_i)
+	begin
+		if rising_edge(clk_i) then
+
+			if rst_n_i = '0' then
+				output_sda_oen <= '0';
+				output_scl_oen <= '0';
+			else
+				if enable_i = '1' and input_enabled_i = '1' then
+                			output_sda_oen <= input_sda_oen(input_idx_enabled_i);
+			                output_scl_oen <= input_scl_oen(input_idx_enabled_i);
+            			else
+			                output_sda_oen <= '1';
+			                output_scl_oen <= '1';
+			        end if;
+			end if;
+
+		end if;
+	end process output_logic_en;
+	
+end generate gen_output_en_signal;
+
+not_gen_output_en_signal : if not g_enable_output_enable_signal generate
+	output_sda_oen <= '0';
+	output_scl_oen <= '0';
+end generate not_gen_output_en_signal;
 
 -- Old tested version
 --main: process(clk_i)
