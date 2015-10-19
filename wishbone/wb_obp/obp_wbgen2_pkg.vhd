@@ -46,21 +46,13 @@ end package;
 package body obp_wbgen2_pkg is
 function f_x_to_zero (x:std_logic) return std_logic is
 begin
-if x = '1' then
-return '1';
-else
-return '0';
-end if;
+return x;
 end function;
 function f_x_to_zero (x:std_logic_vector) return std_logic_vector is
 variable tmp: std_logic_vector(x'length-1 downto 0);
 begin
 for i in 0 to x'length-1 loop
-if(x(i) = 'X' or x(i) = 'U') then
-tmp(i):= '0';
-else
 tmp(i):=x(i);
-end if; 
 end loop; 
 return tmp;
 end function;
