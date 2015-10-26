@@ -46,7 +46,7 @@ constant c_I2C_ARB_SDB_DEVICE : t_sdb_device := (
    component i2c_arbiter_redirector
    generic (
 	g_num_inputs : natural range 2 to 32 := 2;
-	g_enable_output_enable_signal : boolean := false
+	g_enable_oen : boolean := false
    );
    port (
 	-- Clock & Reset
@@ -118,7 +118,7 @@ constant c_I2C_ARB_SDB_DEVICE : t_sdb_device := (
 		g_interface_mode      : t_wishbone_interface_mode      := CLASSIC;
     	g_address_granularity : t_wishbone_address_granularity := WORD;
         g_enable_bypass_mode : boolean := true;
-		g_enable_output_enable_signal : boolean := false
+		g_enable_oen : boolean := false
 	);
 	port (
 		-- Clock & Reset
@@ -162,7 +162,7 @@ component xwb_i2c_arbiter
       g_interface_mode      : t_wishbone_interface_mode      := CLASSIC;
       g_address_granularity : t_wishbone_address_granularity := WORD;
       g_enable_bypass_mode : boolean := true;
-      g_enable_output_enable_signal : boolean := false
+      g_enable_oen : boolean := false
   );
   port (
       -- Clock & Reset

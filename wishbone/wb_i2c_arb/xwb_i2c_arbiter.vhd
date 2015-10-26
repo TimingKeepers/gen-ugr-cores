@@ -58,7 +58,7 @@ generic (
 	g_interface_mode      : t_wishbone_interface_mode      := CLASSIC;
     g_address_granularity : t_wishbone_address_granularity := WORD;
     g_enable_bypass_mode : boolean := true;
-    g_enable_output_enable_signal : boolean := false
+    g_enable_oen : boolean := false
 );
 port (
 	-- Clock & Reset
@@ -98,7 +98,7 @@ begin
 		g_interface_mode => g_interface_mode,
 		g_address_granularity => g_address_granularity,
 		g_enable_bypass_mode => g_enable_bypass_mode,
-		g_enable_output_enable_signal => g_enable_output_enable_signal
+		g_enable_oen => g_enable_oen
 	)
 	port map (
 		clk_i => clk_i,

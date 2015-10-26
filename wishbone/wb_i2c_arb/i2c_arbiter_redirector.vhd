@@ -51,7 +51,7 @@ entity i2c_arbiter_redirector is
 
 generic (
 	g_num_inputs : natural range 2 to 32 := 2;
-    g_enable_output_enable_signal : boolean := false
+    g_enable_oen : boolean := false
 );
 port (
 	-- Clock & Reset
@@ -131,7 +131,7 @@ begin
 
 end process output_logic;
 
-gen_output_en_signal: if g_enable_output_enable_signal generate
+gen_oen_signal: if g_enable_oen generate
 
 	output_logic_en : process (clk_i)
 	begin
@@ -153,12 +153,12 @@ gen_output_en_signal: if g_enable_output_enable_signal generate
 		end if;
 	end process output_logic_en;
 	
-end generate gen_output_en_signal;
+end generate gen_oen_signal;
 
-not_gen_output_en_signal : if not g_enable_output_enable_signal generate
+not_gen_oen_signal : if not g_enable_oen generate
 	output_sda_oen <= '0';
 	output_scl_oen <= '0';
-end generate not_gen_output_en_signal;
+end generate not_gen_oen_signal;
 
 -- Old tested version
 --main: process(clk_i)
