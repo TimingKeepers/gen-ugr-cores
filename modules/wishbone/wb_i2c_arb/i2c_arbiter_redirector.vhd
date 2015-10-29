@@ -145,8 +145,8 @@ gen_oen_signal: if g_enable_oen generate
                 			output_sda_oen <= input_sda_oen(input_idx_enabled_i);
 			                output_scl_oen <= input_scl_oen(input_idx_enabled_i);
             			else
-			                output_sda_oen <= '1';
-			                output_scl_oen <= '1';
+			                output_sda_oen <= '0';
+			                output_scl_oen <= '0';
 			        end if;
 			end if;
 
