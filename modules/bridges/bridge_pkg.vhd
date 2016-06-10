@@ -78,6 +78,56 @@ package bridge_pkg is
 			m_axis_tstrb_o    : out std_logic_vector((g_data_width/8)-1 downto 0)
 		);
 	end component;
+	
+	component wb_axi_bridge is
+	generic (
+
+    G_DATA_WIDTH    : integer    := 32;
+    G_ADDR_WIDTH    : integer    := 32;
+    
+    G_BURST_WIDTH    : integer     := 8
+    
+    );
+    port (
+    
+    clk_i            : in std_logic;
+    rst_n_i        : in std_logic;
+        
+    --Wishbone ports
+    
+    wb_cyc_i       : in std_logic;
+    wb_stb_i       : in std_logic;
+    wb_ack_o       : out std_logic;
+    wb_stall_o       : out std_logic;
+    wb_dat_i       : in std_logic_vector(G_DATA_WIDTH-1 downto 0);
+    wb_adr_i       : in std_logic_vector(G_ADDR_WIDTH-1 downto 0);
+    wb_we_i        : in std_logic;
+    wb_sel_i       : in std_logic_vector(G_DATA_WIDTH/8-1 downto 0);
+    
+    adc_acq_count : in std_logic_vector(31 downto 0);
+    acq_end_o     : out std_logic;
+    
+    -- Ports of Axi Master Bus Interface M00_AXI
+    
+    m00_axi_aclk   : in std_logic;   -- It's not used.
+    m00_axi_aresetn    : in std_logic;
+    m00_axi_awaddr    : out std_logic_vector(G_ADDR_WIDTH-1 downto 0);
+    m00_axi_awlen    : out std_logic_vector(7 downto 0);
+    m00_axi_awsize  : out std_logic_vector(2 downto 0);
+    m00_axi_awburst : out std_logic_vector(1 downto 0);
+    m00_axi_awprot    : out std_logic_vector(2 downto 0);
+    m00_axi_awvalid    : out std_logic;
+    m00_axi_awready    : in std_logic;
+    m00_axi_wdata    : out std_logic_vector(G_DATA_WIDTH-1 downto 0);
+    m00_axi_wstrb    : out std_logic_vector(G_DATA_WIDTH/8-1 downto 0);
+    m00_axi_wlast    : out std_logic;
+    m00_axi_wvalid    : out std_logic;
+    m00_axi_wready    : in std_logic;
+    m00_axi_bresp    : in std_logic_vector(1 downto 0);
+    m00_axi_bvalid    : in std_logic;
+    m00_axi_bready    : out std_logic);
+    
+	end component;
 
 end package;
 
