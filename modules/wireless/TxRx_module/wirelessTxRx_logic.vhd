@@ -157,7 +157,6 @@ architecture Behavioral of wirelessTxRx_logic is
     signal clk_ref_n    : std_logic := '1'; -- 500 MHz reference inverted clock
     
     -- Tx flow
-    signal clk_tx_ser              : std_logic := '1'; -- Tx serial reference clock
     signal gtp_dedicated_div_clk   : std_logic := '1'; -- Tx buffer reference clock
     
     -- Rx Clock Data Recovery
@@ -209,7 +208,25 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch1_k_char : std_logic_vector (1 downto 0); --error decoding
     signal ch1_enc_err : std_logic; --error decoding   
 
-    
+        -- debug
+--  signal debug0 : std_logic;
+----  signal debug1 : std_logic;
+----  signal debug2 : std_logic;
+--  signal debug_vector0 : std_logic_vector (15 downto 0);
+--  signal debug_vector1 : std_logic_vector (1 downto 0);
+----  signal debug_vector2 : std_logic_vector (9 downto 0);
+----  signal debug_vector3 : std_logic_vector (9 downto 0);
+--  attribute mark_debug : string;
+--  attribute mark_debug of debug0: signal is "true";
+----  attribute mark_debug of debug1: signal is "true";
+----  attribute mark_debug of debug2: signal is "true";
+--  attribute mark_debug of debug_vector0: signal is "true";
+--  attribute mark_debug of debug_vector1: signal is "true";
+--  attribute mark_debug of ch0_dis_in : signal is "true";
+--  attribute mark_debug of ch0_frame_out : signal is "true";
+--  attribute mark_debug of ch0_encoded_data_p : signal is "true";
+--  attribute mark_debug of ch0_dis_out : signal is "true";
+
 begin
 
     BUFIO_serdes : BUFIO
@@ -262,7 +279,7 @@ begin
 ---------------------- CH0 Tx flow ------------------------ 
      
     -- control the disp value and serialize the data
-    ch0_serializer : process (ch0_frame_out, clk_tx_ser, rst_i)
+    ch0_serializer : process (ch0_frame_out, gtp_dedicated_div_clk, rst_i)
     variable index : integer := 0;
     begin
     if (rst_i = '0') then
@@ -270,25 +287,28 @@ begin
         ch0_dis_in <= '0';
         ch0_encoded_data_aux  <= (others => '0'); 
         ch0_tx_disparity_o <= '0';   
-    else
-    -- when a frame is coded, change the disparity and store the coded frame                   
-        if rising_edge(ch0_frame_out) then
-            ch0_dis_in <= not ch0_dis_out;
-            ch0_encoded_data_aux <= ch0_encoded_data_p;
-            ch0_tx_disparity_o <= ch0_dis_out;  
-            index := 0;
-        end if; 
+    else       
         -- If there is an available frame, serialize it
-        if rising_edge(clk_tx_ser) then
+        if rising_edge(gtp_dedicated_div_clk) then
             ch0_data_o <= ch0_encoded_data_aux(19 - index);
             index := index + 1;
             if index = 20 then
                 index := 0;
             end if;
+            -- when a frame is coded, change the disparity and store the coded frame
+            if ch0_frame_out = '1' then
+                ch0_dis_in <= not ch0_dis_out;
+                ch0_encoded_data_aux <= ch0_encoded_data_p;
+                ch0_tx_disparity_o <= ch0_dis_out;  
+                index := 0;
+            end if; 
         end if;   
     end if;
     end process;
     
+--    debug_vector0 <= ch0_tx_data_i;
+--    debug_vector1 <= ch0_tx_k_i;
+--    debug0 <= ch0_frame_in_i;
     -- Encode the parallel frame from the core
     ch0_encoder : ENC_16B20B 
     port map(
@@ -306,7 +326,7 @@ begin
 ---------------------- CH1 Tx flow ------------------------  
     
     -- control the disp value and serialize the data
-    ch1_serializer : process (ch1_frame_out, clk_tx_ser, rst_i)
+    ch1_serializer : process (ch1_frame_out, gtp_dedicated_div_clk, rst_i)
     variable index : integer := 0;
     variable data_to_serialize : integer := 0;
     begin
@@ -316,22 +336,21 @@ begin
         ch1_encoded_data_aux  <= (others => '0'); 
         ch1_tx_disparity_o <= '0';   
     else
-    -- when a frame is coded, change the disparity and store the coded frame                   
-        if rising_edge(ch1_frame_out) then
-            ch1_dis_in <= not ch1_dis_out;
-            ch1_encoded_data_aux <= ch1_encoded_data_p;
-            ch1_tx_disparity_o <= ch1_dis_out;  
-            index := 0;
-        end if; 
         -- If there is an available frame, serialize it
-        if rising_edge(clk_tx_ser) then
+        if rising_edge(gtp_dedicated_div_clk) then
             ch1_data_o <= ch1_encoded_data_aux(19 - index);
             index := index + 1;
-            -- The frame has been completely serialized
             if index = 20 then
                 index := 0;
             end if;
-        end if;   
+            -- when a frame is coded, change the disparity and store the coded frame
+            if ch1_frame_out = '1' then
+                ch1_dis_in <= not ch1_dis_out;
+                ch1_encoded_data_aux <= ch1_encoded_data_p;
+                ch1_tx_disparity_o <= ch1_dis_out;  
+                index := 0;
+            end if; 
+        end if;    
     end if;
     end process;
     
