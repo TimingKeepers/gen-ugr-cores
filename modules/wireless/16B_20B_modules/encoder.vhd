@@ -44,6 +44,7 @@ signal enc_data_upper, enc_data_lower	 : STD_LOGIC_VECTOR(9 downto 0);
 signal disparity_rdy			 : STD_LOGIC;
 signal frame_out_enc_aux  : STD_LOGIC;
 signal serial_data_aux : STD_LOGIC_VECTOR(19 downto 0);
+signal dis_out_aux, dis_out_enc : STD_LOGIC;
 
 
 -- ******************** COMPONENT DECLARATION ***********************
@@ -110,11 +111,13 @@ begin
             if rising_edge (clk) then
                 if ((frame_out_upper) and (frame_out_lower)) = '1' then
                     frame_out_enc_aux <= (frame_out_upper) and (frame_out_lower);
-                    serial_data_aux <= enc_data_upper & enc_data_lower;     
+                    serial_data_aux <= enc_data_upper & enc_data_lower;  
+                    dis_out_aux <= dis_out_enc;   
                 end if;
                 if frame_in_enc = '1' then
                     frame_out_enc <= frame_out_enc_aux;
                     serial_data <= serial_data_aux;
+                    dis_out <= dis_out_aux;
                     frame_out_enc_aux <= '0';
                     serial_data_aux <= (others => '0');
                 else
@@ -149,7 +152,7 @@ begin
 	  		frame_in 	=> frame_in_enc,
 			disin_rdy	=> disparity_rdy,	  
 	  		dis_in		=> run_disparity,			   	
-	  		dis_out		=> dis_out,		  		
+	  		dis_out		=> dis_out_enc,		  		
 	  		encoded_data	=> enc_data_lower, 
 	  		frame_out	=> frame_out_lower);
 
