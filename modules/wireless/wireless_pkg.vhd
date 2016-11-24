@@ -45,6 +45,7 @@ package wireless_pkg is
           ch0_rx_k_o         : out STD_LOGIC_VECTOR (1 downto 0); -- Trans control code
           ch0_rx_rbclk_o     : out STD_LOGIC; -- Recovered clock from OSERDES to an IOB
           ch0_tx_disparity_o : out STD_LOGIC; -- Disparity on the last transmission
+          ch0_ready_o        : out STD_LOGIC; -- Serdes is locked and aligned
       -- CH1 outputs
           ch1_data_o         : out STD_LOGIC; -- Tx coded serial data
           ch1_rx_bitslide_o  : out STD_LOGIC_VECTOR (4 downto 0); -- Bitslide
@@ -53,6 +54,7 @@ package wireless_pkg is
           ch1_rx_k_o         : out STD_LOGIC_VECTOR (1 downto 0); -- Trans control code
           ch1_rx_rbclk_o     : out STD_LOGIC; -- Recovered clock from OSERDES to an IOB
           ch1_tx_disparity_o : out STD_LOGIC; -- Disparity on the last transmission
+          ch1_ready_o        : out STD_LOGIC; -- Serdes is locked and aligned
       -- Global output
           tx_out_clk_o       : out STD_LOGIC -- Transmission clock
             
