@@ -41,6 +41,9 @@ use IEEE.NUMERIC_STD.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
+use work.decode_8b10b_pkg.ALL;
+use work.encode_8b10b_pkg.ALL;
+
 entity wirelessTxRx_logic is
     generic (
     -- Clock Data Recovery module parameters
@@ -124,35 +127,73 @@ architecture Behavioral of wirelessTxRx_logic is
     end component cdr_counter;
     
     -- 16B/20B encoder module
-    component ENC_16B20B is
-        port(
-            clk             : in STD_LOGIC;
-            rst             : in STD_LOGIC;
-            data_trs        : in STD_LOGIC_VECTOR(15 downto 0);
-            k_char          : in STD_LOGIC_VECTOR (1 downto 0);
-            dis_in          : in STD_LOGIC;
-            frame_in_enc    : in STD_LOGIC;
-            frame_out_enc   : out STD_LOGIC;
-            serial_data     : out STD_LOGIC_VECTOR(19 downto 0);
-            dis_out         : out STD_LOGIC
+    component encode_8b10b_wrapper IS
+      PORT (
+    
+        CLK          : IN  STD_LOGIC                    := '0';
+        DIN          : IN  STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => '0');
+        KIN          : IN  STD_LOGIC                    := '0';
+        DOUT         : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)       ;
+    
+        CE           : IN  STD_LOGIC                    := '0';
+        FORCE_CODE   : IN  STD_LOGIC                    := '0';
+        FORCE_DISP   : IN  STD_LOGIC                    := '0';
+        DISP_IN      : IN  STD_LOGIC                    := '0';
+        DISP_OUT     : OUT STD_LOGIC                          ;
+        ND           : OUT STD_LOGIC                    := '0';
+        KERR         : OUT STD_LOGIC                    := '0';
+    
+        CLK_B        : IN  STD_LOGIC                    := '0';
+        DIN_B        : IN  STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => '0');
+        KIN_B        : IN  STD_LOGIC                    := '0';
+        DOUT_B       : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)       ;
+    
+        CE_B         : IN  STD_LOGIC                    := '0';
+        FORCE_CODE_B : IN  STD_LOGIC                    := '0';
+        FORCE_DISP_B : IN  STD_LOGIC                    := '0';
+        DISP_IN_B    : IN  STD_LOGIC                    := '0';
+        DISP_OUT_B   : OUT STD_LOGIC                          ;
+        ND_B         : OUT STD_LOGIC                    := '0';
+        KERR_B       : OUT STD_LOGIC                    := '0'
+    
         );
+    end component encode_8b10b_wrapper;
     
-    end component  ENC_16B20B;
+--    -- 16B/20B decoder module
+
+    component decode_8b10b_wrapper IS
+      PORT (
     
-    -- 16B/20B decoder module
-    component DEC_16B20B is
-        port(
-            clk             : in STD_LOGIC;
-            rst             : in STD_LOGIC;
-            serial_data     : in STD_LOGIC_VECTOR(19 downto 0);
-            frame_in_dec    : in STD_LOGIC;
-            frame_out_dec   : out STD_LOGIC;
-            decoded_data    : out STD_LOGIC_VECTOR(15 downto 0);
-            k_char		    : out STD_LOGIC_VECTOR (1 downto 0);
-            enc_err         : out STD_LOGIC
-        );        
+        CLK        : IN  STD_LOGIC                    := '0';
+        DIN        : IN  STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
+        DOUT       : OUT STD_LOGIC_VECTOR(7 DOWNTO 0) ;
+        KOUT       : OUT STD_LOGIC                    ;
     
-    end component DEC_16B20B;
+        CE         : IN  STD_LOGIC                    := '0';
+        SINIT      : IN  STD_LOGIC                    := '0';
+        DISP_IN    : IN  STD_LOGIC                    := '0';
+        CODE_ERR   : OUT STD_LOGIC                    := '0';
+        DISP_ERR   : OUT STD_LOGIC                    := '0';
+        ND         : OUT STD_LOGIC                    := '0';
+        RUN_DISP   : OUT STD_LOGIC                    := '0';
+        SYM_DISP   : OUT STD_LOGIC_VECTOR(1 DOWNTO 0) := "00";
+    
+        CLK_B      : IN  STD_LOGIC                    := '0';
+        DIN_B      : IN  STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
+        DOUT_B     : OUT STD_LOGIC_VECTOR(7 DOWNTO 0) ;
+        KOUT_B     : OUT STD_LOGIC                    ;
+    
+        CE_B       : IN  STD_LOGIC                    := '0';
+        SINIT_B    : IN  STD_LOGIC                    := '0';
+        DISP_IN_B  : IN  STD_LOGIC                    := '0';
+        CODE_ERR_B : OUT STD_LOGIC                    := '0';
+        DISP_ERR_B : OUT STD_LOGIC                    := '0';
+        ND_B       : OUT STD_LOGIC                    := '0';
+        RUN_DISP_B : OUT STD_LOGIC                    := '0';
+        SYM_DISP_B : OUT STD_LOGIC_VECTOR(1 DOWNTO 0) := "00"
+    
+        );
+    end component decode_8b10b_wrapper;
     
     -- Internal signals
     signal clk_ref      : std_logic := '1'; -- 500 MHz reference  clock
@@ -173,16 +214,14 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch1_reset_serdes  : std_logic; -- Reset signal for SERDES primitives
     
     -- Tx CH0 serializer and encoder
-    signal ch0_dis_out : std_logic; -- Disparity from encoder 
-    signal ch0_dis_in : std_logic := '0'; -- Disparity to encoder 
-    signal ch0_frame_out : std_logic; --1 when a frame has been encoded
+    signal ch0_dis_out : std_logic_vector (1 downto 0); -- Disparity from encoder 
+    signal ch0_frame_out : std_logic_vector (1 downto 0); --1 when a frame has been encoded
     signal ch0_encoded_data_p : std_logic_vector(19 downto 0); --  parallel encoded data
     signal ch0_encoded_data_aux : std_logic_vector(19 downto 0); --  parallel encoded data
     
     -- Tx CH1 serializer and encoder
-    signal ch1_dis_out : std_logic; -- Disparity from encoder 
-    signal ch1_dis_in : std_logic := '0'; -- Disparity to encoder 
-    signal ch1_frame_out : std_logic; --1 when a frame has been encoded
+    signal ch1_dis_out : std_logic_vector (1 downto 0); -- Disparity from encoder 
+    signal ch1_frame_out : std_logic_vector (1 downto 0); --1 when a frame has been encoded
     signal ch1_encoded_data_p : std_logic_vector(19 downto 0); --  parallel encoded data
     signal ch1_encoded_data_aux : std_logic_vector(19 downto 0); --  parallel encoded data
     
@@ -193,10 +232,10 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch0_rx_bitslide : std_logic_vector (4 downto 0); -- receiver bitslide
     signal ch0_rx_aligned : std_logic := '0'; -- 1 when the tx data stream is aligned
     signal ch0_clk_rx_gen : std_logic := '1'; -- CH0 rx recovered clock
-    signal ch0_frame_out_dec : std_logic; -- 1 when there is a frame already decoded 
+    signal ch0_frame_out_dec : std_logic_vector (1 downto 0); -- 1 when there is a frame already decoded 
     signal ch0_dec_data : std_logic_vector(15 downto 0); --decoded data
     signal ch0_k_char : std_logic_vector (1 downto 0); --error decoding
-    signal ch0_enc_err : std_logic; --error decoding     
+    signal ch0_enc_err : std_logic_vector (1 downto 0); --error decoding     
     
     -- Rx CH1 deserializer and decoder
     signal ch1_frame_in_dec : std_logic; -- 1 when there is a frame ready to be decoded
@@ -205,10 +244,46 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch1_rx_bitslide : std_logic_vector (4 downto 0); -- receiver bitslide
     signal ch1_rx_aligned : std_logic := '0'; -- 1 when the tx data stream is aligned
     signal ch1_clk_rx_gen : std_logic := '1'; -- CH0 rx recovered clock
-    signal ch1_frame_out_dec : std_logic; -- 1 when there is a frame already decoded 
+    signal ch1_frame_out_dec : std_logic_vector (1 downto 0); -- 1 when there is a frame already decoded 
     signal ch1_dec_data : std_logic_vector(15 downto 0); --decoded data
     signal ch1_k_char : std_logic_vector (1 downto 0); --error decoding
-    signal ch1_enc_err : std_logic; --error decoding   
+    signal ch1_enc_err : std_logic_vector (1 downto 0); --error decoding
+
+    signal clk_cntr     : unsigned(3 downto 0) := to_unsigned(0, 4);
+    signal ch0_des_cntr : unsigned(4 downto 0) := to_unsigned(0, 5);
+    signal ch1_des_cntr : unsigned(4 downto 0) := to_unsigned(0, 5);
+    
+      -- debug
+--    signal debug0 : std_logic;
+--    signal debug1 : std_logic;
+  --  signal debug2 : std_logic;
+  --  signal debug3 : std_logic;
+  --  signal debug4 : std_logic;
+--    signal debug_vector0 : std_logic_vector (15 downto 0);
+--    signal debug_vector1 : std_logic_vector (1 downto 0);
+--    signal debug_vector2 : std_logic_vector (15 downto 0);
+--    signal debug_vector3 : std_logic_vector (1 downto 0);
+--    attribute mark_debug : string;
+--    attribute mark_debug of gtp_dedicated_div_clk: signal is "true";
+--    attribute mark_debug of ch0_encoded_data_aux: signal is "true";
+--    attribute mark_debug of ch0_encoded_data_p: signal is "true";
+--    attribute mark_debug of ch0_dis_out: signal is "true";
+--    attribute mark_debug of ch0_frame_out: signal is "true";
+--    attribute mark_debug of debug_vector0: signal is "true";
+--    attribute mark_debug of debug_vector1: signal is "true";
+--    attribute mark_debug of ch0_recovered_clk : signal is "true";
+--    attribute mark_debug of debug0 : signal is "true";
+--    attribute mark_debug of debug1 : signal is "true";
+--    attribute mark_debug of ch0_buffer_rx_aux : signal is "true";
+--    attribute mark_debug of ch0_rx_aligned : signal is "true";
+--    attribute mark_debug of ch0_buffer_rx_data : signal is "true";
+--    attribute mark_debug of ch0_frame_in_dec: signal is "true";
+--    attribute mark_debug of ch0_dec_data: signal is "true";
+--    attribute mark_debug of ch0_k_char: signal is "true";
+--    attribute mark_debug of ch0_enc_err: signal is "true"; 
+--    attribute mark_debug of ch0_frame_out_dec: signal is "true"; 
+--    attribute mark_debug of ch0_reset_serdes: signal is "true";
+    
 
 begin
 
@@ -235,21 +310,22 @@ begin
     
       --125 MHz dedicated clock to 12.5MHz tx serial clock
       gen_tx_refclk : process (clk_cdr_ref, rst_i)
-      variable count_ser : integer := 0;
       begin
       if (rst_i = '0') then
-          count_ser := 0;
+          clk_cntr <= to_unsigned(0, 4);
           gtp_dedicated_div_clk <= '1';
       else
           if rising_edge(clk_cdr_ref) then
           -- 12.5 MHz clock
-              if (count_ser = 5) then
+              if (clk_cntr = to_unsigned(4, 4)) then
                   gtp_dedicated_div_clk <= '0';
-              elsif (count_ser = 10) then
+		          clk_cntr <= clk_cntr + 1;
+              elsif (clk_cntr = to_unsigned(9, 4)) then
                   gtp_dedicated_div_clk <= '1';
-                  count_ser := 0;
+                  clk_cntr <= to_unsigned(0, 4);
+              else
+                 clk_cntr <= clk_cntr + 1;
               end if;
-              count_ser := count_ser + 1;
           end if;   
       end if;
       end process;
@@ -263,11 +339,8 @@ begin
      
     -- control the disp value and serialize the data
     ch0_serializer : process (ch0_frame_out, gtp_dedicated_div_clk, rst_i)
-    variable index : integer := 0;
     begin
     if (rst_i = '0') then
-        index := 0;
-        ch0_dis_in <= '0';
         ch0_encoded_data_aux  <= (others => '0'); 
         ch0_tx_disparity_o <= '0';   
     else       
@@ -276,73 +349,101 @@ begin
             ch0_data_o <= ch0_encoded_data_aux(19);
             ch0_encoded_data_aux <= ch0_encoded_data_aux (18 downto 0) & "0";
             -- when a frame is coded, change the disparity and store the coded frame
-            if ch0_frame_out = '1' then
-                ch0_dis_in <= not ch0_dis_out;
-                ch0_encoded_data_aux <= ch0_encoded_data_p;
-                ch0_tx_disparity_o <= ch0_dis_out;  
+            if ch0_frame_out(1) = '1' then
+                ch0_tx_disparity_o <= ch0_dis_out(0) OR ch0_dis_out(1);
+                ch0_encoded_data_aux <= ch0_encoded_data_p;  
+            end if; 
+        end if;   
+    end if;
+    end process;
+    
+--    debug_vector0 <= ch0_tx_data_i;
+--    debug_vector1 <= ch0_tx_k_i;
+--    debug0 <= ch0_frame_in_i;
+    
+    -- Encode the parallel frame from the core
+    ch0_encoder : encode_8b10b_wrapper
+      port map(
+    
+        CLK          => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        DIN          => ch0_tx_data_i (15 downto 8), -- Parallel Tx data
+        KIN          => ch0_tx_k_i(1), -- Transmission control code
+        DOUT         => ch0_encoded_data_p (19 downto 10), -- Output coded frame
+    
+        CE           => ch0_frame_in_i,
+        FORCE_CODE   => '0', -- Input frame available
+        FORCE_DISP   => '0',
+--        DISP_IN      => '1',
+        DISP_OUT     => ch0_dis_out(1), -- Output frame disparity
+        ND           => ch0_frame_out(1), -- Output coded frame available
+        KERR         => open,
+    
+        CLK_B        => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        DIN_B        => ch0_tx_data_i (7 downto 0), -- Parallel Tx data
+        KIN_B        => ch0_tx_k_i(0), -- Transmission control code
+        DOUT_B       => ch0_encoded_data_p (9 downto 0), -- Output coded frame
+    
+        CE_B         => ch0_frame_in_i,
+        FORCE_CODE_B => '0', -- Input frame available
+        FORCE_DISP_B => '0',
+--        DISP_IN_B    => '1',
+        DISP_OUT_B   => ch0_dis_out(0), -- Output frame disparity
+        ND_B         => ch0_frame_out(0), -- Output coded frame available
+        KERR_B       => open
+    
+        );
+         
+---------------------- CH1 Tx flow ------------------------  
+    
+    -- control the disp value and serialize the data
+    ch1_serializer : process (ch1_frame_out, gtp_dedicated_div_clk, rst_i)
+    begin
+    if (rst_i = '0') then
+        ch1_encoded_data_aux  <= (others => '0'); 
+        ch1_tx_disparity_o <= '0';   
+    else
+        -- If there is an available frame, serialize it
+        if rising_edge(gtp_dedicated_div_clk) then
+            ch1_data_o <= ch1_encoded_data_aux(19);
+            ch1_encoded_data_aux <= ch1_encoded_data_aux (18 downto 0) & "0";
+            -- when a frame is coded, change the disparity and store the coded frame
+            if ch1_frame_out(1) = '1' then
+                ch1_tx_disparity_o <= ch1_dis_out(0) OR ch1_dis_out(1);
+                ch1_encoded_data_aux <= ch1_encoded_data_p;  
             end if; 
         end if;   
     end if;
     end process;
     
     -- Encode the parallel frame from the core
-    ch0_encoder : ENC_16B20B 
-    port map(
-         clk        => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
-         rst        => rst_i, -- Reset signal
-         data_trs   => ch0_tx_data_i, -- Parallel Tx data
-         k_char     => ch0_tx_k_i, -- Transmission control code
-         dis_in     => ch0_dis_in, -- Transmission disparity
-         frame_in_enc  => ch0_frame_in_i, -- Input frame available
-         frame_out_enc => ch0_frame_out, -- Output coded frame available
-         serial_data   => ch0_encoded_data_p, -- Output coded frame
-         dis_out       => ch0_dis_out -- Output frame disparity
-         );
-         
----------------------- CH1 Tx flow ------------------------  
+    ch1_encoder : encode_8b10b_wrapper
+      port map(
     
-    -- control the disp value and serialize the data
-    ch1_serializer : process (ch1_frame_out, gtp_dedicated_div_clk, rst_i)
-    variable index : integer := 0;
-    variable data_to_serialize : integer := 0;
-    begin
-    if (rst_i = '0') then
-        index := 0;
-        ch1_dis_in <= '0';
-        ch1_encoded_data_aux  <= (others => '0'); 
-        ch1_tx_disparity_o <= '0';   
-    else
-        -- If there is an available frame, serialize it
-        if rising_edge(gtp_dedicated_div_clk) then
-            ch1_data_o <= ch1_encoded_data_aux(19 - index);
-            index := index + 1;
-            if index = 20 then
-                index := 0;
-            end if;
-            -- when a frame is coded, change the disparity and store the coded frame
-            if ch1_frame_out = '1' then
-                ch1_dis_in <= not ch1_dis_out;
-                ch1_encoded_data_aux <= ch1_encoded_data_p;
-                ch1_tx_disparity_o <= ch1_dis_out;  
-                index := 0;
-            end if; 
-        end if;    
-    end if;
-    end process;
+        CLK          => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        DIN          => ch1_tx_data_i (15 downto 8), -- Parallel Tx data
+        KIN          => ch1_tx_k_i(1), -- Transmission control code
+        DOUT         => ch1_encoded_data_p (19 downto 10), -- Output coded frame
     
-    -- Encode the parallel frame from the core
-    ch1_encoder : ENC_16B20B 
-    port map(
-         clk        => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
-         rst        => rst_i, -- Reset signal
-         data_trs   => ch1_tx_data_i, -- Parallel Tx data
-         k_char     => ch1_tx_k_i, -- Transmission control code
-         dis_in     => ch1_dis_in, -- Transmission disparity
-         frame_in_enc  => ch1_frame_in_i, -- Input frame available
-         frame_out_enc => ch1_frame_out, -- Output coded frame available
-         serial_data   => ch1_encoded_data_p, -- Output coded frame
-         dis_out       => ch1_dis_out -- Output frame disparity
-         );
+        CE           => ch1_frame_in_i,
+        FORCE_CODE   => '0', -- Input frame available
+        FORCE_DISP   => '0',
+        DISP_OUT     => ch1_dis_out(1), -- Output frame disparity
+        ND           => ch1_frame_out(1), -- Output coded frame available
+        KERR         => open,
+    
+        CLK_B        => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        DIN_B        => ch1_tx_data_i (7 downto 0), -- Parallel Tx data
+        KIN_B        => ch1_tx_k_i(0), -- Transmission control code
+        DOUT_B       => ch1_encoded_data_p (9 downto 0), -- Output coded frame
+    
+        CE_B         => ch1_frame_in_i,
+        FORCE_CODE_B => '0', -- Input frame available
+        FORCE_DISP_B => '0',
+        DISP_OUT_B   => ch1_dis_out(0), -- Output frame disparity
+        ND_B         => ch1_frame_out(0), -- Output coded frame available
+        KERR_B       => open
+    
+        );
 
 
 ---------------------- Rx flow ------------------------
@@ -534,64 +635,88 @@ begin
     ch1_rx_rbclk_o <= ch1_recovered_clk;
     
 ---------------------- CH0 Rx flow ------------------------ 
+
+--    debug1 <= ch0_rec_clk_i;
      
     -- CH0 received data deserializer and decoder signalling controller
     ch0_deserializer : process(ch0_rec_clk_i, rst_i)
-    variable index : integer := 19;
     begin
         if (rst_i = '0') then
-                index := 19;
-                ch0_buffer_rx_aux  <= (others => '0');
-                ch0_buffer_rx_data  <= (others => '0');    
-                ch0_rx_aligned <= '0';
-                ch0_frame_in_dec <= '0';
-                ch0_rx_bitslide_o <= (others => '0');
+            ch0_des_cntr <= to_unsigned(20, 5);
+            ch0_buffer_rx_aux  <= (others => '0');
+            ch0_buffer_rx_data  <= (others => '0');    
+            ch0_rx_aligned <= '0';
+            ch0_frame_in_dec <= '0';
+            ch0_rx_bitslide_o <= (others => '0');
         else 
             -- Sampling point in the middle of the data period 
             if rising_edge(ch0_rec_clk_i) then
                 -- Aux buffer saves each serial data transition
                 ch0_buffer_rx_aux <= ch0_buffer_rx_aux (18 downto 0) & ch0_data_i;
-                index := index - 1;
-                -- Generates the parallel clock (0.625 MHz)
-                if (index = 0) then
-                    index := 20;
-                    -- Check if the word period is aligned, if yes frame ready to decode
-                    if ch0_rx_aligned = '1' then
-                        ch0_frame_in_dec <= '1';
-                        ch0_buffer_rx_data <= ch0_buffer_rx_aux;
-                    end if;
-                else
-                    ch0_frame_in_dec <= '0';
-                end if;
                 -- Check if aligned comparing with the idle word
-                if (ch0_buffer_rx_aux = "00111110101010010110" or ch0_buffer_rx_aux = "00111110100110110101") then
+                if (ch0_buffer_rx_aux = "00111110100110110101" or ch0_buffer_rx_aux = "11000001011001000101"
+                    or ch0_buffer_rx_aux = "00111110101011010101" or ch0_buffer_rx_aux = "11000001011010101010") then
                     -- if aligned we set the bitslide, the clock and the aux signals
                     ch0_rx_aligned <= '1';
-                    ch0_rx_bitslide_o <= std_logic_vector(to_unsigned(19 - index, 5));
+                    ch0_rx_bitslide_o <= (others => '0'); --std_logic_vector(to_unsigned(19 - ch0_des_cntr, 5));
                     ch0_buffer_rx_data <= ch0_buffer_rx_aux;
                     ch0_frame_in_dec <= '1';
-                    index := 20;
+                    ch0_des_cntr <= to_unsigned(20, 5);
                 elsif (ch0_buffer_rx_aux = "00000000000000000000" ) then
                     ch0_rx_aligned <= '0';
                     ch0_rx_bitslide_o <= (others => '0');
+                else
+                    -- Generates the parallel clock (0.625 MHz)
+                    if (ch0_des_cntr = to_unsigned(1, 5)) then
+                        ch0_des_cntr <= to_unsigned(20, 5);
+                        -- Check if the word period is aligned, if yes frame ready to decode
+                        if ch0_rx_aligned = '1' then
+                            ch0_frame_in_dec <= '1';
+                            ch0_buffer_rx_data <= ch0_buffer_rx_aux;
+                        end if;
+                    else
+                        ch0_frame_in_dec <= '0';
+                        ch0_des_cntr <= ch0_des_cntr - 1;
+                    end if;
                 end if;
             end if;
         end if;
     end process;
-    
+   
     ch0_ready_o <= ch0_rx_aligned;
-                      
-    ch0_decoder : DEC_16B20B
-      port map(
-          clk        => ch0_rec_clk_i, -- Recovered clock 12.5 MHz
-          rst        => rst_i, -- Reset signal
-          serial_data     => ch0_buffer_rx_data, -- Deserialized input data
-          frame_in_dec    => ch0_frame_in_dec, -- Frame ready to be decoded
-          frame_out_dec   => ch0_frame_out_dec, -- Frame has been decoded
-          decoded_data    => ch0_dec_data, -- Decoded data
-          k_char		  => ch0_k_char, -- Transmission control code
-          enc_err    => ch0_enc_err -- Error during decoding
-          );        
+
+     ch0_decoder : decode_8b10b_wrapper 
+      port map (
+    
+        CLK        => ch0_rec_clk_i, -- Recovered clock 12.5 MHz
+        DIN        => ch0_buffer_rx_data (19 downto 10), -- Deserialized input data
+--        DISP_IN    => '1',
+        DOUT       => ch0_dec_data (15 downto 8), -- Decoded data
+        KOUT       => ch0_k_char(1), -- Transmission control code
+    
+        CE         => ch0_frame_in_dec, -- Frame ready to be decoded
+        SINIT      => '0',
+        CODE_ERR   => ch0_enc_err(1), -- Error during decoding
+        DISP_ERR   => open,
+        ND         => ch0_frame_out_dec(1), -- Frame has been decoded
+        RUN_DISP   => open,
+        SYM_DISP   => open,
+    
+        CLK_B      => ch0_rec_clk_i, -- Recovered clock 12.5 MHz
+        DIN_B      => ch0_buffer_rx_data (9 downto 0), -- Deserialized input data
+--        DISP_IN_B  => '1',
+        DOUT_B     => ch0_dec_data (7 downto 0), -- Decoded data
+        KOUT_B     => ch0_k_char(0), -- Transmission control code
+    
+        CE_B       => ch0_frame_in_dec, -- Frame ready to be decoded
+        SINIT_B    => '0',
+        CODE_ERR_B => ch0_enc_err(0), -- Error during decoding
+        DISP_ERR_B => open,
+        ND_B       => ch0_frame_out_dec(0), -- Frame has been decoded
+        RUN_DISP_B => open,
+        SYM_DISP_B => open
+    
+        );
       
     -- Hold the decoder outputs until a new frame is decoded and manage SERDES resets  
     ch0_hold_data : process(ch0_frame_out_dec, rst_i)
@@ -601,9 +726,9 @@ begin
             ch0_rx_enc_err_o <= '0';
             ch0_rx_k_o <= (others => '0');
         else
-            if rising_edge (ch0_frame_out_dec) then
+            if rising_edge (ch0_frame_out_dec(1)) then
                 ch0_rx_data_o <= ch0_dec_data;
-                ch0_rx_enc_err_o <= ch0_enc_err;
+                ch0_rx_enc_err_o <= ch0_enc_err(0) or ch0_enc_err(1);
                 ch0_rx_k_o <= ch0_k_char;
             end if;
         end if;
@@ -621,11 +746,11 @@ begin
             -- if there are 1000 transtions without data
             if rising_edge (clk_cdr_ref) then
                 counter := counter + 1;
-                if counter = 99999 then
+                if counter = 1000 then
                     ch0_reset_serdes <= '1';
                     counter := 0;
                 else
-                    if ch0_frame_out_dec = '1' then
+                    if ch0_frame_out_dec(1) = '1' then
                         counter := 0;
                     end if;
                 ch0_reset_serdes <= '0';
@@ -638,44 +763,44 @@ begin
          
     -- CH1 received data deserializer and decoder signalling controller
     ch1_deserializer : process(ch1_rec_clk_i, rst_i)
-    variable index : integer := 19;
     begin
         if (rst_i = '0') then
-                index := 19;
-                ch1_buffer_rx_aux  <= (others => '0');
-                ch1_buffer_rx_data  <= (others => '0');    
-                ch1_rx_aligned <= '0';
-                ch1_frame_in_dec <= '0';
-                ch1_rx_bitslide_o <= (others => '0');
+            ch1_des_cntr <= to_unsigned(20, 5);
+            ch1_buffer_rx_aux  <= (others => '0');
+            ch1_buffer_rx_data  <= (others => '0');    
+            ch1_rx_aligned <= '0';
+            ch1_frame_in_dec <= '0';
+            ch1_rx_bitslide_o <= (others => '0');
         else 
             -- Sampling point in the middle of the data period 
             if rising_edge(ch1_rec_clk_i) then
                 -- Aux buffer saves each serial data transition
                 ch1_buffer_rx_aux <= ch1_buffer_rx_aux (18 downto 0) & ch1_data_i;
-                -- Data buffer saves 20-bits-width words during the word period
-                index := index - 1;
-                -- Generates the parallel clock (0.625 MHz)
-                if (index = 0) then
-                    index := 20;
-                    -- Check if the word period is aligned, if yes frame ready to decode
-                    if ch1_rx_aligned = '1' then
-                        ch1_frame_in_dec <= '1';
-                        ch1_buffer_rx_data <= ch1_buffer_rx_aux;
-                    end if;
-                else
-                    ch1_frame_in_dec <= '0';
-                end if;
                 -- Check if aligned comparing with the idle word
-                if (ch1_buffer_rx_aux = "00111110101010010110" or ch1_buffer_rx_aux = "00111110100110110101") then
+                if (ch1_buffer_rx_aux = "00111110101011010010" or ch1_buffer_rx_aux = "00111110100111001001"
+                    or ch1_buffer_rx_aux = "11000001010100101101" or ch1_buffer_rx_aux = "11000001010111001001") then
                     -- if aligned we set the bitslide, the clock and the aux signals
                     ch1_rx_aligned <= '1';
-                    ch1_rx_bitslide_o <= std_logic_vector(to_unsigned(19 - index, 5));
+                    ch1_rx_bitslide_o <= (others => '0'); --std_logic_vector(to_unsigned(19 - ch0_des_cntr, 5));
                     ch1_buffer_rx_data <= ch1_buffer_rx_aux;
                     ch1_frame_in_dec <= '1';
-                    index := 20;
+                    ch1_des_cntr <= to_unsigned(20, 5);
                 elsif (ch1_buffer_rx_aux = "00000000000000000000" ) then
                     ch1_rx_aligned <= '0';
                     ch1_rx_bitslide_o <= (others => '0');
+                else
+                    -- Generates the parallel clock (0.625 MHz)
+                    if (ch1_des_cntr = to_unsigned(1, 5)) then
+                        ch1_des_cntr <= to_unsigned(20, 5);
+                        -- Check if the word period is aligned, if yes frame ready to decode
+                        if ch1_rx_aligned = '1' then
+                            ch1_frame_in_dec <= '1';
+                            ch1_buffer_rx_data <= ch1_buffer_rx_aux;
+                        end if;
+                    else
+                        ch1_frame_in_dec <= '0';
+                        ch1_des_cntr <= ch1_des_cntr - 1;
+                    end if;
                 end if;
             end if;
         end if;
@@ -683,17 +808,36 @@ begin
     
     ch1_ready_o <= ch1_rx_aligned;
                           
-    ch1_decoder : DEC_16B20B
-      port map(
-          clk        => ch1_rec_clk_i, -- Recovered clock 12.5 MHz
-          rst        => rst_i, -- Reset signal
-          serial_data     => ch1_buffer_rx_data, -- Deserialized input data
-          frame_in_dec    => ch1_frame_in_dec, -- Frame ready to be decoded
-          frame_out_dec   => ch1_frame_out_dec, -- Frame has been decoded
-          decoded_data    => ch1_dec_data, -- Decoded data
-          k_char          => ch1_k_char, -- Transmission control code
-          enc_err         => ch1_enc_err -- Error during decoding
-          );        
+    ch1_decoder : decode_8b10b_wrapper 
+     port map (
+   
+       CLK        => ch1_rec_clk_i, -- Recovered clock 12.5 MHz
+       DIN        => ch1_buffer_rx_data (19 downto 10), -- Deserialized input data
+       DOUT       => ch1_dec_data (15 downto 8), -- Decoded data
+       KOUT       => ch1_k_char(1), -- Transmission control code
+   
+       CE         => ch1_frame_in_dec, -- Frame ready to be decoded
+       SINIT      => '0',
+       CODE_ERR   => ch1_enc_err(1), -- Error during decoding
+       DISP_ERR   => open,
+       ND         => ch1_frame_out_dec(1), -- Frame has been decoded
+       RUN_DISP   => open,
+       SYM_DISP   => open,
+   
+       CLK_B      => ch1_rec_clk_i, -- Recovered clock 12.5 MHz
+       DIN_B      => ch1_buffer_rx_data (9 downto 0), -- Deserialized input data
+       DOUT_B     => ch1_dec_data (7 downto 0), -- Decoded data
+       KOUT_B     => ch1_k_char(0), -- Transmission control code
+   
+       CE_B       => ch1_frame_in_dec, -- Frame ready to be decoded
+       SINIT_B    => '0',
+       CODE_ERR_B => ch1_enc_err(0), -- Error during decoding
+       DISP_ERR_B => open,
+       ND_B       => ch1_frame_out_dec(0), -- Frame has been decoded
+       RUN_DISP_B => open,
+       SYM_DISP_B => open
+   
+       );      
           
     -- Hold the decoder outputs until a new frame is decoded and manage SERDES resets  
       ch1_hold_data : process(ch1_frame_out_dec, rst_i)
@@ -703,9 +847,9 @@ begin
               ch1_rx_enc_err_o <= '0';
               ch1_rx_k_o <= (others => '0');
           else
-              if rising_edge (ch1_frame_out_dec) then
+              if rising_edge (ch1_frame_out_dec(1)) then
                   ch1_rx_data_o <= ch1_dec_data;
-                  ch1_rx_enc_err_o <= ch1_enc_err;
+                  ch1_rx_enc_err_o <= ch1_enc_err(0) or ch1_enc_err(1);
                   ch1_rx_k_o <= ch1_k_char;
               end if;
           end if;
@@ -722,11 +866,11 @@ begin
             -- if there are 1000 transtions without data
               if rising_edge (clk_cdr_ref) then
                   counter := counter + 1;
-                  if counter = 99999 then
+                  if counter = 1000 then
                       ch1_reset_serdes <= '1';
                       counter := 0;
                   else
-                      if ch1_frame_out_dec = '1' then
+                      if ch1_frame_out_dec(1) = '1' then
                           counter := 0;
                       end if;
                   ch1_reset_serdes <= '0';
