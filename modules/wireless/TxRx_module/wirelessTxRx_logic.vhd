@@ -41,8 +41,8 @@ use IEEE.NUMERIC_STD.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
-use work.decode_8b10b_pkg.ALL;
-use work.encode_8b10b_pkg.ALL;
+--use work.decode_8b10b_pkg.ALL;
+--use work.encode_8b10b_pkg.ALL;
 
 entity wirelessTxRx_logic is
     generic (
@@ -117,12 +117,18 @@ architecture Behavioral of wirelessTxRx_logic is
         );
     
         Port ( 
-           ch0_data_i : in STD_LOGIC_VECTOR (7 downto 0);
-           ch1_data_i : in STD_LOGIC_VECTOR (7 downto 0);
-           ref_clk_i  : in STD_LOGIC;
-           rst_i      : in STD_LOGIC;
-           ch0_clk_o  : out STD_LOGIC_VECTOR (7 downto 0);
-           ch1_clk_o  : out STD_LOGIC_VECTOR (7 downto 0)
+           ch0_data_i  : in STD_LOGIC_VECTOR (7 downto 0);
+           ch1_data_i  : in STD_LOGIC_VECTOR (7 downto 0);
+           ref_clk_i   : in STD_LOGIC;
+           rst_i       : in STD_LOGIC;
+           ch0_clk_i   : in STD_LOGIC;
+           ch1_clk_i   : in STD_LOGIC;
+           ch0_clk_o   : out STD_LOGIC_VECTOR (7 downto 0);
+           ch1_clk_o   : out STD_LOGIC_VECTOR (7 downto 0);
+           ch0_data_o  : out STD_LOGIC;
+           ch1_data_o  : out STD_LOGIC;
+           ch0_rd_en_o : out STD_LOGIC;
+           ch1_rd_en_o : out STD_LOGIC
          );
     end component cdr_counter;
     
@@ -234,8 +240,10 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch0_clk_rx_gen : std_logic := '1'; -- CH0 rx recovered clock
     signal ch0_frame_out_dec : std_logic_vector (1 downto 0); -- 1 when there is a frame already decoded 
     signal ch0_dec_data : std_logic_vector(15 downto 0); --decoded data
-    signal ch0_k_char : std_logic_vector (1 downto 0); --error decoding
+    signal ch0_k_char : std_logic_vector (1 downto 0); --k char
     signal ch0_enc_err : std_logic_vector (1 downto 0); --error decoding     
+    signal ch0_data_smp      : std_logic; -- Data sampled
+    signal ch0_rd_en     : std_logic; -- Data sampled
     
     -- Rx CH1 deserializer and decoder
     signal ch1_frame_in_dec : std_logic; -- 1 when there is a frame ready to be decoded
@@ -246,8 +254,10 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch1_clk_rx_gen : std_logic := '1'; -- CH0 rx recovered clock
     signal ch1_frame_out_dec : std_logic_vector (1 downto 0); -- 1 when there is a frame already decoded 
     signal ch1_dec_data : std_logic_vector(15 downto 0); --decoded data
-    signal ch1_k_char : std_logic_vector (1 downto 0); --error decoding
+    signal ch1_k_char : std_logic_vector (1 downto 0); -- k char
     signal ch1_enc_err : std_logic_vector (1 downto 0); --error decoding
+    signal ch1_data_smp      : std_logic; -- Data sampled
+    signal ch1_rd_en     : std_logic; -- Data sampled
 
     signal clk_cntr     : unsigned(3 downto 0) := to_unsigned(0, 4);
     signal ch0_des_cntr : unsigned(4 downto 0) := to_unsigned(0, 5);
@@ -372,8 +382,8 @@ begin
     
         CE           => ch0_frame_in_i,
         FORCE_CODE   => '0', -- Input frame available
-        FORCE_DISP   => '0',
---        DISP_IN      => '1',
+        FORCE_DISP   => '1',
+        DISP_IN      => (ch0_dis_out(0) OR ch0_dis_out(1)),
         DISP_OUT     => ch0_dis_out(1), -- Output frame disparity
         ND           => ch0_frame_out(1), -- Output coded frame available
         KERR         => open,
@@ -385,8 +395,8 @@ begin
     
         CE_B         => ch0_frame_in_i,
         FORCE_CODE_B => '0', -- Input frame available
-        FORCE_DISP_B => '0',
---        DISP_IN_B    => '1',
+        FORCE_DISP_B => '1',
+        DISP_IN_B    => (ch0_dis_out(0) OR ch0_dis_out(1)),
         DISP_OUT_B   => ch0_dis_out(0), -- Output frame disparity
         ND_B         => ch0_frame_out(0), -- Output coded frame available
         KERR_B       => open
@@ -426,7 +436,8 @@ begin
     
         CE           => ch1_frame_in_i,
         FORCE_CODE   => '0', -- Input frame available
-        FORCE_DISP   => '0',
+        FORCE_DISP   => '1',
+        DISP_IN      => (ch1_dis_out(0) OR ch1_dis_out(1)),
         DISP_OUT     => ch1_dis_out(1), -- Output frame disparity
         ND           => ch1_frame_out(1), -- Output coded frame available
         KERR         => open,
@@ -438,7 +449,8 @@ begin
     
         CE_B         => ch1_frame_in_i,
         FORCE_CODE_B => '0', -- Input frame available
-        FORCE_DISP_B => '0',
+        FORCE_DISP_B => '1',
+        DISP_IN_B    => (ch1_dis_out(0) OR ch1_dis_out(1)),
         DISP_OUT_B   => ch1_dis_out(0), -- Output frame disparity
         ND_B         => ch1_frame_out(0), -- Output coded frame available
         KERR_B       => open
@@ -542,8 +554,14 @@ begin
         ch1_data_i => ch1_cdr_data, -- Input CH1 serial data
         ref_clk_i  => clk_cdr_ref, -- 125 MHz reference clock
         rst_i      => rst_i, -- Reset signal
+        ch0_clk_i  => ch0_rec_clk_i, -- Recovered CH0 clock (12.5 MHz)
+        ch1_clk_i  => ch1_rec_clk_i,  -- Recovered CH1 clock (12.5 MHz)
         ch0_clk_o  => ch0_cdr_clk, -- Recovered CH0 clock (12.5 MHz)
-        ch1_clk_o  => ch1_cdr_clk  -- Recovered CH1 clock (12.5 MHz)
+        ch1_clk_o  => ch1_cdr_clk,  -- Recovered CH1 clock (12.5 MHz)
+        ch0_data_o  => ch0_data_smp, -- Recovered data
+        ch1_data_o  => ch1_data_smp,  -- Recovered data
+        ch0_rd_en_o => ch0_rd_en,     -- Recovered data trigger
+        ch1_rd_en_o => ch1_rd_en      -- Recovered data trigger
     );
 
     --------------------------------------------
@@ -639,7 +657,7 @@ begin
 --    debug1 <= ch0_rec_clk_i;
      
     -- CH0 received data deserializer and decoder signalling controller
-    ch0_deserializer : process(ch0_rec_clk_i, rst_i)
+    ch0_deserializer : process(ch0_rd_en, rst_i)
     begin
         if (rst_i = '0') then
             ch0_des_cntr <= to_unsigned(20, 5);
@@ -650,9 +668,9 @@ begin
             ch0_rx_bitslide_o <= (others => '0');
         else 
             -- Sampling point in the middle of the data period 
-            if rising_edge(ch0_rec_clk_i) then
+            if rising_edge(ch0_rd_en) then
                 -- Aux buffer saves each serial data transition
-                ch0_buffer_rx_aux <= ch0_buffer_rx_aux (18 downto 0) & ch0_data_i;
+                ch0_buffer_rx_aux <= ch0_buffer_rx_aux (18 downto 0) & ch0_data_smp;
                 -- Check if aligned comparing with the idle word
                 if (ch0_buffer_rx_aux = "00111110100110110101" or ch0_buffer_rx_aux = "11000001011001000101"
                     or ch0_buffer_rx_aux = "00111110101011010101" or ch0_buffer_rx_aux = "11000001011010101010") then
@@ -662,7 +680,8 @@ begin
                     ch0_buffer_rx_data <= ch0_buffer_rx_aux;
                     ch0_frame_in_dec <= '1';
                     ch0_des_cntr <= to_unsigned(20, 5);
-                elsif (ch0_buffer_rx_aux = "00000000000000000000" ) then
+                elsif (ch0_buffer_rx_aux = "00000000000000000000" or ch0_buffer_rx_aux = "11111111111111111111"
+                    or ch0_enc_err /= "00") then
                     ch0_rx_aligned <= '0';
                     ch0_rx_bitslide_o <= (others => '0');
                 else
@@ -737,32 +756,32 @@ begin
     
     -- Manage the reset of the SERDES
     ch0_reset_manager : process (clk_cdr_ref, ch0_frame_out_dec, rst_i)
-    variable counter : integer := 0;
-    begin
-        if (rst_i = '0') then
-            ch0_reset_serdes <= not rst_i;
-            counter := 0;
-        else
-            -- if there are 1000 transtions without data
-            if rising_edge (clk_cdr_ref) then
-                counter := counter + 1;
-                if counter = 1000 then
-                    ch0_reset_serdes <= '1';
-                    counter := 0;
-                else
-                    if ch0_frame_out_dec(1) = '1' then
+        variable counter : integer := 0;
+        begin
+            if (rst_i = '0') then
+                ch0_reset_serdes <= not rst_i;
+                counter := 0;
+            else
+                -- if there are 1000 transtions without data
+                if rising_edge (clk_cdr_ref) then
+                    counter := counter + 1;
+                    if counter = 1000 then
+                        ch0_reset_serdes <= '1';
                         counter := 0;
+                    else
+                        if ch0_frame_out_dec(1) = '1' then
+                            counter := 0;
+                        end if;
+                    ch0_reset_serdes <= '0';
                     end if;
-                ch0_reset_serdes <= '0';
                 end if;
             end if;
-        end if;
     end process;
     
 ---------------------- CH1 Rx flow ------------------------ 
          
     -- CH1 received data deserializer and decoder signalling controller
-    ch1_deserializer : process(ch1_rec_clk_i, rst_i)
+    ch1_deserializer : process(ch1_rd_en, rst_i)
     begin
         if (rst_i = '0') then
             ch1_des_cntr <= to_unsigned(20, 5);
@@ -773,19 +792,20 @@ begin
             ch1_rx_bitslide_o <= (others => '0');
         else 
             -- Sampling point in the middle of the data period 
-            if rising_edge(ch1_rec_clk_i) then
+            if rising_edge(ch1_rd_en) then
                 -- Aux buffer saves each serial data transition
-                ch1_buffer_rx_aux <= ch1_buffer_rx_aux (18 downto 0) & ch1_data_i;
+                ch1_buffer_rx_aux <= ch1_buffer_rx_aux (18 downto 0) & ch1_data_smp;
                 -- Check if aligned comparing with the idle word
                 if (ch1_buffer_rx_aux = "00111110101011010010" or ch1_buffer_rx_aux = "00111110100111001001"
                     or ch1_buffer_rx_aux = "11000001010100101101" or ch1_buffer_rx_aux = "11000001010111001001") then
                     -- if aligned we set the bitslide, the clock and the aux signals
                     ch1_rx_aligned <= '1';
-                    ch1_rx_bitslide_o <= (others => '0'); --std_logic_vector(to_unsigned(19 - ch0_des_cntr, 5));
+                    ch1_rx_bitslide_o <= (others => '0'); --std_logic_vector(to_unsigned(19 - ch1_des_cntr, 5));
                     ch1_buffer_rx_data <= ch1_buffer_rx_aux;
                     ch1_frame_in_dec <= '1';
                     ch1_des_cntr <= to_unsigned(20, 5);
-                elsif (ch1_buffer_rx_aux = "00000000000000000000" ) then
+                elsif (ch1_buffer_rx_aux = "00000000000000000000" or ch1_buffer_rx_aux = "11111111111111111111"
+                    or ch1_enc_err /= "00") then
                     ch1_rx_aligned <= '0';
                     ch1_rx_bitslide_o <= (others => '0');
                 else
