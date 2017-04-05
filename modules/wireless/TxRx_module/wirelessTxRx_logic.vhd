@@ -73,7 +73,9 @@ entity wirelessTxRx_logic is
         ch1_frame_in_i  : in STD_LOGIC; -- Frame available to be sent
         ch1_rec_clk_i   : in STD_LOGIC; -- OSERDES clock from the IOB
     -- Global inputs
-        dedicated_clk_i : in STD_LOGIC; -- Clock signal (500 MHz)
+        serdes_clk_i    : in STD_LOGIC; -- Clock signal (500 MHz)
+        cdr_clk_i       : in STD_LOGIC; -- Clock signal (125 MHz)
+        gtp_clk_i       : in STD_LOGIC; -- Clock signal (12.5 MHz)
         rst_i           : in STD_LOGIC; -- Reset
      
     -- CH0 outputs    
@@ -202,8 +204,8 @@ architecture Behavioral of wirelessTxRx_logic is
     end component decode_8b10b_wrapper;
     
     -- Internal signals
-    signal clk_ref      : std_logic := '1'; -- 500 MHz reference  clock
-    signal clk_ref_n    : std_logic := '1'; -- 500 MHz reference inverted clock
+    --signal clk_ref      : std_logic := '1'; -- 500 MHz reference  clock
+    signal serdes_clk_n    : std_logic := '1'; -- 500 MHz reference inverted clock
     
     -- Tx flow
     signal gtp_dedicated_div_clk   : std_logic := '1'; -- Tx buffer reference clock
@@ -213,7 +215,7 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch1_recovered_clk : std_logic; -- CH1 recovered clock
     signal ch0_cdr_clk       : std_logic_vector (7 downto 0); -- CH0 parallel clock from CDR module
     signal ch1_cdr_clk       : std_logic_vector (7 downto 0); -- CH1 parallel clock from CDR module
-    signal clk_cdr_ref       : std_logic; -- 125 MHz reference divided clock
+--    signal clk_cdr_ref       : std_logic; -- 125 MHz reference divided clock
     signal ch0_cdr_data      : std_logic_vector (7 downto 0); -- deserialized sampled input data
     signal ch1_cdr_data      : std_logic_vector (7 downto 0); -- deserialized sampled input data
     signal ch0_reset_serdes  : std_logic; -- Reset signal for SERDES primitives
@@ -296,66 +298,26 @@ architecture Behavioral of wirelessTxRx_logic is
     
 
 begin
-
-    BUFIO_serdes : BUFIO
-    port map (
-        O => clk_ref,  -- 1-bit output: Clock output (connect to BUFIOs/BUFRs)
-        I => dedicated_clk_i      -- 1-bit input: Clock input (Connect to IBUF)
-    );
     
     -- Inverted clock
-    clk_ref_n <= not clk_ref;
-    
-    BUFR_serdes_div : BUFR
-    generic map (
-        BUFR_DIVIDE => "4",   -- Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8"
-        SIM_DEVICE  => "7SERIES")
-    port map (
-        O     => clk_cdr_ref,  -- 1-bit output: Clock output port
-        CE    => '1',   -- 1-bit input: Active high, clock enable
-        CLR   => '0',             -- 1-bit input: Active high, asynchronous clear
-        --CLR   => init_iserdes,             -- 1-bit input: Active high, asynchronous clear
-        I     => dedicated_clk_i
-    );
-    
-      --125 MHz dedicated clock to 12.5MHz tx serial clock
-      gen_tx_refclk : process (clk_cdr_ref, rst_i)
-      begin
-      if (rst_i = '0') then
-          clk_cntr <= to_unsigned(0, 4);
-          gtp_dedicated_div_clk <= '1';
-      else
-          if rising_edge(clk_cdr_ref) then
-          -- 12.5 MHz clock
-              if (clk_cntr = to_unsigned(4, 4)) then
-                  gtp_dedicated_div_clk <= '0';
-		          clk_cntr <= clk_cntr + 1;
-              elsif (clk_cntr = to_unsigned(9, 4)) then
-                  gtp_dedicated_div_clk <= '1';
-                  clk_cntr <= to_unsigned(0, 4);
-              else
-                 clk_cntr <= clk_cntr + 1;
-              end if;
-          end if;   
-      end if;
-      end process;
+    serdes_clk_n <= not serdes_clk_i;
     
     
     -- Output Tx clock  
-    tx_out_clk_o <= gtp_dedicated_div_clk;
+    tx_out_clk_o <= gtp_clk_i;
     
      
 ---------------------- CH0 Tx flow ------------------------ 
      
     -- control the disp value and serialize the data
-    ch0_serializer : process (ch0_frame_out, gtp_dedicated_div_clk, rst_i)
+    ch0_serializer : process (ch0_frame_out, gtp_clk_i, rst_i)
     begin
     if (rst_i = '0') then
         ch0_encoded_data_aux  <= (others => '0'); 
         ch0_tx_disparity_o <= '0';   
     else       
         -- If there is an available frame, serialize it
-        if rising_edge(gtp_dedicated_div_clk) then
+        if rising_edge(gtp_clk_i) then
             ch0_data_o <= ch0_encoded_data_aux(19);
             ch0_encoded_data_aux <= ch0_encoded_data_aux (18 downto 0) & "0";
             -- when a frame is coded, change the disparity and store the coded frame
@@ -375,7 +337,7 @@ begin
     ch0_encoder : encode_8b10b_wrapper
       port map(
     
-        CLK          => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        CLK          => gtp_clk_i,  -- Reference clock 12.5MHz
         DIN          => ch0_tx_data_i (15 downto 8), -- Parallel Tx data
         KIN          => ch0_tx_k_i(1), -- Transmission control code
         DOUT         => ch0_encoded_data_p (19 downto 10), -- Output coded frame
@@ -388,7 +350,7 @@ begin
         ND           => ch0_frame_out(1), -- Output coded frame available
         KERR         => open,
     
-        CLK_B        => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        CLK_B        => gtp_clk_i,  -- Reference clock 12.5MHz
         DIN_B        => ch0_tx_data_i (7 downto 0), -- Parallel Tx data
         KIN_B        => ch0_tx_k_i(0), -- Transmission control code
         DOUT_B       => ch0_encoded_data_p (9 downto 0), -- Output coded frame
@@ -406,14 +368,14 @@ begin
 ---------------------- CH1 Tx flow ------------------------  
     
     -- control the disp value and serialize the data
-    ch1_serializer : process (ch1_frame_out, gtp_dedicated_div_clk, rst_i)
+    ch1_serializer : process (ch1_frame_out, gtp_clk_i, rst_i)
     begin
     if (rst_i = '0') then
         ch1_encoded_data_aux  <= (others => '0'); 
         ch1_tx_disparity_o <= '0';   
     else
         -- If there is an available frame, serialize it
-        if rising_edge(gtp_dedicated_div_clk) then
+        if rising_edge(gtp_clk_i) then
             ch1_data_o <= ch1_encoded_data_aux(19);
             ch1_encoded_data_aux <= ch1_encoded_data_aux (18 downto 0) & "0";
             -- when a frame is coded, change the disparity and store the coded frame
@@ -429,7 +391,7 @@ begin
     ch1_encoder : encode_8b10b_wrapper
       port map(
     
-        CLK          => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        CLK          => gtp_clk_i, -- Reference clock 12.5MHz
         DIN          => ch1_tx_data_i (15 downto 8), -- Parallel Tx data
         KIN          => ch1_tx_k_i(1), -- Transmission control code
         DOUT         => ch1_encoded_data_p (19 downto 10), -- Output coded frame
@@ -442,7 +404,7 @@ begin
         ND           => ch1_frame_out(1), -- Output coded frame available
         KERR         => open,
     
-        CLK_B        => gtp_dedicated_div_clk, -- Reference clock 12.5MHz
+        CLK_B        => gtp_clk_i, -- Reference clock 12.5MHz
         DIN_B        => ch1_tx_data_i (7 downto 0), -- Parallel Tx data
         KIN_B        => ch1_tx_k_i(0), -- Transmission control code
         DOUT_B       => ch1_encoded_data_p (9 downto 0), -- Output coded frame
@@ -475,10 +437,10 @@ begin
         DDLY         => '0',                  -- Input data from IDELAYE2
         CE1          => '1',                  -- Clock enable 1
         CE2          => '1',                  -- Clock enable 2
-        CLK          => clk_ref,           -- High Speed Clock
-        CLKB         => clk_ref_n,         -- Inverted High Speed Clock
+        CLK          => serdes_clk_i,           -- High Speed Clock
+        CLKB         => serdes_clk_n,         -- Inverted High Speed Clock
         RST          => ch0_reset_serdes,         -- Reset
-        CLKDIV       => clk_cdr_ref,       -- Divided clock for deserialized data
+        CLKDIV       => cdr_clk_i,            -- Divided clock for deserialized data
         CLKDIVP      => '0',                  -- Connect to gnd
         OCLK         => '0',                  -- Clock shared with OSERDESE2
         OCLKB        => '0',                  -- Clock shared with OSERDESE2
@@ -512,10 +474,10 @@ begin
           DDLY         => '0',                  -- Input data from IDELAYE2
           CE1          => '1',                  -- Clock enable 1
           CE2          => '1',                  -- Clock enable 2
-          CLK          => clk_ref,           -- High Speed Clock
-          CLKB         => clk_ref_n,         -- Inverted High Speed Clock
+          CLK          => serdes_clk_i,           -- High Speed Clock
+          CLKB         => serdes_clk_n,         -- Inverted High Speed Clock
           RST          => ch1_reset_serdes,         -- Reset
-          CLKDIV       => clk_cdr_ref,       -- Divided clock for deserialized data
+          CLKDIV       => cdr_clk_i,            -- Divided clock for deserialized data
           CLKDIVP      => '0',                  -- Connect to gnd
           OCLK         => '0',                  -- Clock shared with OSERDESE2
           OCLKB        => '0',                  -- Clock shared with OSERDESE2
@@ -552,8 +514,8 @@ begin
     port map ( 
         ch0_data_i => ch0_cdr_data, -- Input CH0 serial data
         ch1_data_i => ch1_cdr_data, -- Input CH1 serial data
-        ref_clk_i  => clk_cdr_ref, -- 125 MHz reference clock
-        rst_i      => rst_i, -- Reset signal
+        ref_clk_i  => cdr_clk_i,    -- 125 MHz reference clock
+        rst_i      => rst_i,        -- Reset signal
         ch0_clk_i  => ch0_rec_clk_i, -- Recovered CH0 clock (12.5 MHz)
         ch1_clk_i  => ch1_rec_clk_i,  -- Recovered CH1 clock (12.5 MHz)
         ch0_clk_o  => ch0_cdr_clk, -- Recovered CH0 clock (12.5 MHz)
@@ -584,8 +546,8 @@ begin
         TBYTEOUT => open,   -- 1-bit output: Byte group tristate
         TFB => open,             -- 1-bit output: 3-state control
         TQ => open,               -- 1-bit output: 3-state control
-        CLK => clk_ref,             -- 1-bit input: High speed clock
-        CLKDIV => clk_cdr_ref,       -- 1-bit input: Divided clock
+        CLK => serdes_clk_i,             -- 1-bit input: High speed clock
+        CLKDIV => cdr_clk_i,       -- 1-bit input: Divided clock
         D1 => ch0_cdr_clk(7),
         D2 => ch0_cdr_clk(6),
         D3 => ch0_cdr_clk(5),
@@ -624,8 +586,8 @@ begin
         TBYTEOUT => open,   -- 1-bit output: Byte group tristate
         TFB => open,             -- 1-bit output: 3-state control
         TQ => open,               -- 1-bit output: 3-state control
-        CLK => clk_ref,             -- 1-bit input: High speed clock
-        CLKDIV => clk_cdr_ref,       -- 1-bit input: Divided clock
+        CLK => serdes_clk_i,             -- 1-bit input: High speed clock
+        CLKDIV => cdr_clk_i,       -- 1-bit input: Divided clock
         D1 => ch1_cdr_clk(7),
         D2 => ch1_cdr_clk(6),
         D3 => ch1_cdr_clk(5),
@@ -755,7 +717,7 @@ begin
     
     
     -- Manage the reset of the SERDES
-    ch0_reset_manager : process (clk_cdr_ref, ch0_frame_out_dec, rst_i)
+    ch0_reset_manager : process (cdr_clk_i, ch0_frame_out_dec, rst_i)
         variable counter : integer := 0;
         begin
             if (rst_i = '0') then
@@ -763,7 +725,7 @@ begin
                 counter := 0;
             else
                 -- if there are 1000 transtions without data
-                if rising_edge (clk_cdr_ref) then
+                if rising_edge (cdr_clk_i) then
                     counter := counter + 1;
                     if counter = 1000 then
                         ch0_reset_serdes <= '1';
@@ -876,7 +838,7 @@ begin
       end process;
       
       -- Manage the reset of the SERDES
-      ch1_reset_manager : process (clk_cdr_ref, ch1_frame_out_dec, rst_i)
+      ch1_reset_manager : process (cdr_clk_i, ch1_frame_out_dec, rst_i)
       variable counter : integer := 0;
       begin
           if (rst_i = '0') then
@@ -884,7 +846,7 @@ begin
               counter := 0;
           else
             -- if there are 1000 transtions without data
-              if rising_edge (clk_cdr_ref) then
+              if rising_edge (cdr_clk_i) then
                   counter := counter + 1;
                   if counter = 1000 then
                       ch1_reset_serdes <= '1';

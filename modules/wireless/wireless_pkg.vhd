@@ -34,7 +34,9 @@ package wireless_pkg is
           ch1_frame_in_i  : in STD_LOGIC; -- Frame available to be sent
           ch1_rec_clk_i   : in STD_LOGIC; -- OSERDES clock from the IOB
       -- Global inputs
-          dedicated_clk_i : in STD_LOGIC; -- Clock signal (500 MHz)
+          serdes_clk_i    : in STD_LOGIC; -- Clock signal (500 MHz)
+          cdr_clk_i       : in STD_LOGIC; -- Clock signal (125 MHz)
+          gtp_clk_i       : in STD_LOGIC; -- Clock signal (12.5 MHz)
           rst_i           : in STD_LOGIC; -- Reset
        
       -- CH0 outputs    
