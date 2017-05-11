@@ -39,1238 +39,696 @@ use ieee.numeric_std.all;
 --use UNISIM.VComponents.all;
 
 entity cdr_counter is
-    generic (
--- number of bits for edge counter
-    g_num_bits_cnt  : natural := 10;
--- max value of the counter 
-    g_max_value     : natural := 1000;
--- max value of the counter 
-    g_half_trans    : natural := 40;
--- max value of the counter 
-    g_full_trans    : natural := 80    
-    );
-
-    Port ( ch0_data_i  : in STD_LOGIC_VECTOR (7 downto 0);
-           ch1_data_i  : in STD_LOGIC_VECTOR (7 downto 0);
+    Port ( gt0_data_i  : in STD_LOGIC;
+           gt1_data_i  : in STD_LOGIC;
            ref_clk_i   : in STD_LOGIC;
            rst_i       : in STD_LOGIC;
-           ch0_clk_i   : in STD_LOGIC;
-           ch1_clk_i   : in STD_LOGIC;
-           ch0_clk_o   : out STD_LOGIC_VECTOR (7 downto 0);
-           ch1_clk_o   : out STD_LOGIC_VECTOR (7 downto 0);
-           ch0_data_o  : out STD_LOGIC;
-           ch1_data_o  : out STD_LOGIC;
-           ch0_rd_en_o : out STD_LOGIC;
-           ch1_rd_en_o : out STD_LOGIC
+           gt0_data_o  : out STD_LOGIC;
+           gt1_data_o  : out STD_LOGIC;
+           ch0_clk_o   : out STD_LOGIC;
+           ch1_clk_o   : out STD_LOGIC
            ); 
 end cdr_counter;
 
 architecture struct of cdr_counter is
 
-    component cdr_fifo is
-        Generic (
-            constant FIFO_DEPTH	: positive := 20
-        );
-        Port ( 
-            CLK		: in  STD_LOGIC;
-            RST		: in  STD_LOGIC;
-            WriteEn	: in  STD_LOGIC;
-            DataIn	: in  STD_LOGIC;
-            ReadEn	: in  STD_LOGIC;
-            DataOut	: out STD_LOGIC;
-            Empty	: out STD_LOGIC;
-            Full	: out STD_LOGIC
-        );
-    end component cdr_fifo;
+    COMPONENT PICXO_FRACXO_0
+     Port (      
+          --Reset signal
+          reset_i           : in  STD_LOGIC                            ;
+          --Reference clock for locking the VCXO, can be any clock (local, BUFG, clock enable...)
+          ref_clk_i         : in  STD_LOGIC                            ;
+          --Clocks
+          txoutclk_i        : in  std_logic                            ; 
+          --phase detector clock enable, for future use
+          rsigce_i          : in  STD_LOGIC                            ;
+          vsigce_i          : in  STD_LOGIC                            ;
+          vsigce_o          : out STD_LOGIC                            ;
+          --Coefficients and divider values
+          G1                : in  STD_LOGIC_VECTOR (4 downto 0)        ;
+          G2                : in  STD_LOGIC_VECTOR (4 downto 0)        ;
+          R                 : in  STD_LOGIC_VECTOR (15 downto 0)       ;
+          V                 : in  STD_LOGIC_VECTOR (15 downto 0)       ;
+          ce_dsp_rate       : in  std_logic_vector (15 downto 0)       ;
+          acc_step          : in  std_logic_vector (3 downto 0)        ;
+          --Offset, hold
+          Offset_ppm        : in  std_logic_vector (21 downto 0)       ;
+          Offset_en         : in  std_logic                            ;
+          DON_I             : in  std_logic_vector (0  downto 0)       ;
+          --Coefficients reserved
+          C_i               : in  STD_LOGIC_VECTOR (6 downto 0);
+          P_i               : in  STD_LOGIC_VECTOR (9 downto 0);
+          N_i               : in  STD_LOGIC_VECTOR (9 downto 0)        ;
+          --TXPI Port data
+          acc_data          : out std_logic_vector (4 downto 0)        ;
+          --Debug port
+          error_o           : out std_logic_vector (20 downto 0)       ;
+          volt_o            : out std_logic_vector (21 downto 0)       ;
+          ce_pi_o           : out std_logic                            ;
+          ce_pi2_o          : out std_logic                            ;
+          ce_dsp_o          : out std_logic                            ;                
+          ovf_pd            : out std_logic                            ;                                          
+          ovf_ab            : out std_logic                            ;
+          ovf_volt          : out std_logic                            ;
+          ovf_int           : out std_logic                                           
+     );
+    END COMPONENT;
+    
+    COMPONENT pd 
+        PORT (
+            reset       : in   STD_LOGIC;
+            refsig      : in   STD_LOGIC;
+            rstcnt      : in   STD_LOGIC;
+            vcoclk      : in   STD_LOGIC; 
+            data        : out  STD_LOGIC;
+            phase_error : out  STD_LOGIC_VECTOR(20 downto 0)
+            );
+    END COMPONENT;
+    
+    COMPONENT fq 
+        PORT (
+            rst_i       : in   STD_LOGIC;
+            ref_status  : in   STD_LOGIC;
+            phase_error : in   STD_LOGIC_VECTOR(20 downto 0);
+            rstcnt      : in   STD_LOGIC;
+            vcoclk      : in   STD_LOGIC; 
+            vc          : out  STD_LOGIC_VECTOR(21 downto 0)
+            );
+    END COMPONENT;
+    
+    component WHITERABBIT_GTPE_2PCHANNEL_WRAPPER_GT
+      generic
+      (
+        -- Simulation attributes
+        WRAPPER_SIM_GTRESET_SPEEDUP    : string   := "false" -- Set to "true" to speed up sim reset
+      );
+      port
+      (
+        
+        --GT0  (X0Y0)
+        GT0_DRPADDR_IN                          : in   std_logic_vector(8 downto 0);
+        GT0_DRPCLK_IN                           : in   std_logic;
+        GT0_DRPDI_IN                            : in   std_logic_vector(15 downto 0);
+        GT0_DRPDO_OUT                           : out  std_logic_vector(15 downto 0);
+        GT0_DRPEN_IN                            : in   std_logic;
+        GT0_DRPRDY_OUT                          : out  std_logic;
+        GT0_DRPWE_IN                            : in   std_logic;
+        GT0_EYESCANDATAERROR_OUT                : out  std_logic;
+        GT0_LOOPBACK_IN                         : in   std_logic_vector(2 downto 0);
+        GT0_RXUSERRDY_IN                        : in   std_logic;
+        GT0_RXCHARISK_OUT                       : out  std_logic_vector(1 downto 0);
+        GT0_RXDISPERR_OUT                       : out  std_logic_vector(1 downto 0);
+        GT0_RXNOTINTABLE_OUT                    : out  std_logic_vector(1 downto 0);
+        GT0_RXBYTEISALIGNED_OUT                 : out  std_logic;
+        GT0_RXSLIDE_IN                          : in   std_logic;
+        GT0_RXCOMMADET_OUT                      : out  std_logic;  --eml. Added.
+        GT0_GTRXRESET_IN                        : in   std_logic;
+        GT0_RXDATA_OUT                          : out  std_logic_vector(15 downto 0);
+        GT0_RXOUTCLK_OUT                        : out  std_logic;
+        GT0_RXPMARESET_IN                       : in   std_logic;
+        GT0_RXUSRCLK_IN                         : in   std_logic;
+        GT0_RXUSRCLK2_IN                        : in   std_logic;
+        GT0_GTPRXN_IN                           : in   std_logic;
+        GT0_GTPRXP_IN                           : in   std_logic;
+        GT0_RXCDRRESET_IN                       : in   std_logic;  --eml. Added.
+        GT0_RXCDRLOCK_OUT                       : out  std_logic;
+        GT0_RXELECIDLE_OUT                      : out  std_logic;
+        GT0_RXLPMHFHOLD_IN                      : in   std_logic;
+        GT0_RXLPMLFHOLD_IN                      : in   std_logic;
+        GT0_RXRESETDONE_OUT                     : out  std_logic;
+        GT0_TXUSERRDY_IN                        : in   std_logic;
+        GT0_TXCHARISK_IN                        : in   std_logic_vector(1 downto 0);
+        GT0_GTTXRESET_IN                        : in   std_logic;
+        GT0_TXDATA_IN                           : in   std_logic_vector(15 downto 0);
+        GT0_TXOUTCLK_OUT                        : out  std_logic;
+        GT0_TXOUTCLKFABRIC_OUT                  : out  std_logic;
+        GT0_TXOUTCLKPCS_OUT                     : out  std_logic;
+        GT0_TXUSRCLK_IN                         : in   std_logic;
+        GT0_TXUSRCLK2_IN                        : in   std_logic;
+        GT0_GTPTXN_OUT                          : out  std_logic;
+        GT0_GTPTXP_OUT                          : out  std_logic;
+        GT0_TXRESETDONE_OUT                     : out  std_logic;
+        GT0_TXPRBSSEL_IN                        : in   std_logic_vector(2 downto 0);
+        GT0_TXPPMSTEPSIZE_IN                    : in   std_logic_vector(4 downto 0);
+    
+        --GT1  (X0Y1)
+        GT1_DRPADDR_IN                          : in   std_logic_vector(8 downto 0);
+        GT1_DRPCLK_IN                           : in   std_logic;
+        GT1_DRPDI_IN                            : in   std_logic_vector(15 downto 0);
+        GT1_DRPDO_OUT                           : out  std_logic_vector(15 downto 0);
+        GT1_DRPEN_IN                            : in   std_logic;
+        GT1_DRPRDY_OUT                          : out  std_logic;
+        GT1_DRPWE_IN                            : in   std_logic;
+        GT1_EYESCANDATAERROR_OUT                : out  std_logic;
+        GT1_LOOPBACK_IN                         : in   std_logic_vector(2 downto 0);
+        GT1_RXUSERRDY_IN                        : in   std_logic;
+        GT1_RXCHARISK_OUT                       : out  std_logic_vector(1 downto 0);
+        GT1_RXDISPERR_OUT                       : out  std_logic_vector(1 downto 0);
+        GT1_RXNOTINTABLE_OUT                    : out  std_logic_vector(1 downto 0);
+        GT1_RXBYTEISALIGNED_OUT                 : out  std_logic;
+        GT1_RXSLIDE_IN                          : in   std_logic;
+        GT1_RXCOMMADET_OUT                      : out  std_logic;  --Added. eml.
+        GT1_GTRXRESET_IN                        : in   std_logic;
+        GT1_RXDATA_OUT                          : out  std_logic_vector(15 downto 0);
+        GT1_RXOUTCLK_OUT                        : out  std_logic;
+        GT1_RXPMARESET_IN                       : in   std_logic;
+        GT1_RXUSRCLK_IN                         : in   std_logic;
+        GT1_RXUSRCLK2_IN                        : in   std_logic;
+        GT1_GTPRXN_IN                           : in   std_logic;
+        GT1_GTPRXP_IN                           : in   std_logic;
+        GT1_RXCDRRESET_IN                       : in   std_logic;  --Added eml.
+        GT1_RXCDRLOCK_OUT                       : out  std_logic;
+        GT1_RXELECIDLE_OUT                      : out  std_logic;
+        GT1_RXLPMHFHOLD_IN                      : in   std_logic;
+        GT1_RXLPMLFHOLD_IN                      : in   std_logic;
+        GT1_RXRESETDONE_OUT                     : out  std_logic;
+        GT1_TXUSERRDY_IN                        : in   std_logic;
+        GT1_TXCHARISK_IN                        : in   std_logic_vector(1 downto 0);
+        GT1_GTTXRESET_IN                        : in   std_logic;
+        GT1_TXDATA_IN                           : in   std_logic_vector(15 downto 0);
+        GT1_TXOUTCLK_OUT                        : out  std_logic;
+        GT1_TXOUTCLKFABRIC_OUT                  : out  std_logic;
+        GT1_TXOUTCLKPCS_OUT                     : out  std_logic;
+        GT1_TXUSRCLK_IN                         : in   std_logic;
+        GT1_TXUSRCLK2_IN                        : in   std_logic;
+        GT1_GTPTXN_OUT                          : out  std_logic;
+        GT1_GTPTXP_OUT                          : out  std_logic;
+        GT1_TXRESETDONE_OUT                     : out  std_logic;
+        GT1_TXPRBSSEL_IN                        : in   std_logic_vector(2 downto 0);
+        GT1_TXPPMSTEPSIZE_IN                    : in   std_logic_vector(4 downto 0);
+    
+        ---------------------------- Common Block - Ports --------------------------
+        GT0_GTREFCLK0_IN                        : in   std_logic;
+        GT0_PLL0LOCK_OUT                        : out  std_logic;
+        GT0_PLL0LOCKDETCLK_IN                   : in   std_logic;
+        GT0_PLL0REFCLKLOST_OUT                  : out  std_logic;
+        GT0_PLL0RESET_IN                        : in   std_logic);
+    end component;
+    
+    -- ground and tied_to_vcc_i signals
+    signal  tied_to_ground_i                :   std_logic;
+    signal  tied_to_ground_vec_i            :   std_logic_vector(31 downto 0);
+    
+    signal  picxo_rst0                      : STD_LOGIC_VECTOR (7 downto 0);
+    signal  picxo_rst1                      : STD_LOGIC_VECTOR (7 downto 0);
+    signal  gt0_txpippmstepsize_i           : STD_LOGIC_VECTOR (4 downto 0);
+    signal  gt1_txpippmstepsize_i           : STD_LOGIC_VECTOR (4 downto 0);
+    signal  ch0_error                       : STD_LOGIC_VECTOR (20 downto 0);
+    signal  ch1_error                       : STD_LOGIC_VECTOR (20 downto 0);
+    signal  ch0_volt                        : STD_LOGIC_VECTOR (21 downto 0);
+    signal  ch1_volt                        : STD_LOGIC_VECTOR (21 downto 0);
+--    signal  ce_pi                           : std_logic;
+--    signal  ce_pi2                          : std_logic;
+    signal  ch0_ce_dsp                      : std_logic;
+    signal  ch1_ce_dsp                      : std_logic;
+--    signal  ovf_pd                          : std_logic;
+--    signal  ovf_ab                          : std_logic;
+--    signal  ovf_volt                        : std_logic;
+--    signal  ovf_int                         : std_logic;
+    signal  qpll_lockdet                    : std_logic;
+    signal  gt0_lock_filtered               : std_logic;
+    signal  gt1_lock_filtered               : std_logic;
+    signal  gt0_tx_out_clk                  : std_logic;
+    signal  gt1_tx_out_clk                  : std_logic;
+    signal  gt0_tx_out_clk_bufin            : std_logic;
+    signal  gt1_tx_out_clk_bufin            : std_logic;  
+--    signal  pllout_gt0_tx_out_clk           : std_logic;
+--    signal  pllout_gt1_tx_out_clk           : std_logic;
+    signal  pllout_gt0_tx_out               : std_logic;
+    signal  pllout_gt1_tx_out               : std_logic;  
+    signal  gt0_tx_pll_clk                  : std_logic;
+    signal  gt1_tx_pll_clk                  : std_logic;
+    signal  gt0_gtrxreset_i                 : std_logic;
+    signal  gt1_gtrxreset_i                 : std_logic;
+    signal  gt0_gttxreset_i                 : std_logic;
+    signal  gt1_gttxreset_i                 : std_logic;
+    signal  gt0_rx_rst_done                 : std_logic;
+    signal  gt1_rx_rst_done                 : std_logic;
+    signal  gt0_tx_rst_done                 : std_logic;
+    signal  gt1_tx_rst_done                 : std_logic;
+    signal  gt0_rst_done                    : std_logic;
+    signal  gt1_rst_done                    : std_logic;
+    signal  gt0_rx_data_int                 : std_logic_vector(15 downto 0);
+    signal  gt1_rx_data_int                 : std_logic_vector(15 downto 0);
 
-    signal ch0_half_trans     : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(g_half_trans, g_num_bits_cnt);
-    signal ch1_half_trans     : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(g_half_trans, g_num_bits_cnt);
-    signal ch0_full_trans     : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(g_full_trans, g_num_bits_cnt);
-    signal ch1_full_trans     : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(g_full_trans, g_num_bits_cnt);
-    signal ch0_var_cntr       : unsigned(3 downto 0) := to_unsigned(0, 4);
-    signal ch1_var_cntr       : unsigned(3 downto 0) := to_unsigned(0, 4);
-    signal ch0_var_cntr1      : unsigned(3 downto 0) := to_unsigned(0, 4);
-    signal ch1_var_cntr1      : unsigned(3 downto 0) := to_unsigned(0, 4);
-    signal ch0_aux_clk        : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_clk        : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch0_aux_clk1       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_clk1       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch0_aux_clk2       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_clk2       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch0_aux_data1       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch0_aux_data2       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch0_aux_data3       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch0_aux_data4       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_data        : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_data1        : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_data2       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_data3       : std_logic_vector (7 downto 0) := (others => '0');
-    signal ch1_aux_data4       : std_logic_vector (7 downto 0) := (others => '0');
+    constant c_rxcdrlock_max                : integer := 30;
     
-    signal ch0_var_trans      : std_logic_vector (1 downto 0) := (others => '0');
-    signal ch1_var_trans      : std_logic_vector (1 downto 0) := (others => '0');
-    signal ch0_var_trans1     : std_logic_vector (1 downto 0) := (others => '0');
-    signal ch1_var_trans1     : std_logic_vector (1 downto 0) := (others => '0');
-    signal ch0_var_trans_aux  : std_logic_vector (1 downto 0) := (others => '0');
-    signal ch1_var_trans_aux  : std_logic_vector (1 downto 0) := (others => '0');
+    signal rst_n                            : std_logic;
     
-    signal ch0_var_flag0  : std_logic := '0'; 
-    signal ch0_var_flag1  : std_logic := '0';
-    signal ch0_var_flag2  : std_logic := '0';
-    signal ch0_var_flag3  : std_logic := '0';
-    signal ch0_var_flag4  : std_logic := '0';
-    signal ch0_var_flag5  : std_logic := '0';
-    signal ch0_var_flag6  : std_logic := '0';
-    signal ch0_var_flag7  : std_logic := '0';
-    signal ch0_cntr_0  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_1  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_2  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_3  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_4  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_5  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_6  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_cntr_7  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch0_var_flag_med0  : std_logic := '0';
-    signal ch0_var_flag_med1  : std_logic := '0';
-    signal ch0_var_flag_med2  : std_logic := '0';
-    signal ch0_var_flag_med3  : std_logic := '0';
-    signal ch0_var_flag_med4  : std_logic := '0';
-    signal ch0_var_flag_med5  : std_logic := '0';
-    signal ch0_var_flag_med6  : std_logic := '0';
-    signal ch0_var_flag_med7  : std_logic := '0';
+    signal ch0_retimed_data                 : std_logic;
+    signal ch1_retimed_data                 : std_logic;
+    signal ch0_ref_off                      : std_logic;
+    signal ch1_ref_off                      : std_logic;
+    signal ch0_ref_vector                   : std_logic_vector (9 downto 0);
+    signal ch1_ref_vector                   : std_logic_vector (9 downto 0);
+        
+    signal debugclk : std_logic;
     
-    signal ch1_var_flag0  : std_logic := '0'; 
-    signal ch1_var_flag1  : std_logic := '0';
-    signal ch1_var_flag2  : std_logic := '0';
-    signal ch1_var_flag3  : std_logic := '0';
-    signal ch1_var_flag4  : std_logic := '0';
-    signal ch1_var_flag5  : std_logic := '0';
-    signal ch1_var_flag6  : std_logic := '0';
-    signal ch1_var_flag7  : std_logic := '0';
-    signal ch1_cntr_0  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_1  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_2  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_3  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_4  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_5  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_6  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_cntr_7  : unsigned(g_num_bits_cnt-1 downto 0) := to_unsigned(0, g_num_bits_cnt);
-    signal ch1_var_flag_med0  : std_logic := '0';
-    signal ch1_var_flag_med1  : std_logic := '0';
-    signal ch1_var_flag_med2  : std_logic := '0';
-    signal ch1_var_flag_med3  : std_logic := '0';
-    signal ch1_var_flag_med4  : std_logic := '0';
-    signal ch1_var_flag_med5  : std_logic := '0';
-    signal ch1_var_flag_med6  : std_logic := '0';
-    signal ch1_var_flag_med7  : std_logic := '0';
+    attribute mark_debug : string;
+    attribute mark_debug of gt0_txpippmstepsize_i: signal is "true";
+    attribute mark_debug of picxo_rst0: signal is "true";
+    attribute mark_debug of ch0_error: signal is "true";
+    attribute mark_debug of ch0_volt: signal is "true";
+--    attribute mark_debug of error2: signal is "true";
+--    attribute mark_debug of error3: signal is "true";
+--    attribute mark_debug of volt2: signal is "true";
+--    attribute mark_debug of ce_pi: signal is "true";
+--    attribute mark_debug of ce_pi2: signal is "true";
+    attribute mark_debug of ch0_ce_dsp : signal is "true";
+--    attribute mark_debug of ovf_pd : signal is "true";
+--    attribute mark_debug of ovf_ab : signal is "true";
+--    attribute mark_debug of ovf_volt : signal is "true";
+--    attribute mark_debug of ovf_int : signal is "true";
+--    attribute mark_debug of debugclk : signal is "true";
+    attribute mark_debug of qpll_lockdet : signal is "true";
+    attribute mark_debug of gt0_lock_filtered : signal is "true";
+    attribute mark_debug of gt0_tx_out_clk : signal is "true";
+    attribute mark_debug of ch0_ref_vector : signal is "true";
+    attribute mark_debug of ch0_ref_off : signal is "true";
+    attribute mark_debug of ch0_retimed_data : signal is "true";
+--    attribute mark_debug of gt0_tx_rst_done : signal is "true";
+--    attribute mark_debug of gt0_rst_done : signal is "true";
+--    attribute mark_debug of gt0_rx_data_int : signal is "true";
+--    attribute mark_debug of ch0_debug0_o : signal is "true";
+--    attribute mark_debug of ch0_debug1_o : signal is "true";
+--    attribute mark_debug of ch0_debug2_o : signal is "true";
+--    attribute mark_debug of ch0_debug3_o : signal is "true";
     
-    signal ch0_nbits     : integer := 0;
-    signal ch0_nbits_aux : integer := 0;
-    signal ch0_cntr      : integer := 0;
-    signal ch0_edge_flag : integer := 0;
-    signal ch0_head      : integer := 0;
-    signal ch0_bit_value : std_logic := '0';
-    signal ch0_bit_value_aux : std_logic := '0';
-    signal ch0_clk1      : std_logic := '0';
-    signal ch0_clk2      : std_logic := '0';
-    signal ch0_fifo_wr   : std_logic := '0';
-    signal ch0_fifo_rd   : std_logic := '0';
-    signal ch0_fifo_rd1   : std_logic := '0';
-    signal ch0_fifo_rd2   : std_logic := '0';
-    signal ch0_rd_aux   : std_logic := '0';
-    signal ch0_fifo_data   : std_logic := '0';
-    
-    signal ch1_nbits     : integer := 0;
-    signal ch1_nbits_aux : integer := 0;
-    signal ch1_cntr      : integer := 0;
-    signal ch1_edge_flag : integer := 0;
-    signal ch1_head      : integer := 0;
-    signal ch1_bit_value : std_logic := '0';
-    signal ch1_bit_value_aux : std_logic := '0';
-    signal ch1_clk1      : std_logic := '0';
-    signal ch1_clk2      : std_logic := '0';
-    signal ch1_fifo_wr   : std_logic := '0';
-    signal ch1_fifo_rd   : std_logic := '0';
-    signal ch1_fifo_rd1   : std_logic := '0';
-    signal ch1_fifo_rd2   : std_logic := '0';
-    signal ch1_rd_aux   : std_logic := '0';
-    signal ch1_fifo_data   : std_logic := '0';
-
     
 begin
 
-    -- CH0 CDR
-    clk_cntr_ch0 : process (ref_clk_i, rst_i, ch0_data_i)
+    --  Static signal Assigments
+    tied_to_ground_i                    <= '0';
+    tied_to_ground_vec_i(31 downto 0)   <= (others => '0');
+  
+    rst_n <= not rst_i;
     
-    begin
-      -- if there is a reset, the counter and the clock are initialized
-      if(rst_i = '0') then
-        ch0_var_cntr <= to_unsigned(0, 4);
-        ch0_var_trans <= (others => '0');
-        ch0_var_trans1 <= (others => '0');
-        ch0_var_trans_aux <= (others => '0');
-        ch0_aux_data1 <= (others => '0');
-        ch0_aux_data2 <= (others => '0');
-        ch0_aux_data3 <= (others => '0');
-        ch0_aux_data4 <= (others => '0');
-      else
-        -- each deserialized frame
-        if rising_edge(ref_clk_i) then
-            -- check the incoming edges, avoid electrical rebounds   
-            if (ch0_aux_data4(7) /= ch0_aux_data1(0) and ch0_data_i(7) = ch0_aux_data2(0)
-                and ch0_aux_data1(0) = ch0_aux_data1(7) and ch0_var_trans_aux(0) = ch0_aux_data2(0)) then
-                case ch0_aux_data2 is
-                    -- Assign a transition value depending on the received data
-                    when "11111111" =>
-                        if ch0_aux_data3(0) = '0' then
-                            ch0_var_cntr <= to_unsigned(8, 4);
-                            ch0_var_trans <= "10";
-                            ch0_var_trans_aux <= "10";
-                        else
-                            ch0_var_cntr <= to_unsigned(0, 4);
-                            ch0_var_trans <= "00";
-                            ch0_var_trans_aux <= "10";
-                        end if;
-                    when "11111110" =>
-                        ch0_var_cntr <= to_unsigned(1, 4); 
-                        ch0_var_trans <= "01";
-                        ch0_var_trans_aux <= "01";
-                    when "11111100" =>
-                        ch0_var_cntr <= to_unsigned(2, 4); 
-                        ch0_var_trans <= "01";
-                        ch0_var_trans_aux <= "01";
-                    when "11111000" =>
-                        ch0_var_cntr <= to_unsigned(3, 4);
-                        ch0_var_trans <= "01"; 
-                        ch0_var_trans_aux <= "01";
-                    when "11110000" =>
-                        ch0_var_cntr <= to_unsigned(4, 4);
-                        ch0_var_trans <= "01";
-                        ch0_var_trans_aux <= "01";
-                    when "11100000" =>
-                        ch0_var_cntr <= to_unsigned(5, 4);
-                        ch0_var_trans <= "01";
-                        ch0_var_trans_aux <= "01";
-                    when "11000000" =>
-                        ch0_var_cntr <= to_unsigned(6, 4);
-                        ch0_var_trans <= "01";
-                        ch0_var_trans_aux <= "01";
-                    when "10000000" =>
-                        ch0_var_cntr <= to_unsigned(7, 4);
-                        ch0_var_trans <= "01";
-                        ch0_var_trans_aux <= "01";
-                    when "00000000" =>
-                        if ch0_aux_data3(0) = '1' then
-                            ch0_var_cntr <= to_unsigned(8, 4);
-                            ch0_var_trans <= "01";
-                        else
-                            ch0_var_cntr <= to_unsigned(0, 4);
-                            ch0_var_trans <= "00";
-                            ch0_var_trans_aux <= "01";
-                        end if;
-                    when "00000001" =>
-                        ch0_var_cntr <= to_unsigned(1, 4); 
-                        ch0_var_trans <= "10";
-                        ch0_var_trans_aux <= "10";
-                    when "00000011" =>
-                        ch0_var_cntr <= to_unsigned(2, 4);
-                        ch0_var_trans <= "10"; 
-                        ch0_var_trans_aux <= "10";
-                    when "00000111" =>
-                        ch0_var_cntr <= to_unsigned(3, 4);
-                        ch0_var_trans <= "10"; 
-                        ch0_var_trans_aux <= "10";
-                    when "00001111" =>
-                        ch0_var_cntr <= to_unsigned(4, 4);
-                        ch0_var_trans <= "10";
-                        ch0_var_trans_aux <= "10";
-                    when "00011111" =>
-                        ch0_var_cntr <= to_unsigned(5, 4);
-                        ch0_var_trans <= "10";
-                        ch0_var_trans_aux <= "10";
-                    when "00111111" =>
-                        ch0_var_cntr <= to_unsigned(6, 4);
-                        ch0_var_trans <= "10";
-                        ch0_var_trans_aux <= "10";
-                    when "01111111" =>
-                        ch0_var_cntr <= to_unsigned(7, 4);
-                        ch0_var_trans <= "10";
-                        ch0_var_trans_aux <= "10";
-                    when others => 
-                        ch0_var_cntr <= to_unsigned(0, 4);
-                        ch0_var_trans <= "00";
-                end case;
-            else
-                ch0_var_cntr <= to_unsigned(0, 4);
-                ch0_var_trans <= "00";
-            end if;
-            -- store the data state
-            ch0_aux_data1 <= ch0_data_i;
-            ch0_aux_data2 <= ch0_aux_data1;
-            ch0_aux_data3 <= ch0_aux_data2;
-            ch0_aux_data4 <= ch0_aux_data3;
-            ch0_var_trans1 <= ch0_var_trans;
-            ch0_var_cntr1 <= ch0_var_cntr;
-        end if;
-      end if;
-    end process;
+      GT0_U_BUF_TxPllClk : BUFG
+        port map (
+          I => gt0_tx_out_clk_bufin,
+          O => gt0_tx_pll_clk);
+          
+      GT0_BUFR_inst : BUFR
+         generic map (
+            BUFR_DIVIDE => "2",   -- Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8" 
+            SIM_DEVICE => "7SERIES"  -- Must be set to "7SERIES" 
+         )
+         port map (
+            O => pllout_gt0_tx_out,     -- 1-bit output: Clock output port
+            CE => '1',   -- 1-bit input: Active high, clock enable (Divided modes only)
+            CLR => '0', -- 1-bit input: Active high, asynchronous clear (Divided modes only)
+            I => gt0_tx_pll_clk      -- 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
+         );    
+          
+      GT0_U_BUF_TxOutClk : BUFG
+        port map (
+          I => pllout_gt0_tx_out,
+          O => gt0_tx_out_clk);
+          
+          
+      ch0_clk_o <= gt0_tx_out_clk;
 
+      gt0_gtrxreset_i <= not qpll_lockdet;
+      gt0_gttxreset_i <= not qpll_lockdet;
+      
+      
+      GT1_U_BUF_TxPllClk : BUFG
+        port map (
+          I => gt1_tx_out_clk_bufin,
+          O => gt1_tx_pll_clk);
+          
+      GT1_BUFR_inst : BUFR
+         generic map (
+            BUFR_DIVIDE => "2",   -- Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8" 
+            SIM_DEVICE => "7SERIES"  -- Must be set to "7SERIES" 
+         )
+         port map (
+            O => pllout_gt1_tx_out,     -- 1-bit output: Clock output port
+            CE => '1',   -- 1-bit input: Active high, clock enable (Divided modes only)
+            CLR => '0', -- 1-bit input: Active high, asynchronous clear (Divided modes only)
+            I => gt1_tx_pll_clk      -- 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
+         );    
+          
+      GT1_U_BUF_TxOutClk : BUFG
+        port map (
+          I => pllout_gt1_tx_out,
+          O => gt1_tx_out_clk);
+          
+          
+      ch1_clk_o <= gt1_tx_out_clk;
 
-    ch0_trans_gen_0 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_0 > 1000) then
-            ch0_var_flag0 <= '0';
-            ch0_var_flag_med0 <= '0';
-            ch0_cntr_0 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a half or a full cycle in ns 0    
-                    if ((ch0_cntr_0 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag0 <= '1';
-                    elsif ((ch0_cntr_0 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med0 <= '1';
-                    else
-                        ch0_var_flag0 <= '0';
-                        ch0_var_flag_med0 <= '0';
-                    end if;
-                    -- Update the counter
-                    ch0_cntr_0 <= ch0_cntr_0 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag0 <= '0';
-                    ch0_var_flag_med0 <= '0';
-                    ch0_cntr_0 <= to_unsigned(0, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
+      gt1_gtrxreset_i <= not qpll_lockdet;
+      gt1_gttxreset_i <= not qpll_lockdet;
     
-    ch0_trans_gen_1 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_1 > 1000) then
-            ch0_var_flag1 <= '0';
-            ch0_var_flag_med1 <= '0';
-            ch0_cntr_1 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_1 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag1 <= '1';
-                    elsif ((ch0_cntr_1 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med1 <= '1';
-                    else
-                        ch0_var_flag1 <= '0';
-                        ch0_var_flag_med1 <= '0';
-                    end if;
-                    ch0_cntr_1 <= ch0_cntr_1 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag1 <= '0';
-                    ch0_var_flag_med1 <= '0';
-                    ch0_cntr_1 <= to_unsigned(1, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
     
-    ch0_trans_gen_2 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_2 > 1000) then
-            ch0_var_flag2 <= '0';
-            ch0_var_flag_med2 <= '0';
-            ch0_cntr_2 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_2 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag2 <= '1';
-                    elsif ((ch0_cntr_2 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med2 <= '1';
-                    else
-                        ch0_var_flag2 <= '0';
-                        ch0_var_flag_med2 <= '0';
-                    end if;
-                    ch0_cntr_2 <= ch0_cntr_2 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag2 <= '0';
-                    ch0_var_flag_med2 <= '0';
-                    ch0_cntr_2 <= to_unsigned(2, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
+    U_GTP_INST : WHITERABBIT_GTPE_2PCHANNEL_WRAPPER_GT
+        generic map(
+             -- Simulation attributes
+            WRAPPER_SIM_GTRESET_SPEEDUP => "false")
+      port map
+        (
     
-    ch0_trans_gen_3 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_3 > 1000) then
-            ch0_var_flag3 <= '0';
-            ch0_var_flag_med3 <= '0';
-            ch0_cntr_3 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_3 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag3 <= '1';
-                    elsif ((ch0_cntr_3 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med3 <= '1';
-                    else
-                        ch0_var_flag3 <= '0';
-                        ch0_var_flag_med3 <= '0';
-                    end if;
-                    ch0_cntr_3 <= ch0_cntr_3 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag3 <= '0';
-                    ch0_var_flag_med3 <= '0';
-                    ch0_cntr_3 <= to_unsigned(3, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
+        --_________________________________________________________________________
+        --GT0  (X0Y0)
+        --_________________________________________________________________________
+        ---------------------------- Channel - DRP Ports  --------------------------
+        GT0_DRPADDR_IN            => (others => '0'),
+        GT0_DRPCLK_IN             => gt0_tx_out_clk,  -- Be careful with the input clock
+        GT0_DRPDI_IN              => (others => '0'),
+        GT0_DRPDO_OUT             => open,
+        GT0_DRPEN_IN              => '0',
+        GT0_DRPRDY_OUT            => open,
+        GT0_DRPWE_IN              => '0',
+        -------------------------- RX Margin Analysis Ports ------------------------
+        GT0_EYESCANDATAERROR_OUT  => open,
+        ------------------------------- Loopback Ports -----------------------------
+        GT0_LOOPBACK_IN           => "000",
+        --------------------- RX Initialization and Reset Ports --------------------
+        GT0_RXUSERRDY_IN          => '0', --gt0_lock_filtered,
+        ------------------- Receive Ports - RX8B/10B Decoder Ports -----------------
+        GT0_RXCHARISK_OUT         => open,
+        GT0_RXCDRRESET_IN         => '0',                                --Don't use this pin. Before ch0_rx_cdr_rst
+        GT0_RXCDRLOCK_OUT         => open,
+        GT0_RXDISPERR_OUT         => open,
+        GT0_RXNOTINTABLE_OUT      => open,
+        --------------- Receive Ports - Comma Detection and Alignment --------------
+        GT0_RXBYTEISALIGNED_OUT   => open,
+        GT0_RXSLIDE_IN            => tied_to_ground_i,
+        GT0_RXCOMMADET_OUT        => open,
+        ------------- Receive Ports - RX Initialization and Reset Ports ------------
+        GT0_GTRXRESET_IN          => '0', --gt0_gtrxreset_i,
+        GT0_RXPMARESET_IN         => '0',
+        ------------------ Receive Ports - FPGA RX interface Ports -----------------
+        GT0_RXDATA_OUT            => open, --gt0_rx_data_int,
+        --------------- Receive Ports - RX Fabric Output Control Ports -------------
+        GT0_RXOUTCLK_OUT          => open,
     
-    ch0_trans_gen_4 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_4 > 1000) then
-            ch0_var_flag4 <= '0';
-            ch0_var_flag_med4 <= '0';
-            ch0_cntr_4 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_4 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag4 <= '1';
-                    elsif ((ch0_cntr_4 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med4 <= '1';
-                    else
-                        ch0_var_flag4 <= '0';
-                        ch0_var_flag_med4 <= '0';
-                    end if;
-                    ch0_cntr_4 <= ch0_cntr_4 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag4 <= '0';
-                    ch0_var_flag_med4 <= '0';
-                    ch0_cntr_4 <= to_unsigned(4, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
+        ------------------ Receive Ports - FPGA RX Interface Ports -----------------
+        GT0_RXUSRCLK_IN           => '0',--gt0_tx_pll_clk,    --check the pag 220 to understand better
+        GT0_RXUSRCLK2_IN          => '0',--gt0_tx_pll_clk,
     
-    ch0_trans_gen_5 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_5 > 1000) then
-            ch0_var_flag5 <= '0';
-            ch0_var_flag_med5 <= '0';
-            ch0_cntr_5 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_5 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag5 <= '1';
-                    elsif ((ch0_cntr_5 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med5 <= '1';
-                    else
-                        ch0_var_flag5 <= '0';
-                        ch0_var_flag_med5 <= '0';
-                    end if;
-                    ch0_cntr_5 <= ch0_cntr_5 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag5 <= '0';
-                    ch0_var_flag_med5 <= '0';
-                    ch0_cntr_5 <= to_unsigned(5, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
+        --------------------------- Receive Ports - RX AFE -------------------------
+        GT0_GTPRXN_IN             => '0',
+        GT0_GTPRXP_IN             => '0',
     
-    ch0_trans_gen_6 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0'or ch0_cntr_6 > 1000) then
-            ch0_var_flag6 <= '0';
-            ch0_var_flag_med6 <= '0';
-            ch0_cntr_6 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_6 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag6 <= '1';
-                    elsif ((ch0_cntr_6 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med6 <= '1';
-                    else
-                        ch0_var_flag6 <= '0';
-                        ch0_var_flag_med6 <= '0';
-                    end if;
-                    ch0_cntr_6 <= ch0_cntr_6 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag6 <= '0';
-                    ch0_var_flag_med6 <= '0';
-                    ch0_cntr_6 <= to_unsigned(6, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
+        --------------------------- Receive Ports - PCIe, SATA/SAS status ----------
+        GT0_RXELECIDLE_OUT        => open,
     
-    ch0_trans_gen_7 : process (ref_clk_i, rst_i)
+        --------------------- Receive Ports - RX Equilizer Ports -------------------
+        GT0_RXLPMHFHOLD_IN        => '0',
+        GT0_RXLPMLFHOLD_IN        => '0',
+    
+        -------------- Receive Ports -RX Initialization and Reset Ports ------------
+        GT0_RXRESETDONE_OUT       => open, --gt0_rx_rst_done,
+        --------------------- TX Initialization and Reset Ports --------------------
+        GT0_TXUSERRDY_IN          => qpll_lockdet,
+        GT0_GTTXRESET_IN          => gt0_gttxreset_i,
+    
+        --------------------- Transmit Ports - TX Gearbox Ports --------------------
+        GT0_TXCHARISK_IN          => "00",
+    
+        ------------------ Transmit Ports - TX Data Path interface -----------------
+        GT0_TXDATA_IN             => tied_to_ground_vec_i(15 downto 0), --gt0_rx_data_int,
+    
+        ----------- Transmit Ports - TX Fabric Clock Output Control Ports ----------
+        GT0_TXOUTCLK_OUT          => gt0_tx_out_clk_bufin,
+        GT0_TXOUTCLKFABRIC_OUT    => open,
+        GT0_TXOUTCLKPCS_OUT       => open,
+    
+        ------------------ Transmit Ports - FPGA TX Interface Ports ----------------
+        GT0_TXUSRCLK_IN           => gt0_tx_pll_clk,        -- NOT REF CLOCK
+        GT0_TXUSRCLK2_IN          => gt0_tx_pll_clk,        -- NOT REF CLOCK
+    
+        ---------------- Transmit Ports - TX Driver and OOB signaling --------------
+        GT0_GTPTXN_OUT            => open,
+        GT0_GTPTXP_OUT            => open,
+    
+        ------------- Transmit Ports - TX Initialization and Reset Ports -----------
+        GT0_TXRESETDONE_OUT       => gt0_tx_rst_done,
+        ------------------ Transmit Ports - pattern Generator Ports ----------------
+        GT0_TXPRBSSEL_IN          => "000",
+        ---TXPI---
+        GT0_TXPPMSTEPSIZE_IN      => gt0_txpippmstepsize_i,
+    
+        --_________________________________________________________________________
+        --GT1  (X0Y1)
+        --_________________________________________________________________________
+        ---------------------------- Channel - DRP Ports  --------------------------
+        GT1_DRPADDR_IN            => (others => '0'),
+        GT1_DRPCLK_IN             => gt1_tx_out_clk,  -- Be careful with the input clock
+        GT1_DRPDI_IN              => (others => '0'),
+        GT1_DRPDO_OUT             => open,
+        GT1_DRPEN_IN              => '0',
+        GT1_DRPRDY_OUT            => open,
+        GT1_DRPWE_IN              => '0',
+        -------------------------- RX Margin Analysis Ports ------------------------
+        GT1_EYESCANDATAERROR_OUT  => open,
+        ------------------------------- Loopback Ports -----------------------------
+        GT1_LOOPBACK_IN           => "000",
+        --------------------- RX Initialization and Reset Ports --------------------
+        GT1_RXUSERRDY_IN          => '0',--gt1_lock_filtered,
+        ------------------- Receive Ports - RX8B/10B Decoder Ports -----------------
+        GT1_RXCHARISK_OUT         => open,
+        GT1_RXCDRRESET_IN         => '0',                                --Don't use this pin. Before ch1_rx_cdr_rst
+        GT1_RXCDRLOCK_OUT         => open,
+        GT1_RXDISPERR_OUT         => open,
+        GT1_RXNOTINTABLE_OUT      => open,
+        --------------- Receive Ports - Comma Detection and Alignment --------------
+        GT1_RXBYTEISALIGNED_OUT   => open,
+        GT1_RXSLIDE_IN            => tied_to_ground_i,
+        GT1_RXCOMMADET_OUT        => open,
+        ------------- Receive Ports - RX Initialization and Reset Ports ------------
+        GT1_GTRXRESET_IN          => '0', --gt1_gtrxreset_i,
+        GT1_RXPMARESET_IN         => '0',
+        ------------------ Receive Ports - FPGA RX interface Ports -----------------
+        GT1_RXDATA_OUT            => open, --gt1_rx_data_int,
+        --------------- Receive Ports - RX Fabric Output Control Ports -------------
+        GT1_RXOUTCLK_OUT          => open,
+    
+        ------------------ Receive Ports - FPGA RX Interface Ports -----------------
+        GT1_RXUSRCLK_IN           => '0', --gt1_tx_pll_clk,    --check the pag 220 to understand better
+        GT1_RXUSRCLK2_IN          => '0', --gt1_tx_pll_clk,
+    
+        --------------------------- Receive Ports - RX AFE -------------------------
+        GT1_GTPRXN_IN             => '0',
+        GT1_GTPRXP_IN             => '0',
+    
+        --------------------------- Receive Ports - PCIe, SATA/SAS status ----------
+        GT1_RXELECIDLE_OUT        => open,
+    
+        --------------------- Receive Ports - RX Equilizer Ports -------------------
+        GT1_RXLPMHFHOLD_IN        => '0',
+        GT1_RXLPMLFHOLD_IN        => '0',
+    
+        -------------- Receive Ports -RX Initialization and Reset Ports ------------
+        GT1_RXRESETDONE_OUT       => open, --gt1_rx_rst_done,
+        --------------------- TX Initialization and Reset Ports --------------------
+        GT1_TXUSERRDY_IN          => qpll_lockdet,
+        GT1_GTTXRESET_IN          => gt1_gttxreset_i,
+    
+        --------------------- Transmit Ports - TX Gearbox Ports --------------------
+        GT1_TXCHARISK_IN          => "00",
+    
+        ------------------ Transmit Ports - TX Data Path interface -----------------
+        GT1_TXDATA_IN             => tied_to_ground_vec_i(15 downto 0), --gt1_rx_data_int,
+    
+        ----------- Transmit Ports - TX Fabric Clock Output Control Ports ----------
+        GT1_TXOUTCLK_OUT          => gt1_tx_out_clk_bufin,
+        GT1_TXOUTCLKFABRIC_OUT    => open,
+        GT1_TXOUTCLKPCS_OUT       => open,
+    
+        ------------------ Transmit Ports - FPGA TX Interface Ports ----------------
+        GT1_TXUSRCLK_IN           => gt1_tx_pll_clk,        -- NOT REF CLOCK
+        GT1_TXUSRCLK2_IN          => gt1_tx_pll_clk,        -- NOT REF CLOCK
+    
+        ---------------- Transmit Ports - TX Driver and OOB signaling --------------
+        GT1_GTPTXN_OUT            => open,
+        GT1_GTPTXP_OUT            => open,
+    
+        ------------- Transmit Ports - TX Initialization and Reset Ports -----------
+        GT1_TXRESETDONE_OUT       => gt1_tx_rst_done,
+        ------------------ Transmit Ports - pattern Generator Ports ----------------
+        GT1_TXPRBSSEL_IN          => "000",
+        ---TXPI---
+        GT1_TXPPMSTEPSIZE_IN      => gt1_txpippmstepsize_i,
+    
+        ---------------------------- Common Block - Ports --------------------------
+        GT0_GTREFCLK0_IN          => ref_clk_i,     -- Accoding to the CoreGen configuration this clock must be 100MHz 
+        GT0_PLL0LOCK_OUT          => qpll_lockdet,
+        GT0_PLL0LOCKDETCLK_IN     => '0',
+        GT0_PLL0REFCLKLOST_OUT    => open,
+        GT0_PLL0RESET_IN          => rst_n);        -- Before rst_int. for v15
         
+    
+    process (gt0_tx_out_clk, picxo_rst0, gt0_gttxreset_i)
     begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch0_cntr_7 > 1000) then
-            ch0_var_flag7 <= '0';
-            ch0_var_flag_med7 <= '0';
-            ch0_cntr_7 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch0_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch0_cntr_7 rem ch0_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch0_var_flag7 <= '1';
-                    elsif ((ch0_cntr_7 rem ch0_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch0_aux_clk(0) = '1' then
-                            ch0_var_flag_med7 <= '1';
-                    else
-                        ch0_var_flag7 <= '0';
-                        ch0_var_flag_med7 <= '0';
-                    end if;
-                    ch0_cntr_7 <= ch0_cntr_7 + ch0_var_cntr + 8;
-                else
-                    ch0_var_flag7 <= '0';
-                    ch0_var_flag_med7 <= '0';
-                    ch0_cntr_7 <= to_unsigned(7, g_num_bits_cnt);
-                end if;   
-            end if;
+        if(rst_i = '0' or gt0_gttxreset_i ='1') then
+            picxo_rst0 (7 downto 1)     <= "1111111";
+        elsif rising_edge (gt0_tx_out_clk) then
+            picxo_rst0 (7 downto 1)     <=  picxo_rst0(6 downto 0);
         end if;
-    end process;
-
-    clk_gen_ch0 : process (ref_clk_i, rst_i)
+    end process;  
+        
+    PICXO_FRACXO_0_i : PICXO_FRACXO_0
+     PORT MAP (
+          REF_CLK_I        => '0',--gt0_data_i,
+          RESET_I          => picxo_rst0(7),
+          TXOUTCLK_I       => gt0_tx_out_clk,
+          RSIGCE_I         => '1',
+          VSIGCE_I         => '1',
+          VSIGCE_O         => open,
+          ACC_STEP         => x"F",
+          G1               => "01001",--"01011", 01001 01100 00011
+          G2               => "10001",--"10001", 01001 01100
+          R                => x"0008",
+          V                => x"0008",
+          C_I              => tied_to_ground_vec_i(6 downto 0),
+          P_I              => tied_to_ground_vec_i(9 downto 0),
+          N_I              => tied_to_ground_vec_i(9 downto 0),
+          DON_I            => "1",
+          OFFSET_PPM       => ch0_volt,--tied_to_ground_vec_i(21 downto 0),
+          OFFSET_EN        => '1',
+          CE_DSP_RATE      => x"000A",
+          --DRP USER PORT
+          ACC_DATA         => gt0_txpippmstepsize_i,
+          --DEBUG PORT
+          ERROR_O          => open, --error,
+          VOLT_O           => open, --volt,
+          CE_PI_O          => open, --ce_pi,
+          CE_PI2_O         => open, --ce_pi2,
+          CE_DSP_O         => ch0_ce_dsp,
+          OVF_PD           => open, --ovf_pd,
+          OVF_AB           => open, --ovf_ab,
+          OVF_VOLT         => open, --ovf_volt,
+          OVF_INT          => open --ovf_int          
+        );
                 
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0') then
-            ch0_aux_clk       <= (others => '0');
-            ch0_nbits <= 0;
-            ch0_cntr  <= 0;
-            ch0_bit_value <= '0';
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- if there is a transition on the received data
-                case ch0_var_trans1 is
-                    when "01" => 
-                        -- Set the output recovered clock
-                        if ch0_aux_clk(0) = '0' then
-                            ch0_aux_clk  <= not (ch0_aux_data4);
-                        else
-                            ch0_aux_clk <= "11111111";
-                        end if;
-                        -- Check how many bits without transition
-                        if (ch0_cntr < 40) then
-                            ch0_nbits <= 0;
-                        elsif (ch0_cntr >= 40 and ch0_cntr < 120) then
-                            ch0_nbits <= 1;
-                        elsif (ch0_cntr >= 120 and ch0_cntr < 200) then
-                            ch0_nbits <= 2;
-                        elsif (ch0_cntr >= 200 and ch0_cntr < 280) then
-                            ch0_nbits <= 3;
-                        elsif (ch0_cntr >= 280 and ch0_cntr < 360) then
-                            ch0_nbits <= 4;
-                        else
-                            ch0_nbits <= 5;
-                        end if;
-                        ch0_cntr <= to_integer(ch0_var_cntr1);
-                        ch0_bit_value <= '1';
-                    when "10" =>
-                        if ch0_aux_clk(0) = '0' then
-                            ch0_aux_clk  <= ch0_aux_data4;
-                        else
-                            ch0_aux_clk <= "11111111";
-                        end if;
-                        if (ch0_cntr < 40) then
-                            ch0_nbits <= 0;
-                        elsif (ch0_cntr >= 40 and ch0_cntr < 120) then
-                            ch0_nbits <= 1;
-                        elsif (ch0_cntr >= 120 and ch0_cntr < 200) then
-                            ch0_nbits <= 2;
-                        elsif (ch0_cntr >= 200 and ch0_cntr < 280) then
-                            ch0_nbits <= 3;
-                        elsif (ch0_cntr >= 280 and ch0_cntr < 360) then
-                            ch0_nbits <= 4;
-                        else
-                            ch0_nbits <= 5;
-                        end if;
-                        ch0_cntr <= to_integer(ch0_var_cntr1);
-                        ch0_bit_value <= '0';
-                    when others =>   
-                        if    ch0_var_flag0 = '1' then ch0_aux_clk <= "11111111"; 
-                        elsif ch0_var_flag1 = '1' then ch0_aux_clk <= "01111111";
-                        elsif ch0_var_flag2 = '1' then ch0_aux_clk <= "00111111";
-                        elsif ch0_var_flag3 = '1' then ch0_aux_clk <= "00011111";
-                        elsif ch0_var_flag4 = '1' then ch0_aux_clk <= "00001111";
-                        elsif ch0_var_flag5 = '1' then ch0_aux_clk <= "00000111";
-                        elsif ch0_var_flag6 = '1' then ch0_aux_clk <= "00000011";
-                        elsif ch0_var_flag7 = '1' then ch0_aux_clk <= "00000001";
-                        elsif ch0_var_flag_med0 = '1' then ch0_aux_clk <= "00000000";
-                        elsif ch0_var_flag_med1 = '1' then ch0_aux_clk <= "10000000";
-                        elsif ch0_var_flag_med2 = '1' then ch0_aux_clk <= "11000000";
-                        elsif ch0_var_flag_med3 = '1' then ch0_aux_clk <= "11100000";
-                        elsif ch0_var_flag_med4 = '1' then ch0_aux_clk <= "11110000";
-                        elsif ch0_var_flag_med5 = '1' then ch0_aux_clk <= "11111000";
-                        elsif ch0_var_flag_med6 = '1' then ch0_aux_clk <= "11111100";
-                        elsif ch0_var_flag_med7 = '1' then ch0_aux_clk <= "11111110";
-                        elsif ch0_aux_clk(0) = '0' then ch0_aux_clk <= "00000000";
-                        elsif ch0_aux_clk(0) = '1' then ch0_aux_clk <= "11111111";
-                        end if;
-                        ch0_cntr <= ch0_cntr + 8;
-                end case;
---                ch0_aux_clk1 <= ch0_aux_clk;
---                ch0_aux_clk2 <= ch0_aux_clk1;
-                ch0_clk_o <= ch0_aux_clk;
-            end if; 
-        end if;
-    end process;      
-    
-    data_smpl_ch0 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0') then
-            ch0_edge_flag <= 0;
-            ch0_nbits_aux <= 0;
-            ch0_bit_value_aux <= '0';
-            ch0_fifo_data <= '0';
-            ch0_fifo_wr <= '0';
-            ch0_fifo_rd <= '0';
-            ch0_fifo_rd1 <= '0';
-            ch0_fifo_rd2 <= '0';
-            ch0_rd_aux <= '0';
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- Write the calculated number of bits without transition
-                if (ch0_nbits_aux > ch0_edge_flag) then
-                    ch0_fifo_data <= ch0_bit_value;
-                    ch0_edge_flag <= ch0_edge_flag + 1;
-                    ch0_fifo_wr <= '1';
+            
+           -- Accumulating Bang-Bang phase detector
+        ch0_pd_comp : pd
+          port map (
+            -- Outputs
+            data          => ch0_retimed_data,
+            phase_error   => ch0_error,
+            -- Inputs
+            refsig        => gt0_data_i,
+            rstcnt        => ch0_ce_dsp,
+            vcoclk        => gt0_tx_out_clk,--serdes_clk_i,
+            reset         => rst_n
+            );
+            
+        gt0_data_o <= ch0_retimed_data;
+          
+        process (gt0_tx_out_clk)
+        begin
+            if (rst_i = '0') then
+                ch0_ref_vector <= (others => '0');
+                ch0_ref_off <= '1';
+            elsif rising_edge (gt0_tx_out_clk) then
+                ch0_ref_vector <= ch0_ref_vector (8 downto 0) & ch0_retimed_data;
+                if (ch0_ref_vector = "0000000000") then
+                    ch0_ref_off <= '1';
                 else
-                    ch0_fifo_wr <= '0';
+                    ch0_ref_off <= '0';
                 end if;
-                if (ch0_bit_value /= ch0_bit_value_aux) then
-                    ch0_edge_flag <= 0;
-                end if;
-                -- Read each transition on the 12.5 MHz clock
-                if (ch0_clk_i = '1' and ch0_clk1 = '1' and ch0_clk2 = '1' and ch0_rd_aux = '0'
-                    and ch0_fifo_rd = '0' and ch0_fifo_rd1 = '0' and ch0_fifo_rd2 = '0') then
-                    ch0_fifo_rd <= '1';
-                    ch0_rd_aux <= '1';
-                elsif (ch0_clk_i = '0' and ch0_clk1 = '0' and ch0_clk2 = '0') then
-                    ch0_rd_aux <= '0';
-                else
-                    ch0_fifo_rd <= '0';
-                end if;
-                ch0_bit_value_aux <= ch0_bit_value;
-                ch0_clk1 <= ch0_clk_i;
-                ch0_clk2 <= ch0_clk1;
-                ch0_nbits_aux <= ch0_nbits;
-                ch0_rd_en_o <= ch0_fifo_rd;
-                ch0_fifo_rd1 <= ch0_fifo_rd;
-                ch0_fifo_rd2 <= ch0_fifo_rd1;
             end if;
-        end if;
-    end process;
-    
-    -- FIFO to store the data stream and desacoplate frequencies
-    ch0_sampled_data_fifo: cdr_fifo
-    PORT MAP (
-        CLK        => ref_clk_i,
-        RST        => not(rst_i),
-        DataIn    => ch0_fifo_data,
-        WriteEn    => ch0_fifo_wr,
-        ReadEn    => ch0_fifo_rd,
-        DataOut    => ch0_data_o,
-        Full    => open,
-        Empty    => open
-    );
-    
-    
--- CH1 CDR
-    clk_cntr_ch1 : process (ref_clk_i, rst_i, ch1_data_i)
-    
+        end process;  
+          
+        ch0_fq_comp :fq 
+           port map (
+            rst_i       => rst_i,
+            ref_status  => ch0_ref_off,
+            phase_error => ch0_error,
+            rstcnt      => ch0_ce_dsp,
+            vcoclk      => gt0_tx_out_clk, 
+            vc          => ch0_volt
+            );
+            
+            
+            
+    process (gt1_tx_out_clk, picxo_rst1, gt1_gttxreset_i)
     begin
-      -- if there is a reset, the counter and the clock are initialized
-      if(rst_i = '0') then
-        ch1_var_cntr <= to_unsigned(0, 4);
-        ch1_var_trans <= (others => '0');
-        ch1_var_trans1 <= (others => '0');
-        ch1_var_trans_aux <= (others => '0');
-        ch1_aux_data1 <= (others => '0');
-        ch1_aux_data2 <= (others => '0');
-        ch1_aux_data3 <= (others => '0');
-        ch1_aux_data4 <= (others => '0');
-      else
-        -- each deserialized frame
-        if rising_edge(ref_clk_i) then
-            -- check the incoming data    
-            if (ch1_aux_data4(7) /= ch1_aux_data1(0) and ch1_data_i(7) = ch1_aux_data2(0)
-                and ch1_aux_data1(0) = ch1_aux_data1(7) and ch1_var_trans_aux(0) = ch1_aux_data2(0)) then
-                case ch1_aux_data2 is
-                    when "11111111" =>
-                        if ch1_aux_data3(0) = '0' then
-                            ch1_var_cntr <= to_unsigned(8, 4);
-                            ch1_var_trans <= "10";
-                            ch1_var_trans_aux <= "10";
-                        else
-                            ch1_var_cntr <= to_unsigned(0, 4);
-                            ch1_var_trans <= "00";
-                            ch1_var_trans_aux <= "10";
-                        end if;
-                    when "11111110" =>
-                        ch1_var_cntr <= to_unsigned(1, 4); 
-                        ch1_var_trans <= "01";
-                        ch1_var_trans_aux <= "01";
-                    when "11111100" =>
-                        ch1_var_cntr <= to_unsigned(2, 4); 
-                        ch1_var_trans <= "01";
-                        ch1_var_trans_aux <= "01";
-                    when "11111000" =>
-                        ch1_var_cntr <= to_unsigned(3, 4);
-                        ch1_var_trans <= "01"; 
-                        ch1_var_trans_aux <= "01";
-                    when "11110000" =>
-                        ch1_var_cntr <= to_unsigned(4, 4);
-                        ch1_var_trans <= "01";
-                        ch1_var_trans_aux <= "01";
-                    when "11100000" =>
-                        ch1_var_cntr <= to_unsigned(5, 4);
-                        ch1_var_trans <= "01";
-                        ch1_var_trans_aux <= "01";
-                    when "11000000" =>
-                        ch1_var_cntr <= to_unsigned(6, 4);
-                        ch1_var_trans <= "01";
-                        ch1_var_trans_aux <= "01";
-                    when "10000000" =>
-                        ch1_var_cntr <= to_unsigned(7, 4);
-                        ch1_var_trans <= "01";
-                        ch1_var_trans_aux <= "01";
-                    when "00000000" =>
-                        if ch1_aux_data3(0) = '1' then
-                            ch1_var_cntr <= to_unsigned(8, 4);
-                            ch1_var_trans <= "01";
-                        else
-                            ch1_var_cntr <= to_unsigned(0, 4);
-                            ch1_var_trans <= "00";
-                            ch1_var_trans_aux <= "01";
-                        end if;
-                    when "00000001" =>
-                        ch1_var_cntr <= to_unsigned(1, 4); 
-                        ch1_var_trans <= "10";
-                        ch1_var_trans_aux <= "10";
-                    when "00000011" =>
-                        ch1_var_cntr <= to_unsigned(2, 4);
-                        ch1_var_trans <= "10"; 
-                        ch1_var_trans_aux <= "10";
-                    when "00000111" =>
-                        ch1_var_cntr <= to_unsigned(3, 4);
-                        ch1_var_trans <= "10"; 
-                        ch1_var_trans_aux <= "10";
-                    when "00001111" =>
-                        ch1_var_cntr <= to_unsigned(4, 4);
-                        ch1_var_trans <= "10";
-                        ch1_var_trans_aux <= "10";
-                    when "00011111" =>
-                        ch1_var_cntr <= to_unsigned(5, 4);
-                        ch1_var_trans <= "10";
-                        ch1_var_trans_aux <= "10";
-                    when "00111111" =>
-                        ch1_var_cntr <= to_unsigned(6, 4);
-                        ch1_var_trans <= "10";
-                        ch1_var_trans_aux <= "10";
-                    when "01111111" =>
-                        ch1_var_cntr <= to_unsigned(7, 4);
-                        ch1_var_trans <= "10";
-                        ch1_var_trans_aux <= "10";
-                    when others => 
-                        ch1_var_cntr <= to_unsigned(0, 4);
-                        ch1_var_trans <= "00";
-                end case;
-            else
-                ch1_var_cntr <= to_unsigned(0, 4);
-                ch1_var_trans <= "00";
-            end if;
-            -- store the data state
-            ch1_aux_data1 <= ch1_data_i;
-            ch1_aux_data2 <= ch1_aux_data1;
-            ch1_aux_data3 <= ch1_aux_data2;
-            ch1_aux_data4 <= ch1_aux_data3;
-            ch1_var_trans1 <= ch1_var_trans;
-            ch1_var_cntr1 <= ch1_var_cntr;
+        if(rst_i = '0' or gt1_gttxreset_i ='1') then
+            picxo_rst1 (7 downto 1)     <= "1111111";
+        elsif rising_edge (gt1_tx_out_clk) then
+            picxo_rst1 (7 downto 1)     <=  picxo_rst1(6 downto 0);
         end if;
-      end if;
-    end process;
-
-
-    ch1_trans_gen_0 : process (ref_clk_i, rst_i)
+    end process;  
         
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_0 > 1000) then
-            ch1_var_flag0 <= '0';
-            ch1_var_flag_med0 <= '0';
-            ch1_cntr_0 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_0 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag0 <= '1';
-                    elsif ((ch1_cntr_0 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med0 <= '1';
-                    else
-                        ch1_var_flag0 <= '0';
-                        ch1_var_flag_med0 <= '0';
-                    end if;
-                    ch1_cntr_0 <= ch1_cntr_0 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag0 <= '0';
-                    ch1_var_flag_med0 <= '0';
-                    ch1_cntr_0 <= to_unsigned(0, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_1 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_1 > 1000) then
-            ch1_var_flag1 <= '0';
-            ch1_var_flag_med1 <= '0';
-            ch1_cntr_1 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_1 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag1 <= '1';
-                    elsif ((ch1_cntr_1 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med1 <= '1';
-                    else
-                        ch1_var_flag1 <= '0';
-                        ch1_var_flag_med1 <= '0';
-                    end if;
-                    ch1_cntr_1 <= ch1_cntr_1 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag1 <= '0';
-                    ch1_var_flag_med1 <= '0';
-                    ch1_cntr_1 <= to_unsigned(1, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_2 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_2 > 1000) then
-            ch1_var_flag2 <= '0';
-            ch1_var_flag_med2 <= '0';
-            ch1_cntr_2 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_2 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag2 <= '1';
-                    elsif ((ch1_cntr_2 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med2 <= '1';
-                    else
-                        ch1_var_flag2 <= '0';
-                        ch1_var_flag_med2 <= '0';
-                    end if;
-                    ch1_cntr_2 <= ch1_cntr_2 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag2 <= '0';
-                    ch1_var_flag_med2 <= '0';
-                    ch1_cntr_2 <= to_unsigned(2, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_3 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_3 > 1000) then
-            ch1_var_flag3 <= '0';
-            ch1_var_flag_med3 <= '0';
-            ch1_cntr_3 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_3 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag3 <= '1';
-                    elsif ((ch1_cntr_3 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med3 <= '1';
-                    else
-                        ch1_var_flag3 <= '0';
-                        ch1_var_flag_med3 <= '0';
-                    end if;
-                    ch1_cntr_3 <= ch1_cntr_3 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag3 <= '0';
-                    ch1_var_flag_med3 <= '0';
-                    ch1_cntr_3 <= to_unsigned(3, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_4 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_4 > 1000) then
-            ch1_var_flag4 <= '0';
-            ch1_var_flag_med4 <= '0';
-            ch1_cntr_4 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_4 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag4 <= '1';
-                    elsif ((ch1_cntr_4 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med4 <= '1';
-                    else
-                        ch1_var_flag4 <= '0';
-                        ch1_var_flag_med4 <= '0';
-                    end if;
-                    ch1_cntr_4 <= ch1_cntr_4 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag4 <= '0';
-                    ch1_var_flag_med4 <= '0';
-                    ch1_cntr_4 <= to_unsigned(4, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_5 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_5 > 1000) then
-            ch1_var_flag5 <= '0';
-            ch1_var_flag_med5 <= '0';
-            ch1_cntr_5 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_5 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag5 <= '1';
-                    elsif ((ch1_cntr_5 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med5 <= '1';
-                    else
-                        ch1_var_flag5 <= '0';
-                        ch1_var_flag_med5 <= '0';
-                    end if;
-                    ch1_cntr_5 <= ch1_cntr_5 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag5 <= '0';
-                    ch1_var_flag_med5 <= '0';
-                    ch1_cntr_5 <= to_unsigned(5, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_6 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0'or ch1_cntr_6 > 1000) then
-            ch1_var_flag6 <= '0';
-            ch1_var_flag_med6 <= '0';
-            ch1_cntr_6 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_6 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag6 <= '1';
-                    elsif ((ch1_cntr_6 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med6 <= '1';
-                    else
-                        ch1_var_flag6 <= '0';
-                        ch1_var_flag_med6 <= '0';
-                    end if;
-                    ch1_cntr_6 <= ch1_cntr_6 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag6 <= '0';
-                    ch1_var_flag_med6 <= '0';
-                    ch1_cntr_6 <= to_unsigned(6, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-    
-    ch1_trans_gen_7 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0' or ch1_cntr_7 > 1000) then
-            ch1_var_flag7 <= '0';
-            ch1_var_flag_med7 <= '0';
-            ch1_cntr_7 <= to_unsigned(0, g_num_bits_cnt);
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- when there is no data transition, check the counter
-                if (ch1_var_trans = "00") then
-                    -- check if we have completed a cycle time 0    
-                    if ((ch1_cntr_7 rem ch1_full_trans) = to_unsigned(0, g_num_bits_cnt)) then
-                        -- Set the output and store the transition and counter values
-                        ch1_var_flag7 <= '1';
-                    elsif ((ch1_cntr_7 rem ch1_half_trans) 
-                            = to_unsigned(0, g_num_bits_cnt)) and ch1_aux_clk(0) = '1' then
-                            ch1_var_flag_med7 <= '1';
-                    else
-                        ch1_var_flag7 <= '0';
-                        ch1_var_flag_med7 <= '0';
-                    end if;
-                    ch1_cntr_7 <= ch1_cntr_7 + ch1_var_cntr + 8;
-                else
-                    ch1_var_flag7 <= '0';
-                    ch1_var_flag_med7 <= '0';
-                    ch1_cntr_7 <= to_unsigned(7, g_num_bits_cnt);
-                end if;   
-            end if;
-        end if;
-    end process;
-
-    clk_gen_ch1 : process (ref_clk_i, rst_i)
+    PICXO_FRACXO_1_i : PICXO_FRACXO_0
+     PORT MAP (
+          REF_CLK_I        => '0',--gt0_data_i,
+          RESET_I          => picxo_rst1(7),
+          TXOUTCLK_I       => gt1_tx_out_clk,
+          RSIGCE_I         => '1',
+          VSIGCE_I         => '1',
+          VSIGCE_O         => open,
+          ACC_STEP         => x"F",
+          G1               => "01001",--"01011", 01001 01100 00011
+          G2               => "10001",--"10001", 01001 01100
+          R                => x"0008",
+          V                => x"0008",
+          C_I              => tied_to_ground_vec_i(6 downto 0),
+          P_I              => tied_to_ground_vec_i(9 downto 0),
+          N_I              => tied_to_ground_vec_i(9 downto 0),
+          DON_I            => "1",
+          OFFSET_PPM       => ch1_volt,--tied_to_ground_vec_i(21 downto 0),
+          OFFSET_EN        => '1',
+          CE_DSP_RATE      => x"000A",
+          --DRP USER PORT
+          ACC_DATA         => gt1_txpippmstepsize_i,
+          --DEBUG PORT
+          ERROR_O          => open,
+          VOLT_O           => open,
+          CE_PI_O          => open,
+          CE_PI2_O         => open,
+          CE_DSP_O         => ch1_ce_dsp,
+          OVF_PD           => open,
+          OVF_AB           => open,
+          OVF_VOLT         => open,
+          OVF_INT          => open          
+        );
                 
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0') then
-            ch1_aux_clk       <= (others => '0');
-            ch1_nbits <= 0;
-            ch1_cntr  <= 0;
-            ch1_bit_value <= '0';
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- if there is a transition on the received data
-                case ch1_var_trans1 is
-                    when "01" => 
-                        if ch1_aux_clk(0) = '0' then
-                            ch1_aux_clk  <= not (ch1_aux_data4);
-                        else
-                            ch1_aux_clk <= "11111111";
-                        end if;
-                        if (ch1_cntr < 40) then
-                            ch1_nbits <= 0;
-                        elsif (ch1_cntr >= 40 and ch1_cntr < 120) then
-                            ch1_nbits <= 1;
-                        elsif (ch1_cntr >= 120 and ch1_cntr < 200) then
-                            ch1_nbits <= 2;
-                        elsif (ch1_cntr >= 200 and ch1_cntr < 280) then
-                            ch1_nbits <= 3;
-                        elsif (ch1_cntr >= 280 and ch1_cntr < 360) then
-                            ch1_nbits <= 4;
-                        else
-                            ch1_nbits <= 5;
-                        end if;
-                        ch1_cntr <= to_integer(ch1_var_cntr1);
-                        ch1_bit_value <= '1';
-                    when "10" =>
-                        if ch1_aux_clk(0) = '0' then
-                            ch1_aux_clk  <= ch1_aux_data4;
-                        else
-                            ch1_aux_clk <= "11111111";
-                        end if;
-                        if (ch1_cntr < 40) then
-                            ch1_nbits <= 0;
-                        elsif (ch1_cntr >= 40 and ch1_cntr < 120) then
-                            ch1_nbits <= 1;
-                        elsif (ch1_cntr >= 120 and ch1_cntr < 200) then
-                            ch1_nbits <= 2;
-                        elsif (ch1_cntr >= 200 and ch1_cntr < 280) then
-                            ch1_nbits <= 3;
-                        elsif (ch1_cntr >= 280 and ch1_cntr < 360) then
-                            ch1_nbits <= 4;
-                        else
-                            ch1_nbits <= 5;
-                        end if;
-                        ch1_cntr <= to_integer(ch1_var_cntr1);
-                        ch1_bit_value <= '0';
-                    when others =>   
-                        if    ch1_var_flag0 = '1' then ch1_aux_clk <= "11111111"; 
-                        elsif ch1_var_flag1 = '1' then ch1_aux_clk <= "01111111";
-                        elsif ch1_var_flag2 = '1' then ch1_aux_clk <= "00111111";
-                        elsif ch1_var_flag3 = '1' then ch1_aux_clk <= "00011111";
-                        elsif ch1_var_flag4 = '1' then ch1_aux_clk <= "00001111";
-                        elsif ch1_var_flag5 = '1' then ch1_aux_clk <= "00000111";
-                        elsif ch1_var_flag6 = '1' then ch1_aux_clk <= "00000011";
-                        elsif ch1_var_flag7 = '1' then ch1_aux_clk <= "00000001";
-                        elsif ch1_var_flag_med0 = '1' then ch1_aux_clk <= "00000000";
-                        elsif ch1_var_flag_med1 = '1' then ch1_aux_clk <= "10000000";
-                        elsif ch1_var_flag_med2 = '1' then ch1_aux_clk <= "11000000";
-                        elsif ch1_var_flag_med3 = '1' then ch1_aux_clk <= "11100000";
-                        elsif ch1_var_flag_med4 = '1' then ch1_aux_clk <= "11110000";
-                        elsif ch1_var_flag_med5 = '1' then ch1_aux_clk <= "11111000";
-                        elsif ch1_var_flag_med6 = '1' then ch1_aux_clk <= "11111100";
-                        elsif ch1_var_flag_med7 = '1' then ch1_aux_clk <= "11111110";
-                        elsif ch1_aux_clk(0) = '0' then ch1_aux_clk <= "00000000";
-                        elsif ch1_aux_clk(0) = '1' then ch1_aux_clk <= "11111111";
-                        end if;
-                        ch1_cntr <= ch1_cntr + 8;
-                end case;
---                ch1_aux_clk1 <= ch1_aux_clk;
---                ch1_aux_clk2 <= ch1_aux_clk1;
-                ch1_clk_o <= ch1_aux_clk;
-            end if; 
-        end if;
-    end process;      
-    
-    data_smpl_ch1 : process (ref_clk_i, rst_i)
-        
-    begin
-        -- if there is a reset, the counter and the clock are initialized
-        if(rst_i = '0') then
-            ch1_edge_flag <= 0;
-            ch1_nbits_aux <= 0;
-            ch1_bit_value_aux <= '0';
-            ch1_fifo_data <= '0';
-            ch1_fifo_wr <= '0';
-            ch1_fifo_rd <= '0';
-            ch1_fifo_rd1 <= '0';
-            ch1_fifo_rd2 <= '0';
-            ch1_rd_aux <= '0';
-        else
-            -- each deserialized frame
-            if rising_edge(ref_clk_i) then
-                -- Write the calculated number of bits without transition
-                if (ch1_nbits_aux > ch1_edge_flag) then
-                    ch1_fifo_data <= ch1_bit_value;
-                    ch1_edge_flag <= ch1_edge_flag + 1;
-                    ch1_fifo_wr <= '1';
+            
+        -- Accumulating Bang-Bang phase detector
+        ch1_pd_comp : pd
+          port map (
+            -- Outputs
+            data          => ch1_retimed_data,
+            phase_error   => ch1_error,
+            -- Inputs
+            refsig        => gt1_data_i,
+            rstcnt        => ch1_ce_dsp,
+            vcoclk        => gt1_tx_out_clk,
+            reset         => rst_n
+            );
+            
+        gt1_data_o <= ch1_retimed_data;
+          
+        process (gt1_tx_out_clk)
+        begin
+            if (rst_i = '0') then
+                ch1_ref_vector <= (others => '0');
+                ch1_ref_off <= '1';
+            elsif rising_edge (gt1_tx_out_clk) then
+                ch1_ref_vector <= ch1_ref_vector (8 downto 0) & ch1_retimed_data;
+                if (ch1_ref_vector = "0000000000") then
+                    ch1_ref_off <= '1';
                 else
-                    ch1_fifo_wr <= '0';
+                    ch1_ref_off <= '0';
                 end if;
-                if (ch1_bit_value /= ch1_bit_value_aux) then
-                    ch1_edge_flag <= 0;
-                end if;
-                -- Read each transition on the 12.5 MHz clock
-                if (ch1_clk_i = '1' and ch1_clk1 = '1' and ch1_clk2 = '1' and ch1_rd_aux = '0'
-                    and ch1_fifo_rd = '0' and ch1_fifo_rd1 = '0' and ch1_fifo_rd2 = '0') then
-                    ch1_fifo_rd <= '1';
-                    ch1_rd_aux <= '1';
-                elsif (ch1_clk_i = '0' and ch1_clk1 = '0' and ch1_clk2 = '0') then
-                    ch1_rd_aux <= '0';
-                else
-                    ch1_fifo_rd <= '0';
-                end if;
-                ch1_bit_value_aux <= ch1_bit_value;
-                ch1_clk1 <= ch1_clk_i;
-                ch1_clk2 <= ch1_clk1;
-                ch1_nbits_aux <= ch1_nbits;
-                ch1_rd_en_o <= ch1_fifo_rd;
-                ch1_fifo_rd1 <= ch1_fifo_rd;
-                ch1_fifo_rd2 <= ch1_fifo_rd1;
             end if;
-        end if;
-    end process;
-    
-    ch1_sampled_data_fifo: cdr_fifo
-    PORT MAP (
-        CLK        => ref_clk_i,
-        RST        => not(rst_i),
-        DataIn    => ch1_fifo_data,
-        WriteEn    => ch1_fifo_wr,
-        ReadEn    => ch1_fifo_rd,
-        DataOut    => ch1_data_o,
-        Full    => open,
-        Empty    => open
-    );
+        end process;  
+          
+        ch1_fq_comp :fq 
+           port map (
+            rst_i       => '1',
+            ref_status  => ch1_ref_off,
+            phase_error => ch1_error,
+            rstcnt      => ch1_ce_dsp,
+            vcoclk      => gt1_tx_out_clk, 
+            vc          => ch1_volt
+            );
+          
 
 end struct;

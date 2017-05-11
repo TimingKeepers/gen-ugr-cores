@@ -107,31 +107,15 @@ architecture Behavioral of wirelessTxRx_logic is
 
     -- Clock Data Recovery module
     component cdr_counter is
-        generic (
-        -- number of bits for edge counter
-            g_num_bits_cnt : natural := 10;
-        -- max value of the counter 
-            g_max_value    : natural := 1000;
-        -- max value of the counter      
-            g_half_trans   : natural := 40;
-        -- max value of the counter 
-            g_full_trans   : natural := 80
-        );
-    
-        Port ( 
-           ch0_data_i  : in STD_LOGIC_VECTOR (7 downto 0);
-           ch1_data_i  : in STD_LOGIC_VECTOR (7 downto 0);
-           ref_clk_i   : in STD_LOGIC;
-           rst_i       : in STD_LOGIC;
-           ch0_clk_i   : in STD_LOGIC;
-           ch1_clk_i   : in STD_LOGIC;
-           ch0_clk_o   : out STD_LOGIC_VECTOR (7 downto 0);
-           ch1_clk_o   : out STD_LOGIC_VECTOR (7 downto 0);
-           ch0_data_o  : out STD_LOGIC;
-           ch1_data_o  : out STD_LOGIC;
-           ch0_rd_en_o : out STD_LOGIC;
-           ch1_rd_en_o : out STD_LOGIC
-         );
+        Port ( gt0_data_i  : in STD_LOGIC;
+               gt1_data_i  : in STD_LOGIC;
+               ref_clk_i   : in STD_LOGIC;
+               rst_i       : in STD_LOGIC;
+               gt0_data_o  : out STD_LOGIC;
+               gt1_data_o  : out STD_LOGIC;
+               ch0_clk_o   : out STD_LOGIC;
+               ch1_clk_o   : out STD_LOGIC
+               ); 
     end component cdr_counter;
     
     -- 16B/20B encoder module
@@ -215,9 +199,6 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch1_recovered_clk : std_logic; -- CH1 recovered clock
     signal ch0_cdr_clk       : std_logic_vector (7 downto 0); -- CH0 parallel clock from CDR module
     signal ch1_cdr_clk       : std_logic_vector (7 downto 0); -- CH1 parallel clock from CDR module
---    signal clk_cdr_ref       : std_logic; -- 125 MHz reference divided clock
-    signal ch0_cdr_data      : std_logic_vector (7 downto 0); -- deserialized sampled input data
-    signal ch1_cdr_data      : std_logic_vector (7 downto 0); -- deserialized sampled input data
     signal ch0_reset_serdes  : std_logic; -- Reset signal for SERDES primitives
     signal ch1_reset_serdes  : std_logic; -- Reset signal for SERDES primitives
     
@@ -265,47 +246,49 @@ architecture Behavioral of wirelessTxRx_logic is
     signal ch0_des_cntr : unsigned(4 downto 0) := to_unsigned(0, 5);
     signal ch1_des_cntr : unsigned(4 downto 0) := to_unsigned(0, 5);
     
-      -- debug
---    signal debug0 : std_logic;
---    signal debug1 : std_logic;
-  --  signal debug2 : std_logic;
-  --  signal debug3 : std_logic;
-  --  signal debug4 : std_logic;
---    signal debug_vector0 : std_logic_vector (15 downto 0);
---    signal debug_vector1 : std_logic_vector (1 downto 0);
---    signal debug_vector2 : std_logic_vector (15 downto 0);
---    signal debug_vector3 : std_logic_vector (1 downto 0);
---    attribute mark_debug : string;
---    attribute mark_debug of gtp_dedicated_div_clk: signal is "true";
---    attribute mark_debug of ch0_encoded_data_aux: signal is "true";
---    attribute mark_debug of ch0_encoded_data_p: signal is "true";
---    attribute mark_debug of ch0_dis_out: signal is "true";
---    attribute mark_debug of ch0_frame_out: signal is "true";
---    attribute mark_debug of debug_vector0: signal is "true";
---    attribute mark_debug of debug_vector1: signal is "true";
---    attribute mark_debug of ch0_recovered_clk : signal is "true";
---    attribute mark_debug of debug0 : signal is "true";
---    attribute mark_debug of debug1 : signal is "true";
---    attribute mark_debug of ch0_buffer_rx_aux : signal is "true";
---    attribute mark_debug of ch0_rx_aligned : signal is "true";
---    attribute mark_debug of ch0_buffer_rx_data : signal is "true";
---    attribute mark_debug of ch0_frame_in_dec: signal is "true";
---    attribute mark_debug of ch0_dec_data: signal is "true";
---    attribute mark_debug of ch0_k_char: signal is "true";
---    attribute mark_debug of ch0_enc_err: signal is "true"; 
---    attribute mark_debug of ch0_frame_out_dec: signal is "true"; 
+      -- DO NOT DELETE DEBUG SIGNALS, NEEDED TO CORRECT SYNTHESIS
+    signal debug0 : std_logic;
+    signal debug1 : std_logic;
+    signal debug2 : std_logic;
+    signal debug3 : std_logic;
+    signal debug4 : std_logic;
+    signal debug5 : std_logic;
+    signal debug_vector0 : std_logic_vector (19 downto 0);
+    signal debug_vector1 : std_logic_vector (19 downto 0);
+    signal debug_vector2 : std_logic_vector (15 downto 0);
+    signal debug_vector3 : std_logic_vector (15 downto 0);
+    attribute mark_debug : string;
+    attribute mark_debug of ch0_enc_err: signal is "true";
+    attribute mark_debug of debug1: signal is "true";
+    attribute mark_debug of debug2: signal is "true";
+    attribute mark_debug of ch0_buffer_rx_data: signal is "true";
+    attribute mark_debug of debug3: signal is "true";
+--    attribute mark_debug of debug_vector2 : signal is "true";
+    attribute mark_debug of debug_vector3 : signal is "true";
+    attribute mark_debug of ch0_buffer_rx_aux : signal is "true";
+    attribute mark_debug of ch0_rx_aligned : signal is "true";
+--    attribute mark_debug of debug_vector0 : signal is "true";
+    attribute mark_debug of debug5: signal is "true";
+    attribute mark_debug of debug4: signal is "true";
+--    attribute mark_debug of i: signal is "true";
+--    attribute mark_debug of j: signal is "true"; 
+--    attribute mark_debug of z: signal is "true"; 
+    attribute mark_debug of ch0_data_smp: signal is "true"; 
 --    attribute mark_debug of ch0_reset_serdes: signal is "true";
     
 
 begin
+
+    debug2 <= ch0_data_i;
+    debug4 <= gtp_clk_i;
+    --debug5 <= cdr_clk_i;
+    debug_vector2 <= ch0_tx_data_i;
     
     -- Inverted clock
     serdes_clk_n <= not serdes_clk_i;
     
-    
     -- Output Tx clock  
     tx_out_clk_o <= gtp_clk_i;
-    
      
 ---------------------- CH0 Tx flow ------------------------ 
      
@@ -319,6 +302,7 @@ begin
         -- If there is an available frame, serialize it
         if rising_edge(gtp_clk_i) then
             ch0_data_o <= ch0_encoded_data_aux(19);
+            debug5 <= ch0_encoded_data_aux(19);
             ch0_encoded_data_aux <= ch0_encoded_data_aux (18 downto 0) & "0";
             -- when a frame is coded, change the disparity and store the coded frame
             if ch0_frame_out(1) = '1' then
@@ -422,204 +406,25 @@ begin
 
 ---------------------- Rx flow ------------------------
 
-    --------------------------------------------
-    -- ISERDES
-    --------------------------------------------
-  
-    ch0_iserdes : ISERDESE2 generic map(
-        DATA_WIDTH         => 8,
-        DATA_RATE          => "DDR",
-        SERDES_MODE        => "MASTER",
-        IOBDELAY           => "NONE",
-        INTERFACE_TYPE     => "NETWORKING")
-    port map (
-        D            => ch0_data_i,           -- Input data from IOB
-        DDLY         => '0',                  -- Input data from IDELAYE2
-        CE1          => '1',                  -- Clock enable 1
-        CE2          => '1',                  -- Clock enable 2
-        CLK          => serdes_clk_i,           -- High Speed Clock
-        CLKB         => serdes_clk_n,         -- Inverted High Speed Clock
-        RST          => ch0_reset_serdes,         -- Reset
-        CLKDIV       => cdr_clk_i,            -- Divided clock for deserialized data
-        CLKDIVP      => '0',                  -- Connect to gnd
-        OCLK         => '0',                  -- Clock shared with OSERDESE2
-        OCLKB        => '0',                  -- Clock shared with OSERDESE2
-        DYNCLKSEL    => '0',                  -- Dynamic CLK and CLKB inversion
-        DYNCLKDIVSEL => '0',                  -- Dynamic CLKDIV iunversion
-        SHIFTIN1     => '0',                  -- Carry input for data width expansion. Connect to SHIFTOUT1 of Master IOB
-        SHIFTIN2     => '0',                  -- Carry input for data width expansion. Connect to SHIFTOUT2 of Master IOB
-        BITSLIP      => '0',                  -- Bitslip operation
-        O            => open,                 -- Combinatorial output
-        Q1           => ch0_cdr_data(0),         -- 7000 ps flag
-        Q2           => ch0_cdr_data(1),         -- 6000 ps flag
-        Q3           => ch0_cdr_data(2),         -- 5000 ps flag
-        Q4           => ch0_cdr_data(3),         -- 4000 ps flag
-        Q5           => ch0_cdr_data(4),         -- 3000 ps flag
-        Q6           => ch0_cdr_data(5),         -- 2000 ps flag
-        Q7           => ch0_cdr_data(6),         -- 1000 ps flag
-        Q8           => ch0_cdr_data(7),         --  000 ps flag
-        OFB          => '0',                  -- Feedback path from OLOGICE2 or OLOGICE3 and OSERDESE2
-        SHIFTOUT1    => open,                 -- Carry out for data width expansion. Connect to SHIFTIN1 of slave IOB
-        SHIFTOUT2    => open                  -- Carry out for data width expansion. Connect to SHIFTIN2 of slave IOB
-      );
-      
-      ch1_iserdes : ISERDESE2 generic map(
-          DATA_WIDTH         => 8,
-          DATA_RATE          => "DDR",
-          SERDES_MODE        => "MASTER",
-          IOBDELAY           => "NONE",
-          INTERFACE_TYPE     => "NETWORKING")
-      port map (
-          D            => ch1_data_i,           -- Input data from IOB
-          DDLY         => '0',                  -- Input data from IDELAYE2
-          CE1          => '1',                  -- Clock enable 1
-          CE2          => '1',                  -- Clock enable 2
-          CLK          => serdes_clk_i,           -- High Speed Clock
-          CLKB         => serdes_clk_n,         -- Inverted High Speed Clock
-          RST          => ch1_reset_serdes,         -- Reset
-          CLKDIV       => cdr_clk_i,            -- Divided clock for deserialized data
-          CLKDIVP      => '0',                  -- Connect to gnd
-          OCLK         => '0',                  -- Clock shared with OSERDESE2
-          OCLKB        => '0',                  -- Clock shared with OSERDESE2
-          DYNCLKSEL    => '0',                  -- Dynamic CLK and CLKB inversion
-          DYNCLKDIVSEL => '0',                  -- Dynamic CLKDIV iunversion
-          SHIFTIN1     => '0',                  -- Carry input for data width expansion. Connect to SHIFTOUT1 of Master IOB
-          SHIFTIN2     => '0',                  -- Carry input for data width expansion. Connect to SHIFTOUT2 of Master IOB
-          BITSLIP      => '0',                  -- Bitslip operation
-          O            => open,                 -- Combinatorial output
-          Q1           => ch1_cdr_data(0),         -- 7000 ps flag
-          Q2           => ch1_cdr_data(1),         -- 6000 ps flag
-          Q3           => ch1_cdr_data(2),         -- 5000 ps flag
-          Q4           => ch1_cdr_data(3),         -- 4000 ps flag
-          Q5           => ch1_cdr_data(4),         -- 3000 ps flag
-          Q6           => ch1_cdr_data(5),         -- 2000 ps flag
-          Q7           => ch1_cdr_data(6),         -- 1000 ps flag
-          Q8           => ch1_cdr_data(7),         --  000 ps flag
-          OFB          => '0',                  -- Feedback path from OLOGICE2 or OLOGICE3 and OSERDESE2
-          SHIFTOUT1    => open,                 -- Carry out for data width expansion. Connect to SHIFTIN1 of slave IOB
-          SHIFTOUT2    => open                  -- Carry out for data width expansion. Connect to SHIFTIN2 of slave IOB
-        );
-
-    rx_cdr : cdr_counter
-    generic map(
-    -- number of bits for edge counter
-        g_num_bits_cnt => g_num_bits_cnt_i,
-    -- max value of the counter 
-        g_max_value  => g_max_value_i,
-    -- max value of the counter      
-        g_half_trans => g_half_trans_i,
-    -- max value of the counter 
-        g_full_trans => g_full_trans_i
-    )
-    port map ( 
-        ch0_data_i => ch0_cdr_data, -- Input CH0 serial data
-        ch1_data_i => ch1_cdr_data, -- Input CH1 serial data
-        ref_clk_i  => cdr_clk_i,    -- 125 MHz reference clock
-        rst_i      => rst_i,        -- Reset signal
-        ch0_clk_i  => ch0_rec_clk_i, -- Recovered CH0 clock (12.5 MHz)
-        ch1_clk_i  => ch1_rec_clk_i,  -- Recovered CH1 clock (12.5 MHz)
-        ch0_clk_o  => ch0_cdr_clk, -- Recovered CH0 clock (12.5 MHz)
-        ch1_clk_o  => ch1_cdr_clk,  -- Recovered CH1 clock (12.5 MHz)
-        ch0_data_o  => ch0_data_smp, -- Recovered data
-        ch1_data_o  => ch1_data_smp,  -- Recovered data
-        ch0_rd_en_o => ch0_rd_en,     -- Recovered data trigger
-        ch1_rd_en_o => ch1_rd_en      -- Recovered data trigger
-    );
-
-    --------------------------------------------
-    -- OSERDES
-    --------------------------------------------
-    
-    ch0_oserdes : OSERDESE2
-    generic map (
-        DATA_RATE_OQ => "DDR",   -- DDR, SDR
-        DATA_RATE_TQ => "SDR",
-        DATA_WIDTH => 8,         -- Parallel data width (2-8,10,14)
-        TRISTATE_WIDTH => 1,
-        SERDES_MODE => "MASTER" -- MASTER, SLAVE
-    )
-    port map (
-        OFB => open,             -- 1-bit output: Feedback path for data
-        OQ => ch0_recovered_clk, -- 1-bit output: Data path output
-        SHIFTOUT1 => open,
-        SHIFTOUT2 => open,
-        TBYTEOUT => open,   -- 1-bit output: Byte group tristate
-        TFB => open,             -- 1-bit output: 3-state control
-        TQ => open,               -- 1-bit output: 3-state control
-        CLK => serdes_clk_i,             -- 1-bit input: High speed clock
-        CLKDIV => cdr_clk_i,       -- 1-bit input: Divided clock
-        D1 => ch0_cdr_clk(7),
-        D2 => ch0_cdr_clk(6),
-        D3 => ch0_cdr_clk(5),
-        D4 => ch0_cdr_clk(4),
-        D5 => ch0_cdr_clk(3),
-        D6 => ch0_cdr_clk(2),
-        D7 => ch0_cdr_clk(1),
-        D8 => ch0_cdr_clk(0),
-        OCE => '1',              -- 1-bit input: Output data clock enable
-        RST => ch0_reset_serdes,             -- 1-bit input: Reset
-        -- SHIFTIN1 / SHIFTIN2: 1-bit (each) input: Data input expansion (1-bit each)
-        SHIFTIN1 => '0',
-        SHIFTIN2 => '0',
-        -- T1 - T4: 1-bit (each) input: Parallel 3-state inputs
-        T1 => '0',
-        T2 => '0',
-        T3 => '0',
-        T4 => '0',
-        TBYTEIN => '0',     -- 1-bit input: Byte group tristate
-        TCE => '0'              -- 1-bit input: 3-state clock enable
-    );
-   
-    ch1_oserdes : OSERDESE2
-    generic map (
-        DATA_RATE_OQ => "DDR",   -- DDR, SDR
-        DATA_RATE_TQ => "SDR",
-        DATA_WIDTH => 8,         -- Parallel data width (2-8,10,14)
-        TRISTATE_WIDTH => 1,
-        SERDES_MODE => "MASTER" -- MASTER, SLAVE
-    )
-    port map (
-        OFB => open,             -- 1-bit output: Feedback path for data
-        OQ => ch1_recovered_clk, -- 1-bit output: Data path output
-        SHIFTOUT1 => open,
-        SHIFTOUT2 => open,
-        TBYTEOUT => open,   -- 1-bit output: Byte group tristate
-        TFB => open,             -- 1-bit output: 3-state control
-        TQ => open,               -- 1-bit output: 3-state control
-        CLK => serdes_clk_i,             -- 1-bit input: High speed clock
-        CLKDIV => cdr_clk_i,       -- 1-bit input: Divided clock
-        D1 => ch1_cdr_clk(7),
-        D2 => ch1_cdr_clk(6),
-        D3 => ch1_cdr_clk(5),
-        D4 => ch1_cdr_clk(4),
-        D5 => ch1_cdr_clk(3),
-        D6 => ch1_cdr_clk(2),
-        D7 => ch1_cdr_clk(1),
-        D8 => ch1_cdr_clk(0),
-        OCE => '1',             -- 1-bit input: Output data clock enable
-        RST => ch1_reset_serdes,             -- 1-bit input: Reset
-        -- SHIFTIN1 / SHIFTIN2: 1-bit (each) input: Data input expansion (1-bit each)
-        SHIFTIN1 => '0',
-        SHIFTIN2 => '0',
-        -- T1 - T4: 1-bit (each) input: Parallel 3-state inputs
-        T1 => '0',
-        T2 => '0',
-        T3 => '0',
-        T4 => '0',
-        TBYTEIN => '0',     -- 1-bit input: Byte group tristate
-        TCE => '0'              -- 1-bit input: 3-state clock enable
-    );
-
-    -- Output Rx recovered clocks     
-    ch0_rx_rbclk_o <= ch0_recovered_clk;
-    ch1_rx_rbclk_o <= ch1_recovered_clk;
+    rx_cdr : cdr_counter 
+    port map( 
+        gt0_data_i  => ch0_data_i,
+        gt1_data_i  => ch1_data_i,
+        ref_clk_i   => cdr_clk_i,
+        rst_i       => rst_i,
+        gt0_data_o  => ch0_data_smp,
+        gt1_data_o  => ch1_data_smp,
+        ch0_clk_o   => ch0_rx_rbclk_o,
+        ch1_clk_o   => ch1_rx_rbclk_o
+    ); 
     
 ---------------------- CH0 Rx flow ------------------------ 
 
---    debug1 <= ch0_rec_clk_i;
+    debug1 <= ch0_rec_clk_i;
+    debug3 <= ch1_rec_clk_i;
      
     -- CH0 received data deserializer and decoder signalling controller
-    ch0_deserializer : process(ch0_rd_en, rst_i)
+    ch0_deserializer : process(ch0_rec_clk_i, rst_i)
     begin
         if (rst_i = '0') then
             ch0_des_cntr <= to_unsigned(20, 5);
@@ -630,7 +435,7 @@ begin
             ch0_rx_bitslide_o <= (others => '0');
         else 
             -- Sampling point in the middle of the data period 
-            if rising_edge(ch0_rd_en) then
+            if falling_edge(ch0_rec_clk_i) then
                 -- Aux buffer saves each serial data transition
                 ch0_buffer_rx_aux <= ch0_buffer_rx_aux (18 downto 0) & ch0_data_smp;
                 -- Check if aligned comparing with the idle word
@@ -706,11 +511,13 @@ begin
             ch0_rx_data_o <= (others => '0');  
             ch0_rx_enc_err_o <= '0';
             ch0_rx_k_o <= (others => '0');
+            debug_vector3 <= (others => '0');
         else
             if rising_edge (ch0_frame_out_dec(1)) then
                 ch0_rx_data_o <= ch0_dec_data;
                 ch0_rx_enc_err_o <= ch0_enc_err(0) or ch0_enc_err(1);
                 ch0_rx_k_o <= ch0_k_char;
+                debug_vector3 <= ch0_dec_data;
             end if;
         end if;
     end process;
@@ -743,7 +550,7 @@ begin
 ---------------------- CH1 Rx flow ------------------------ 
          
     -- CH1 received data deserializer and decoder signalling controller
-    ch1_deserializer : process(ch1_rd_en, rst_i)
+    ch1_deserializer : process(ch1_rec_clk_i, rst_i)
     begin
         if (rst_i = '0') then
             ch1_des_cntr <= to_unsigned(20, 5);
@@ -754,7 +561,7 @@ begin
             ch1_rx_bitslide_o <= (others => '0');
         else 
             -- Sampling point in the middle of the data period 
-            if rising_edge(ch1_rd_en) then
+            if falling_edge(ch1_rec_clk_i) then
                 -- Aux buffer saves each serial data transition
                 ch1_buffer_rx_aux <= ch1_buffer_rx_aux (18 downto 0) & ch1_data_smp;
                 -- Check if aligned comparing with the idle word

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="c:/Case/K7_picxo_to_Dave/test_pre_encrypt/test_v7_gth/v7_gth_example/v7_gth_example.hw/hw_1/wave/hw_ila_data_1/hw_ila_data_1.wdb" id="1">
+         <top_modules>
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="9" />
+   <wave_markers>
+   </wave_markers>
+   <wvobject db_ref_id="1" fp_name="probe023_in" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">probe023_in[20:0]</obj_property>
+      <obj_property name="ObjectShortName">probe023_in[20:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="label">Error</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe122_in" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">probe122_in[21:0]</obj_property>
+      <obj_property name="ObjectShortName">probe122_in[21:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="label">Volt</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe321_in" type="logic">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">probe321_in</obj_property>
+      <obj_property name="ObjectShortName">probe321_in</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="label">ce_pi</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe420_in" type="logic">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">probe420_in</obj_property>
+      <obj_property name="ObjectShortName">probe420_in</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="label">ce_pi2</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe519_in" type="logic">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">probe519_in</obj_property>
+      <obj_property name="ObjectShortName">probe519_in</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="label">ce_dsp</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe618_in" type="logic">
+      <obj_property name="ElementShortName">probe618_in</obj_property>
+      <obj_property name="ObjectShortName">probe618_in</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe717_in" type="logic">
+      <obj_property name="ElementShortName">probe717_in</obj_property>
+      <obj_property name="ObjectShortName">probe717_in</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="probe816_in" type="logic">
+      <obj_property name="ElementShortName">probe816_in</obj_property>
+      <obj_property name="ObjectShortName">probe816_in</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="&lt;const0&gt;_8" type="logic">
+      <obj_property name="ElementShortName">&lt;const0&gt;_8</obj_property>
+      <obj_property name="ObjectShortName">&lt;const0&gt;_8</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

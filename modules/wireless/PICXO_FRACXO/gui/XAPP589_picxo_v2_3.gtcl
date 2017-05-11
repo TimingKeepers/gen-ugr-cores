@@ -1,0 +1,2 @@
+# This file is automatically written.  Do not modify.
+proc gen_USERPARAMETER_CLOCK_REGION_ENABLEMENT {GT_TYPE } {expr (  "{$GT_TYPE}" == "{NO_GT}" )}
