@@ -35,8 +35,8 @@ use ieee.numeric_std.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+library UNISIM;
+use UNISIM.VComponents.all;
 
 entity cdr_counter is
     Port ( gt0_data_i  : in STD_LOGIC;
