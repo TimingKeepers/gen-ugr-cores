@@ -1,0 +1,2034 @@
+/*
+
+Vivado v2014.4.1 (64-bit)
+SW Build 1149489 on Thu Feb 19 16:00:12 MST 2015
+Process ID: 2706
+
+Current time: 	5/31/17 4:46:10 PM
+Time zone: 	Central European Time (Europe/Madrid)
+
+OS: NAME="Ubuntu"
+Version: 4.4.0-75-generic
+Architecture: amd64
+Available processors (cores): 8
+
+DISPLAY: :0.0
+Screen size: 3286x1080
+Screen resolution (DPI): 96
+Available screens: 2
+
+Java version: 	1.8.0_05 64-bit
+Java home: 	/opt/Xilinx/Vivado/2014.4/tps/lnx64/jre
+
+User name: 	girlop
+User directory: /home/girlop/Documents/hdl/library/axi_ad9361
+User country: 	US
+User language: 	en
+User locale: 	en_US
+Vivado preferences path: /home/girlop/.Xilinx/Vivado/2014.4/vivado.ini
+Vivado layouts directory: /home/girlop/.Xilinx/Vivado/2014.4/layouts/application
+
+GUI allocated memory:	134 MB
+GUI max memory:		3,052 MB
+Engine allocated memory: 4,828 MB
+
+*/
+
+// TclEventType: START_GUI
+// HColorUtils.generateUniqueColorPalette (num colors: 55) elapsed time: 0.5s
+// Tcl Message: start_gui 
+// [GUI Memory]: 30 MB (+29126kb) [00:00:05]
+// [Engine Memory]: 4,828 MB (+4910758kb) [00:00:05]
+// HMemoryUtils.trashcanNow. Engine heap size: 4,833 MB. GUI used memory: 20 MB. Current time: 5/31/17 4:46:12 PM
+// [Engine Memory]: 4,833 MB (+5246kb) [00:00:10]
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /usr/home/github/hdl/library/axi_ad9361", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /usr/home/github/hdl/library/axi_ad9361'
+// Tcl Message: cd /usr/home/github/hdl/library/axi_ad9361 
+// Tcl Message: couldn't change working directory to "/usr/home/github/hdl/library/axi_ad9361": no such file or directory 
+// [GUI Memory]: 34 MB (+3730kb) [00:00:19]
+// [Engine Memory]: 4,848 MB (+15630kb) [00:00:19]
+// [GUI Memory]: 35 MB (+1484kb) [00:00:24]
+// [Engine Memory]: 4,849 MB (+1048kb) [00:00:24]
+// [GUI Memory]: 36 MB (+1148kb) [00:00:29]
+// Elapsed time: 14 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/github/hdl/library/axi_ad9361", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/github/hdl/library/axi_ad9361'
+// Tcl Message: cd /home/girlop/github/hdl/library/axi_ad9361 
+// Tcl Message: couldn't change working directory to "/home/girlop/github/hdl/library/axi_ad9361": no such file or directory 
+// [GUI Memory]: 40 MB (+3514kb) [00:00:33]
+// [GUI Memory]: 44 MB (+4211kb) [00:00:38]
+// [Engine Memory]: 4,851 MB (+2097kb) [00:00:38]
+// [GUI Memory]: 44 MB (+939kb) [00:00:43]
+// [GUI Memory]: 46 MB (+1771kb) [00:00:48]
+// [GUI Memory]: 47 MB (+826kb) [00:00:53]
+// [GUI Memory]: 48 MB (+1456kb) [00:00:58]
+// [GUI Memory]: 49 MB (+1141kb) [00:01:03]
+// Elapsed time: 84 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_ad9361/", true); // W:an (F:R, ch:JFrame)
+// [GUI Memory]: 50 MB (+676kb) [00:01:58]
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_ad9361/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_ad9361/'
+// [GUI Memory]: 53 MB (+3319kb) [00:02:03]
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_ad9361/ 
+// Elapsed time: 11 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_ad9361_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_ad9361_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./axi_ad9361_ip.tcl 
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 55 MB (+1560kb) [00:02:14]
+// [Engine Memory]: 4,868 MB (+17829kb) [00:02:14]
+// [Engine Memory]: 4,912 MB (+46096kb) [00:02:15]
+// [Engine Memory]: 4,930 MB (+19689kb) [00:02:15]
+// [Engine Memory]: 4,932 MB (+2097kb) [00:02:16]
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [GUI Memory]: 56 MB (+1238kb) [00:02:16]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [Engine Memory]: 4,938 MB (+5455kb) [00:02:17]
+// [Engine Memory]: 4,939 MB (+1892kb) [00:02:17]
+// [Engine Memory]: 4,941 MB (+1966kb) [00:02:17]
+// [Engine Memory]: 4,943 MB (+2039kb) [00:02:17]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [Engine Memory]: 4,945 MB (+1892kb) [00:02:17]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 57 MB (+1040kb) [00:02:17]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// HMemoryUtils.trashcanNow. Engine heap size: 4,955 MB. GUI used memory: 24 MB. Current time: 5/31/17 4:48:22 PM
+// [Engine Memory]: 4,955 MB (+10493kb) [00:02:17]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: LOAD_FEATURE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// [Engine Memory]: 4,957 MB (+2097kb) [00:02:18]
+// [Engine Memory]: 4,957 MB (+4kb) [00:02:19]
+// [Engine Memory]: 4,959 MB (+2097kb) [00:02:19]
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [Engine Memory]: 4,967 MB (+8093kb) [00:02:20]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_DELETE
+// Tcl Message: # adi_ip_constraints axi_ad9361 "axi_ad9361_constr.xdc" "late" 
+// Tcl Message: # set_property physical_name {s_axi_aclk} [ipx::get_port_map CLK \ #   [ipx::get_bus_interface s_axi_signal_clock [ipx::current_core]]] # ipx::remove_bus_interface {signal_clock} [ipx::current_core] # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// [GUI Memory]: 63 MB (+6033kb) [00:02:21]
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "File Groups", 2); // P:v (JViewport:JComponent, ch:JFrame)
+expandTreeTable(PAResourceEtoH.FileGroupFacetTable_FILE_GROUP_FACET_TABLE, "Verilog Synthesis ;  ;  ;  ;  ; axi_ad9361", 1); // S:au (JViewport:JComponent, ch:JFrame)
+collapseTreeTable(PAResourceEtoH.FileGroupFacetTable_FILE_GROUP_FACET_TABLE, "Verilog Synthesis ;  ;  ;  ;  ; axi_ad9361", 1); // S:au (JViewport:JComponent, ch:JFrame)
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "Addressing and Memory", 5); // P:v (JViewport:JComponent, ch:JFrame)
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "Ports and Interfaces", 4); // P:v (JViewport:JComponent, ch:JFrame)
+expandTreeTable(PAResourceOtoP.PortAndInterfaceFacetTable_PORT_AND_INTERFACE_FACET_TABLE, "Clock and Reset Signals ;  ;  ;  ;  ;  ;  ;  ;  ;  ; ", 1); // S:au (JViewport:JComponent, ch:JFrame)
+collapseTreeTable(PAResourceOtoP.PortAndInterfaceFacetTable_PORT_AND_INTERFACE_FACET_TABLE, "Clock and Reset Signals ;  ;  ;  ;  ;  ;  ;  ;  ;  ; ", 1); // S:au (JViewport:JComponent, ch:JFrame)
+// [GUI Memory]: 66 MB (+3925kb) [00:02:36]
+// Elapsed time: 35 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/util_wfifo/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/util_wfifo/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/util_wfifo/ 
+// Elapsed time: 21 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./util_wfifo_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./util_wfifo_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// [Engine Memory]: 4,972 MB (+5246kb) [00:03:34]
+// [Engine Memory]: 4,987 MB (+15740kb) [00:03:34]
+// [Engine Memory]: 4,989 MB (+2097kb) [00:03:34]
+// Tcl Message: source ./util_wfifo_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files util_wfifo [list \ #   "$ad_hdl_dir/library/common/ad_axis_inf_rx.v" \ #   "util_wfifo_constr.xdc" \ #   "util_wfifo.v" ] # adi_ip_properties_lite util_wfifo 
+// Tcl Message: INFO: [IP_Flow 19-2228] Inferred bus interface "adc_signal_clock" of definition type "xilinx.com:signal:clock:1.0". INFO: [IP_Flow 19-2228] Inferred bus interface "dma_signal_clock" of definition type "xilinx.com:signal:clock:1.0". 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,999 MB. GUI used memory: 43 MB. Current time: 5/31/17 4:49:42 PM
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [Engine Memory]: 4,999 MB (+10493kb) [00:03:37]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_ip_constraints util_wfifo [list \ #   "util_wfifo_constr.xdc" ] # ipx::remove_all_bus_interface [ipx::current_core] # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// [GUI Memory]: 69 MB (+2897kb) [00:03:38]
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// [GUI Memory]: 72 MB (+3151kb) [00:03:40]
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// TclEventType: FILE_SET_CHANGE
+closeMainWindow("axi_ad9361 - [/home/girlop/Documents/hdl/library/axi_ad9361/axi_ad9361.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project axi_ad9361 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,994 MB. GUI used memory: 42 MB. Current time: 5/31/17 4:49:53 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// Elapsed time: 15 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/util_dac_unpack/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/util_dac_unpack/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/util_dac_unpack/ 
+// Elapsed time: 15 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./util_dac_unpack_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./util_dac_unpack_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./util_dac_unpack_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [GUI Memory]: 73 MB (+607kb) [00:04:23]
+// [GUI Memory]: 73 MB (+584kb) [00:04:23]
+// [GUI Memory]: 74 MB (+1180kb) [00:04:23]
+// [GUI Memory]: 75 MB (+584kb) [00:04:23]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 76 MB (+598kb) [00:04:23]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 77 MB (+1224kb) [00:04:23]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 77 MB (+598kb) [00:04:23]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 78 MB (+1181kb) [00:04:23]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 79 MB (+598kb) [00:04:24]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 80 MB (+1172kb) [00:04:24]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files util_dac_unpack [list \ #   "util_dac_unpack.v" ] # adi_ip_properties_lite util_dac_unpack 
+// Tcl Message: INFO: [IP_Flow 19-2228] Inferred bus interface "signal_clock" of definition type "xilinx.com:signal:clock:1.0". 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 81 MB (+1244kb) [00:04:25]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 84 MB (+3232kb) [00:04:26]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 86 MB (+2033kb) [00:04:29]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 90 MB (+3722kb) [00:04:29]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 94 MB (+3976kb) [00:04:29]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "fifo_rd" "master" \ # 	"analog.com:interface:fifo_rd_rtl:1.0" \ # 	"analog.com:interface:fifo_rd:1.0" \ # 	{ \ # 		{"dma_rd" "EN"} \ # 		{"dma_data" "DATA"} \ # 		{"fifo_valid" "VALID"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 97 MB (+3048kb) [00:04:30]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "clk" "fifo_rd" 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// TclEventType: DG_GRAPH_STALE
+// Elapsed time: 10 seconds
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: FILE_SET_CHANGE
+// [GUI Memory]: 97 MB (+103kb) [00:04:32]
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// [GUI Memory]: 98 MB (+1332kb) [00:04:35]
+// TclEventType: DG_UPDATE_GRAPH
+closeMainWindow("util_wfifo - [/home/girlop/Documents/hdl/library/util_wfifo/util_wfifo.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project util_wfifo 
+// TclEventType: PROJECT_CLOSE
+// [GUI Memory]: 99 MB (+1488kb) [00:04:41]
+// HMemoryUtils.trashcanNow. Engine heap size: 4,989 MB. GUI used memory: 77 MB. Current time: 5/31/17 4:50:46 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// Elapsed time: 10 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/util_adc_pack/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/util_adc_pack/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/util_adc_pack/ 
+// Elapsed time: 11 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./util_adc_pack_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./util_adc_pack_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 99 MB (+58kb) [00:05:07]
+// Tcl Message: source ./util_adc_pack_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [GUI Memory]: 104 MB (+4512kb) [00:05:08]
+// [GUI Memory]: 105 MB (+881kb) [00:05:08]
+// [GUI Memory]: 105 MB (+919kb) [00:05:08]
+// [GUI Memory]: 106 MB (+440kb) [00:05:08]
+// [GUI Memory]: 107 MB (+881kb) [00:05:08]
+// [GUI Memory]: 108 MB (+896kb) [00:05:08]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 108 MB (+157kb) [00:05:08]
+// [GUI Memory]: 109 MB (+981kb) [00:05:08]
+// [GUI Memory]: 110 MB (+969kb) [00:05:08]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 111 MB (+1982kb) [00:05:09]
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files util_adc_pack [list \ #   "util_adc_pack.v" ] # adi_ip_properties_lite util_adc_pack 
+// Tcl Message: INFO: [IP_Flow 19-2228] Inferred bus interface "signal_clock" of definition type "xilinx.com:signal:clock:1.0". 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 117 MB (+5323kb) [00:05:10]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # ipx::remove_bus_interface {s} [ipx::current_core] # ipx::remove_bus_interface {m} [ipx::current_core] # ipx::remove_bus_interface {fifo} [ipx::current_core] # ipx::remove_bus_interface {signal_clock} [ipx::current_core] # ipx::remove_memory_map {m} [ipx::current_core] # ipx::remove_address_space {s} [ipx::current_core] # ipx::remove_address_space {fifo} [ipx::current_core] # for {set i 0} {$i < 8} {incr i} { # 	foreach port {"chan_enable" "chan_valid" "chan_data"} { # 		set name [format "%s_%d" $port $i] # 		set_property ENABLEMENT_DEPENDENCY \ # 		"(spirit:decode(id('MODELPARAM_VALUE.CHANNELS')) > $i)" \ # 		[ipx::get_ports $name] # 		set_property DRIVER_VALUE "0" [ipx::get_ports $name] # 	} # } 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 120 MB (+3203kb) [00:05:12]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 123 MB (+3572kb) [00:05:13]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 128 MB (+5144kb) [00:05:13]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 132 MB (+4485kb) [00:05:14]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "fifo_wr" "master" \ # 	"analog.com:interface:fifo_wr_rtl:1.0" \ # 	"analog.com:interface:fifo_wr:1.0" \ # 	{ \ # 		{"dvalid" "EN"} \ # 		{"ddata" "DATA"} \ # 		{"dsync" "SYNC"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 133 MB (+850kb) [00:05:14]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 137 MB (+4138kb) [00:05:15]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 140 MB (+2786kb) [00:05:15]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 145 MB (+5914kb) [00:05:15]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "clk" "fifo_wr" # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// TclEventType: DG_GRAPH_STALE
+// Elapsed time: 10 seconds
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: FILE_SET_CHANGE
+// [GUI Memory]: 150 MB (+5419kb) [00:05:17]
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// [GUI Memory]: 152 MB (+2165kb) [00:05:19]
+// TclEventType: DG_UPDATE_GRAPH
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+closeMainWindow("util_dac_unpack - [/home/girlop/Documents/hdl/library/util_dac_unpack/util_dac_unpack.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project util_dac_unpack 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,996 MB. GUI used memory: 117 MB. Current time: 5/31/17 4:51:32 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// Elapsed time: 11 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_dmac/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_dmac/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_dmac/ 
+// Elapsed time: 10 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_dmac_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_dmac_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 155 MB (+2252kb) [00:05:53]
+// Tcl Message: source ./axi_dmac_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [GUI Memory]: 158 MB (+3333kb) [00:05:54]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files axi_dmac [list \ #   "$ad_hdl_dir/library/common/sync_bits.v" \ #   "$ad_hdl_dir/library/common/up_axi.v" \ #   "address_generator.v" \ #   "data_mover.v" \ #   "request_arb.v" \ #   "request_generator.v" \ #   "response_handler.v" \ #   "axi_register_slice.v" \ #   "2d_transfer.v" \ #   "dest_axi_mm.v" \ #   "dest_axi_stream.v" \ #   "dest_fifo_inf.v" \ #   "src_axi_mm.v" \ #   "src_axi_stream.v" \ #   "src_fifo_inf.v" \ #   "splitter.v" \ #   "response_generator.v" \ #   "axi_dmac.v" \ #   "axi_dmac_constr.ttcl" ] # adi_ip_properties axi_dmac 
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_ip_ttcl axi_dmac "axi_dmac_constr.ttcl" # adi_ip_add_core_dependencies { \ # 	analog.com:user:util_axis_resize:1.0 \ # 	analog.com:user:util_axis_fifo:1.0 \ # } 
+// Tcl Message: # set_property physical_name {s_axi_aclk} [ipx::get_port_map CLK \ #   [ipx::get_bus_interface s_axi_signal_clock [ipx::current_core]]] # adi_add_bus "s_axis" "slave" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	[list {"s_axis_ready" "TREADY"} \ # 	  {"s_axis_valid" "TVALID"} \ # 	  {"s_axis_data" "TDATA"} \ # 	  {"s_axis_user" "TUSER"} ] 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "s_axis_aclk" "s_axis" 
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 159 MB (+1235kb) [00:06:00]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 163 MB (+4468kb) [00:06:00]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "m_axis" "master" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	[list {"m_axis_ready" "TREADY"} \ # 	  {"m_axis_valid" "TVALID"} \ # 	  {"m_axis_data" "TDATA"} ] 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [Engine Memory]: 5,004 MB (+5455kb) [00:06:01]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 163 MB (+261kb) [00:06:02]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "m_axis_aclk" "m_axis" 
+// Tcl Message: # adi_set_bus_dependency "m_src_axi" "m_src_axi" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_SRC')) = 0)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 179 MB (+16454kb) [00:06:03]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 180 MB (+491kb) [00:06:04]
+// [Engine Memory]: 5,007 MB (+3137kb) [00:06:04]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [Engine Memory]: 5,008 MB (+1048kb) [00:06:04]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 189 MB (+9511kb) [00:06:04]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 193 MB (+4351kb) [00:06:05]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "m_dest_axi" "m_dest_axi" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 0)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 201 MB (+8375kb) [00:06:07]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 204 MB (+2842kb) [00:06:08]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 207 MB (+3144kb) [00:06:11]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "s_axis" "s_axis" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_SRC')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "m_axis" "m_axis" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 226 MB (+20583kb) [00:06:13]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_ports_dependency "fifo_rd" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 2)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 239 MB (+12944kb) [00:06:16]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 240 MB (+1551kb) [00:06:17]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 240 MB (+165kb) [00:06:17]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "fifo_wr" "slave" \ # 	"analog.com:interface:fifo_wr_rtl:1.0" \ # 	"analog.com:interface:fifo_wr:1.0" \ # 	{ \ # 		{"fifo_wr_en" "EN"} \ # 		{"fifo_wr_din" "DATA"} \ # 		{"fifo_wr_overflow" "OVERFLOW"} \ # 		{"fifo_wr_sync" "SYNC"} \ # 		{"fifo_wr_xfer_req" "XFER_REQ"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 254 MB (+13998kb) [00:06:19]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "fifo_wr_clk" "fifo_wr" 
+// Tcl Message: # adi_set_bus_dependency "fifo_wr" "fifo_wr" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_SRC')) = 2)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 258 MB (+4747kb) [00:06:21]
+// [Engine Memory]: 5,013 MB (+5246kb) [00:06:21]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 259 MB (+1077kb) [00:06:21]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "fifo_rd" "slave" \ # 	"analog.com:interface:fifo_rd_rtl:1.0" \ # 	"analog.com:interface:fifo_rd:1.0" \ # 	{ # 		{"fifo_rd_en" "EN"} \ # 		{"fifo_rd_dout" "DATA"} \ # 		{"fifo_rd_valid" "VALID"} \ # 		{"fifo_rd_underflow" "UNDERFLOW"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,018 MB. GUI used memory: 219 MB. Current time: 5/31/17 4:52:28 PM
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [Engine Memory]: 5,018 MB (+5246kb) [00:06:23]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "fifo_rd_clk" "fifo_rd" 
+// Tcl Message: # adi_set_bus_dependency "fifo_rd" "fifo_rd" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 2)" # foreach port {"m_dest_axi_aresetn" "m_src_axi_aresetn" "s_axis_valid" \ # 	"s_axis_data" "m_axis_ready" "fifo_wr_en" "fifo_wr_din" "fifo_rd_en"} { # 	set_property DRIVER_VALUE "0" [ipx::get_ports $port] # } 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 263 MB (+3692kb) [00:06:26]
+// Tcl Message: # foreach port {"s_axis_user" "fifo_wr_sync"} { # 	set_property DRIVER_VALUE "1" [ipx::get_ports $port] # } # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// [GUI Memory]: 271 MB (+8589kb) [00:06:26]
+// Elapsed time: 34 seconds
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+closeMainWindow("util_adc_pack - [/home/girlop/Documents/hdl/library/util_adc_pack/util_adc_pack.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project util_adc_pack 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,013 MB. GUI used memory: 227 MB. Current time: 5/31/17 4:52:39 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// Elapsed time: 13 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_i2s_adi/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_i2s_adi/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_i2s_adi/ 
+// Elapsed time: 19 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_i2s_adi_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_i2s_adi_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 273 MB (+2099kb) [00:07:09]
+// [GUI Memory]: 276 MB (+3475kb) [00:07:09]
+// Tcl Message: source ./axi_i2s_adi_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [GUI Memory]: 277 MB (+427kb) [00:07:10]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 277 MB (+883kb) [00:07:10]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 278 MB (+483kb) [00:07:10]
+// [GUI Memory]: 279 MB (+871kb) [00:07:10]
+// [GUI Memory]: 279 MB (+872kb) [00:07:10]
+// [GUI Memory]: 280 MB (+870kb) [00:07:10]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 280 MB (+29kb) [00:07:10]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [Engine Memory]: 5,021 MB (+3141kb) [00:07:11]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files axi_i2s_adi [list \ #   "$ad_hdl_dir/library/common/axi_ctrlif.vhd" \ #   "$ad_hdl_dir/library/common/axi_streaming_dma_tx_fifo.vhd" \ #   "$ad_hdl_dir/library/common/axi_streaming_dma_rx_fifo.vhd" \ #   "$ad_hdl_dir/library/common/pl330_dma_fifo.vhd" \ #   "$ad_hdl_dir/library/common/dma_fifo.vhd" \ #   "i2s_controller.vhd" \ #   "i2s_rx.vhd" \ #   "i2s_tx.vhd" \ #   "i2s_clkgen.vhd" \ #   "fifo_synchronizer.vhd" \ #   "axi_i2s_adi.vhd" \ #   "axi_i2s_adi_constr.xdc" \ # ] # adi_ip_properties_lite axi_i2s_adi 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// Tcl Message: # adi_ip_constraints axi_spdif_tx axi_i2s_adi_constr.xdc late # adi_add_bus "DMA_ACK_RX" "slave" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	{ \ # 		{"DMA_REQ_RX_DAVALID" "TVALID"} \ # 		{"DMA_REQ_RX_DAREADY" "TREADY"} \ # 		{"DMA_REQ_RX_DATYPE" "TUSER"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "DMA_REQ_RX" "master" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	{ \ # 		{"DMA_REQ_RX_DRVALID" "TVALID"} \ # 		{"DMA_REQ_RX_DRREADY" "TREADY"} \ # 		{"DMA_REQ_RX_DRTYPE" "TUSER"} \ # 		{"DMA_REQ_RX_DRLAST" "TLAST"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 287 MB (+6830kb) [00:07:16]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// Tcl Message: # adi_add_bus_clock "DMA_REQ_RX_ACLK" "DMA_REQ_RX:DMA_ACK_RX" "DMA_REQ_RX_RSTN" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "DMA_ACK_TX" "slave" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	{ \ # 		{"DMA_REQ_TX_DAVALID" "TVALID"} \ # 		{"DMA_REQ_TX_DAREADY" "TREADY"} \ # 		{"DMA_REQ_TX_DATYPE" "TUSER"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 291 MB (+3931kb) [00:07:17]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 298 MB (+8210kb) [00:07:18]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 304 MB (+5943kb) [00:07:18]
+// [Engine Memory]: 5,022 MB (+1048kb) [00:07:18]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "DMA_REQ_TX" "master" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	{ \ # 		{"DMA_REQ_TX_DRVALID" "TVALID"} \ # 		{"DMA_REQ_TX_DRREADY" "TREADY"} \ # 		{"DMA_REQ_TX_DRTYPE" "TUSER"} \ # 		{"DMA_REQ_TX_DRLAST" "TLAST"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 311 MB (+7103kb) [00:07:19]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 315 MB (+4431kb) [00:07:20]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "DMA_REQ_TX_ACLK" "DMA_REQ_TX:DMA_ACK_TX" "DMA_REQ_TX_RSTN" 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 322 MB (+7715kb) [00:07:20]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 325 MB (+2572kb) [00:07:21]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// Tcl Message: # adi_add_bus "I2S" "master" \ # 	"analog.com:interface:i2s_rtl:1.0" \ # 	"analog.com:interface:i2s:1.0" \ # 	{ \ # 		{"BCLK_O" "BCLK"} \ # 		{"LRCLK_O" "LRCLK"} \ # 		{"SDATA_O" "SDATA_OUT"} \ # 		{"SDATA_I" "SDATA_IN"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// Tcl Message: # adi_add_bus_clock "DATA_CLK_I" "i2s" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 326 MB (+1447kb) [00:07:24]
+// [Engine Memory]: 5,025 MB (+3145kb) [00:07:24]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "S_AXIS" "S_AXIS" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 0)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 330 MB (+4365kb) [00:07:25]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "M_AXIS" "M_AXIS" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 0)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 334 MB (+3868kb) [00:07:26]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "DMA_ACK_TX" "DMA_REQ_TX_DA" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # adi_set_bus_dependency "DMA_REQ_TX" "DMA_REQ_TX_DR" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 351 MB (+18038kb) [00:07:27]
+// Tcl Message: # adi_set_ports_dependency "DMA_REQ_TX_ACLK" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # adi_set_ports_dependency "DMA_REQ_TX_RSTN" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # adi_set_bus_dependency "DMA_ACK_RX" "DMA_REQ_RX_DA" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 352 MB (+395kb) [00:07:27]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "DMA_REQ_RX" "DMA_REQ_RX_DR" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_ports_dependency "DMA_REQ_RX_ACLK" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # adi_set_ports_dependency "DMA_REQ_RX_RSTN" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// [GUI Memory]: 355 MB (+3283kb) [00:07:28]
+// Elapsed time: 20 seconds
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "Addressing and Memory", 5); // P:v (JViewport:JComponent, ch:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "Customization Parameters", 3); // P:v (JViewport:JComponent, ch:JFrame)
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "File Groups", 2); // P:v (JViewport:JComponent, ch:JFrame)
+selectList(PAResourceOtoP.PackagerStepsPanel_PACKAGER_STEPS_LIST, "Ports and Interfaces", 4); // P:v (JViewport:JComponent, ch:JFrame)
+closeMainWindow("axi_dmac - [/home/girlop/Documents/hdl/library/axi_dmac/axi_dmac.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project axi_dmac 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,025 MB. GUI used memory: 305 MB. Current time: 5/31/17 4:53:43 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 12 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_spdif_tx/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_spdif_tx/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_spdif_tx/ 
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_spdif_tx_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_spdif_tx_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// [Engine Memory]: 5,028 MB (+3141kb) [00:08:02]
+// Tcl Message: source ./axi_spdif_tx_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 355 MB (+208kb) [00:08:04]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 356 MB (+908kb) [00:08:04]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 357 MB (+869kb) [00:08:04]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 358 MB (+871kb) [00:08:04]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 358 MB (+22kb) [00:08:04]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files axi_spdif_tx [list \ #   "$ad_hdl_dir/library/common/axi_ctrlif.vhd" \ #   "$ad_hdl_dir/library/common/axi_streaming_dma_tx_fifo.vhd" \ #   "$ad_hdl_dir/library/common/pl330_dma_fifo.vhd" \ #   "$ad_hdl_dir/library/common/dma_fifo.vhd" \ #   "tx_package.vhd" \ #   "tx_encoder.vhd" \ #   "axi_spdif_tx.vhd" \ #   "axi_spdif_tx_constr.xdc" ] # adi_ip_properties_lite axi_spdif_tx 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// Tcl Message: # adi_ip_constraints axi_spdif_tx axi_spdif_tx_constr.xdc # adi_add_bus "DMA_ACK" "slave" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	[list {"DMA_REQ_DAVALID" "TVALID"} \ # 		{"DMA_REQ_DAREADY" "TREADY"} \ # 		{"DMA_REQ_DATYPE" "TUSER"} ] 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "DMA_REQ" "master" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	[list {"DMA_REQ_DRVALID" "TVALID"} \ # 		{"DMA_REQ_DRREADY" "TREADY"} \ # 		{"DMA_REQ_DRTYPE" "TUSER"} \ # 		{"DMA_REQ_DRLAST" "TLAST"} ] 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 362 MB (+4161kb) [00:08:08]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "DMA_REQ_ACLK" "DMA_REQ:DMA_ACK" "DMA_REQ_RSTN" 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 370 MB (+8532kb) [00:08:09]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "S_AXIS" "S_AXIS" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 0)" # adi_set_bus_dependency "DMA_ACK" "DMA_REQ_DA" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 377 MB (+7473kb) [00:08:10]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "DMA_REQ" "DMA_REQ_DR" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # adi_set_ports_dependency "DMA_REQ_ACLK" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # adi_set_ports_dependency "DMA_REQ_RSTN" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE')) = 1)" # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// [GUI Memory]: 385 MB (+8864kb) [00:08:11]
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+// [GUI Memory]: 387 MB (+1378kb) [00:08:30]
+// Elapsed time: 20 seconds
+closeMainWindow("axi_spdif_tx - [/home/girlop/Documents/hdl/library/axi_spdif_tx/axi_spdif_tx.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,028 MB. GUI used memory: 342 MB. Current time: 5/31/17 4:54:40 PM
+// 'b' command handler elapsed time: 4 seconds
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+// Elapsed time: 12 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_hdmi_tx/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_hdmi_tx/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_hdmi_tx/ 
+// Elapsed time: 11 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_hdmi_tx_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_hdmi_tx_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./axi_hdmi_tx_ip.tcl 
+// TclEventType: PROJECT_NEW
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [Engine Memory]: 5,033 MB (+5246kb) [00:09:02]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,038 MB. GUI used memory: 343 MB. Current time: 5/31/17 4:55:07 PM
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [Engine Memory]: 5,038 MB (+5246kb) [00:09:03]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_ip_constraints axi_hdmi_tx [list \ #   "axi_hdmi_tx_constr.xdc" ] # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+closeMainWindow("axi_i2s_adi - [/home/girlop/Documents/hdl/library/axi_i2s_adi/axi_i2s_adi.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project axi_i2s_adi 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,033 MB. GUI used memory: 348 MB. Current time: 5/31/17 4:55:22 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_clkgen/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_clkgen/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_clkgen/ 
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_clkgen_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_clkgen_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./axi_clkgen_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 387 MB (+612kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 388 MB (+741kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 389 MB (+741kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 389 MB (+779kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 390 MB (+741kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 391 MB (+1482kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 392 MB (+741kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 393 MB (+743kb) [00:09:38]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files axi_clkgen [list \ #   "$ad_hdl_dir/library/common/ad_rst.v" \ #   "$ad_hdl_dir/library/common/ad_mmcm_drp.v" \ #   "$ad_hdl_dir/library/common/up_axi.v" \ #   "$ad_hdl_dir/library/common/up_clkgen.v" \ #   "axi_clkgen_constr.xdc" \ #   "axi_clkgen.v" ] # adi_ip_properties axi_clkgen 
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_DELETE
+// Tcl Message: # adi_ip_constraints axi_clkgen [list \ #   "axi_clkgen_constr.xdc" ] 
+// Tcl Message: # set_property physical_name {s_axi_aclk} [ipx::get_port_map CLK \ #   [ipx::get_bus_interface s_axi_signal_clock [ipx::current_core]]] # ipx::remove_bus_interface {signal_clock} [ipx::current_core] # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+// TclEventType: DG_UPDATE_GRAPH
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+closeMainWindow("axi_hdmi_tx - [/home/girlop/Documents/hdl/library/axi_hdmi_tx/axi_hdmi_tx.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// Tcl Message: current_project axi_hdmi_tx 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,032 MB. GUI used memory: 354 MB. Current time: 5/31/17 4:55:55 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// Elapsed time: 19 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/util_i2c_mixer/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/util_i2c_mixer/'
+// Tcl Message: cd /home/girlop/Documents/hdl/library/util_i2c_mixer/ 
+// Elapsed time: 18 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./util_i2c_mixer_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./util_i2c_mixer_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./util_i2c_mixer_ip.tcl 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [Engine Memory]: 5,041 MB (+3141kb) [00:10:32]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files util_i2c_mixer [list \ #   "util_i2c_mixer.vhd" ] # adi_ip_properties_lite util_i2c_mixer 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "upstream" "slave" \ # 	"xilinx.com:interface:iic_rtl:1.0" \ # 	"xilinx.com:interface:iic:1.0" \ # 	[list \ # 		{"upstream_scl_I" "SCL_O"} \ # 		{"upstream_scl_O" "SCL_I"} \ # 		{"upstream_scl_T" "SCL_T"} \ # 		{"upstream_sda_I" "SDA_O"} \ # 		{"upstream_sda_O" "SDA_I"} \ # 		{"upstream_sda_T" "SDA_T"} \ # 	 ] 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # ipx::save_core [ipx::current_core] 
+// Tcl Message: 1 
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// [GUI Memory]: 395 MB (+2500kb) [00:10:36]
+// Tcl Message: update_compile_order -fileset sim_1 
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+closeMainWindow("util_i2c_mixer - [/home/girlop/Documents/hdl/library/util_i2c_mixer/util_i2c_mixer.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, al:bE)
+// cm:N (ch:JFrame):  Close Project : addNotify
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,041 MB. GUI used memory: 369 MB. Current time: 5/31/17 4:56:51 PM
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // cm:N (ch:JFrame)
+// Elapsed time: 43 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/projects/fmcomms2/zed", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/projects/fmcomms2/zed'
+// Tcl Message: cd /home/girlop/Documents/hdl/projects/fmcomms2/zed 
+// Elapsed time: 10 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./system_project.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./system_project.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./system_project.tcl 
+// TclEventType: PROJECT_NEW
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// [GUI Memory]: 395 MB (+158kb) [00:11:43]
+// [GUI Memory]: 396 MB (+835kb) [00:11:43]
+// [GUI Memory]: 397 MB (+831kb) [00:11:43]
+// [GUI Memory]: 398 MB (+825kb) [00:11:43]
+// [GUI Memory]: 398 MB (+405kb) [00:11:43]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 398 MB (+9kb) [00:11:43]
+// [GUI Memory]: 399 MB (+872kb) [00:11:43]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 400 MB (+503kb) [00:11:44]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 400 MB (+984kb) [00:11:44]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 401 MB (+496kb) [00:11:44]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: BOARD_MODIFIED
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: MSGMGR_REFRESH_MSG
+// TclEventType: LOAD_FEATURE
+// Tcl Message: INFO: [Board 49-50] Migrating old board value em.avnet.com:zynq:zed:d to new board_part em.avnet.com:zed:1.1 INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// TclEventType: RSB_SAVE_DIAGRAM
+// TclEventType: FILE_SET_CHANGE
+// [GUI Memory]: 402 MB (+1603kb) [00:11:44]
+// TclEventType: RSB_OPEN_DIAGRAM
+// [Engine Memory]: 5,042 MB (+1048kb) [00:11:44]
+// [Engine Memory]: 5,074 MB (+33308kb) [00:11:46]
+// [GUI Memory]: 406 MB (+3216kb) [00:11:46]
+// Tcl Message: Wrote  : </home/girlop/Documents/hdl/projects/fmcomms2/zed/fmcomms2_zed.srcs/sources_1/bd/system/system.bd>  
+// TclEventType: RSB_ADD_OBJECT
+// [Engine Memory]: 5,077 MB (+3145kb) [00:11:46]
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: LOAD_FEATURE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 5,124 MB. GUI used memory: 374 MB. Current time: 5/31/17 4:57:53 PM
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 5,124 MB (+49139kb) [00:11:49]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// Tcl Message: ### set sys_ps7  [create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 sys_ps7] ### set_property -dict [list CONFIG.PCW_IMPORT_BOARD_PRESET {ZedBoard}] $sys_ps7 
+// Tcl Message: INFO: [PS7-1] Applying Board Preset ZedBoard... 
+// [Engine Memory]: 5,133 MB (+9437kb) [00:11:50]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 5,138 MB (+5246kb) [00:11:52]
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// [GUI Memory]: 407 MB (+2040kb) [00:11:53]
+// [Engine Memory]: 5,147 MB (+9969kb) [00:11:53]
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// [Engine Memory]: 5,161 MB (+14819kb) [00:11:53]
+// Tcl Message: INFO: [Ipptcl 7-578] No Compatible Board Interface found.Board Tab not created 
+// Tcl Message: ### set sys_rstgen [create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 sys_rstgen] ### set_property -dict [list CONFIG.C_EXT_RST_WIDTH {1}] $sys_rstgen 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: ### set sys_logic_inv [create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 sys_logic_inv] ### set_property -dict [list CONFIG.C_SIZE {1}] $sys_logic_inv ### set_property -dict [list CONFIG.C_OPERATION {not}] $sys_logic_inv ### set axi_hdmi_clkgen [create_bd_cell -type ip -vlnv analog.com:user:axi_clkgen:1.0 axi_hdmi_clkgen] ### set axi_hdmi_core [create_bd_cell -type ip -vlnv analog.com:user:axi_hdmi_tx:1.0 axi_hdmi_core] 
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: ### set axi_hdmi_dma [create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma:6.2 axi_hdmi_dma] ### set_property -dict [list CONFIG.c_m_axis_mm2s_tdata_width {64}] $axi_hdmi_dma ### set_property -dict [list CONFIG.c_use_mm2s_fsync {1}] $axi_hdmi_dma ### set_property -dict [list CONFIG.c_include_s2mm {0}] $axi_hdmi_dma 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// [GUI Memory]: 408 MB (+625kb) [00:11:56]
+// [GUI Memory]: 409 MB (+1094kb) [00:11:56]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_CONNECTION_CHANGE
+// Tcl Message: create_bd_net sys_cpu_clk connect_bd_net -net /sys_cpu_clk /sys_ps7/FCLK_CLK0 
+// Tcl Message: ### ad_connect  sys_200m_clk sys_ps7/FCLK_CLK1 
+// Tcl Message: create_bd_net sys_200m_clk connect_bd_net -net /sys_200m_clk /sys_ps7/FCLK_CLK1 
+// Tcl Message: ### ad_connect  sys_cpu_reset sys_rstgen/peripheral_reset 
+// Tcl Message: create_bd_net sys_cpu_reset connect_bd_net -net /sys_cpu_reset /sys_rstgen/peripheral_reset 
+// Tcl Message: ### ad_connect  sys_cpu_resetn sys_rstgen/peripheral_aresetn 
+// Tcl Message: create_bd_net sys_cpu_resetn connect_bd_net -net /sys_cpu_resetn /sys_rstgen/peripheral_aresetn 
+// Tcl Message: ### ad_connect  sys_cpu_clk sys_rstgen/slowest_sync_clk 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /sys_rstgen/slowest_sync_clk 
+// Tcl Message: ### ad_connect  sys_rstgen/ext_reset_in sys_ps7/FCLK_RESET0_N 
+// Tcl Message: connect_bd_net /sys_rstgen/ext_reset_in /sys_ps7/FCLK_RESET0_N 
+// Tcl Message: ### ad_connect  ddr       sys_ps7/DDR 
+// Tcl Message: connect_bd_intf_net /ddr /sys_ps7/DDR 
+// Tcl Message: ### ad_connect  gpio_i    sys_ps7/GPIO_I 
+// Tcl Message: connect_bd_net /gpio_i /sys_ps7/GPIO_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/GPIO_I is being overridden by the user. This pin will not be connected as a part of interface connection GPIO_0 
+// Tcl Message: ### ad_connect  gpio_o    sys_ps7/GPIO_O 
+// Tcl Message: connect_bd_net /gpio_o /sys_ps7/GPIO_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/GPIO_O is being overridden by the user. This pin will not be connected as a part of interface connection GPIO_0 
+// Tcl Message: ### ad_connect  gpio_t    sys_ps7/GPIO_T 
+// Tcl Message: connect_bd_net /gpio_t /sys_ps7/GPIO_T 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/GPIO_T is being overridden by the user. This pin will not be connected as a part of interface connection GPIO_0 
+// Tcl Message: ### ad_connect  fixed_io  sys_ps7/FIXED_IO 
+// Tcl Message: connect_bd_intf_net /fixed_io /sys_ps7/FIXED_IO 
+// Tcl Message: ### ad_connect  iic_fmc   axi_iic_fmc/iic 
+// Tcl Message: connect_bd_intf_net /iic_fmc /axi_iic_fmc/IIC 
+// Tcl Message: ### ad_connect  sys_200m_clk axi_hdmi_clkgen/clk 
+// Tcl Message: connect_bd_net -net /sys_200m_clk /axi_hdmi_clkgen/clk 
+// Tcl Message: ### ad_connect  axi_iic_main/IIC sys_i2c_mixer/upstream 
+// Tcl Message: connect_bd_intf_net /axi_iic_main/IIC /sys_i2c_mixer/upstream 
+// Tcl Message: ### ad_connect  iic_mux_scl_i   sys_i2c_mixer/downstream_scl_i 
+// Tcl Message: connect_bd_net /iic_mux_scl_i /sys_i2c_mixer/downstream_scl_I 
+// Tcl Message: ### ad_connect  iic_mux_scl_o   sys_i2c_mixer/downstream_scl_o 
+// Tcl Message: connect_bd_net /iic_mux_scl_o /sys_i2c_mixer/downstream_scl_O 
+// Tcl Message: ### ad_connect  iic_mux_scl_t   sys_i2c_mixer/downstream_scl_t 
+// Tcl Message: connect_bd_net /iic_mux_scl_t /sys_i2c_mixer/downstream_scl_T 
+// Tcl Message: ### ad_connect  iic_mux_sda_i   sys_i2c_mixer/downstream_sda_i 
+// Tcl Message: connect_bd_net /iic_mux_sda_i /sys_i2c_mixer/downstream_sda_I 
+// Tcl Message: ### ad_connect  iic_mux_sda_o   sys_i2c_mixer/downstream_sda_o 
+// Tcl Message: connect_bd_net /iic_mux_sda_o /sys_i2c_mixer/downstream_sda_O 
+// Tcl Message: ### ad_connect  iic_mux_sda_t   sys_i2c_mixer/downstream_sda_t 
+// Tcl Message: connect_bd_net /iic_mux_sda_t /sys_i2c_mixer/downstream_sda_T 
+// Tcl Message: ### ad_connect  sys_logic_inv/Res sys_ps7/USB0_VBUS_PWRFAULT 
+// Tcl Message: connect_bd_net /sys_logic_inv/Res /sys_ps7/USB0_VBUS_PWRFAULT 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/USB0_VBUS_PWRFAULT is being overridden by the user. This pin will not be connected as a part of interface connection USBIND_0 
+// Tcl Message: ### ad_connect  otg_vbusoc  sys_logic_inv/Op1 
+// Tcl Message: connect_bd_net /otg_vbusoc /sys_logic_inv/Op1 
+// Tcl Message: ### ad_connect  spi0_csn_2_o sys_ps7/SPI0_SS2_O 
+// Tcl Message: connect_bd_net /spi0_csn_2_o /sys_ps7/SPI0_SS2_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_SS2_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_csn_1_o sys_ps7/SPI0_SS1_O 
+// Tcl Message: connect_bd_net /spi0_csn_1_o /sys_ps7/SPI0_SS1_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_SS1_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_csn_0_o sys_ps7/SPI0_SS_O 
+// Tcl Message: connect_bd_net /spi0_csn_0_o /sys_ps7/SPI0_SS_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_SS_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_csn_i sys_ps7/SPI0_SS_I 
+// Tcl Message: connect_bd_net /spi0_csn_i /sys_ps7/SPI0_SS_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_SS_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_clk_i sys_ps7/SPI0_SCLK_I 
+// Tcl Message: connect_bd_net /spi0_clk_i /sys_ps7/SPI0_SCLK_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_SCLK_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_clk_o sys_ps7/SPI0_SCLK_O 
+// Tcl Message: connect_bd_net /spi0_clk_o /sys_ps7/SPI0_SCLK_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_SCLK_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_sdo_i sys_ps7/SPI0_MOSI_I 
+// Tcl Message: connect_bd_net /spi0_sdo_i /sys_ps7/SPI0_MOSI_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_MOSI_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_sdo_o sys_ps7/SPI0_MOSI_O 
+// Tcl Message: connect_bd_net /spi0_sdo_o /sys_ps7/SPI0_MOSI_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_MOSI_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi0_sdi_i sys_ps7/SPI0_MISO_I 
+// Tcl Message: connect_bd_net /spi0_sdi_i /sys_ps7/SPI0_MISO_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI0_MISO_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_0 
+// Tcl Message: ### ad_connect  spi1_csn_2_o sys_ps7/SPI1_SS2_O 
+// Tcl Message: connect_bd_net /spi1_csn_2_o /sys_ps7/SPI1_SS2_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_SS2_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_csn_1_o sys_ps7/SPI1_SS1_O 
+// Tcl Message: connect_bd_net /spi1_csn_1_o /sys_ps7/SPI1_SS1_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_SS1_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_csn_0_o sys_ps7/SPI1_SS_O 
+// Tcl Message: connect_bd_net /spi1_csn_0_o /sys_ps7/SPI1_SS_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_SS_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_csn_i sys_ps7/SPI1_SS_I 
+// Tcl Message: connect_bd_net /spi1_csn_i /sys_ps7/SPI1_SS_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_SS_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_clk_i sys_ps7/SPI1_SCLK_I 
+// Tcl Message: connect_bd_net /spi1_clk_i /sys_ps7/SPI1_SCLK_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_SCLK_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_clk_o sys_ps7/SPI1_SCLK_O 
+// Tcl Message: connect_bd_net /spi1_clk_o /sys_ps7/SPI1_SCLK_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_SCLK_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_sdo_i sys_ps7/SPI1_MOSI_I 
+// Tcl Message: connect_bd_net /spi1_sdo_i /sys_ps7/SPI1_MOSI_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_MOSI_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_sdo_o sys_ps7/SPI1_MOSI_O 
+// Tcl Message: connect_bd_net /spi1_sdo_o /sys_ps7/SPI1_MOSI_O 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_MOSI_O is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  spi1_sdi_i sys_ps7/SPI1_MISO_I 
+// Tcl Message: connect_bd_net /spi1_sdi_i /sys_ps7/SPI1_MISO_I 
+// Tcl Message: INFO: [BD 41-1306] The connection to interface pin /sys_ps7/SPI1_MISO_I is being overridden by the user. This pin will not be connected as a part of interface connection SPI_1 
+// Tcl Message: ### ad_connect  sys_cpu_clk   axi_hdmi_core/m_axis_mm2s_clk 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_hdmi_core/m_axis_mm2s_clk 
+// Tcl Message: ### ad_connect  sys_cpu_clk   axi_hdmi_dma/s_axi_lite_aclk 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_hdmi_dma/s_axi_lite_aclk 
+// Tcl Message: ### ad_connect  sys_cpu_clk   axi_hdmi_dma/m_axi_mm2s_aclk 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_hdmi_dma/m_axi_mm2s_aclk 
+// Tcl Message: ### ad_connect  sys_cpu_clk   axi_hdmi_dma/m_axis_mm2s_aclk 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_hdmi_dma/m_axis_mm2s_aclk 
+// Tcl Message: ### ad_connect  axi_hdmi_core/hdmi_clk             axi_hdmi_clkgen/clk_0 
+// Tcl Message: connect_bd_net /axi_hdmi_core/hdmi_clk /axi_hdmi_clkgen/clk_0 
+// Tcl Message: ### ad_connect  axi_hdmi_core/hdmi_out_clk         hdmi_out_clk 
+// Tcl Message: connect_bd_net /axi_hdmi_core/hdmi_out_clk /hdmi_out_clk 
+// Tcl Message: ### ad_connect  axi_hdmi_core/hdmi_16_hsync        hdmi_hsync 
+// Tcl Message: connect_bd_net /axi_hdmi_core/hdmi_16_hsync /hdmi_hsync 
+// Tcl Message: ### ad_connect  axi_hdmi_core/hdmi_16_vsync        hdmi_vsync 
+// Tcl Message: connect_bd_net /axi_hdmi_core/hdmi_16_vsync /hdmi_vsync 
+// Tcl Message: ### ad_connect  axi_hdmi_core/hdmi_16_data_e       hdmi_data_e 
+// Tcl Message: connect_bd_net /axi_hdmi_core/hdmi_16_data_e /hdmi_data_e 
+// Tcl Message: ### ad_connect  axi_hdmi_core/hdmi_16_data         hdmi_data 
+// Tcl Message: connect_bd_net /axi_hdmi_core/hdmi_16_data /hdmi_data 
+// Tcl Message: ### ad_connect  axi_hdmi_core/M_AXIS_MM2S          axi_hdmi_dma/m_axis_mm2s 
+// Tcl Message: connect_bd_intf_net /axi_hdmi_core/m_axis_mm2s /axi_hdmi_dma/M_AXIS_MM2S 
+// Tcl Message: ### ad_connect  axi_hdmi_core/m_axis_mm2s_fsync    axi_hdmi_dma/mm2s_fsync 
+// Tcl Message: connect_bd_net /axi_hdmi_core/m_axis_mm2s_fsync /axi_hdmi_dma/mm2s_fsync 
+// Tcl Message: ### ad_connect  axi_hdmi_core/m_axis_mm2s_fsync    axi_hdmi_core/m_axis_mm2s_fsync_ret 
+// Tcl Message: connect_bd_net /axi_hdmi_core/m_axis_mm2s_fsync /axi_hdmi_core/m_axis_mm2s_fsync_ret 
+// Tcl Message: ### ad_connect  sys_cpu_clk   axi_spdif_tx_core/DMA_REQ_ACLK 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_spdif_tx_core/DMA_REQ_ACLK 
+// Tcl Message: ### ad_connect  sys_cpu_clk   sys_ps7/DMA0_ACLK 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /sys_ps7/DMA0_ACLK 
+// Tcl Message: ### ad_connect  sys_ps7/DMA0_REQ  axi_spdif_tx_core/DMA_REQ 
+// Tcl Message: connect_bd_intf_net /sys_ps7/DMA0_REQ /axi_spdif_tx_core/DMA_REQ 
+// Tcl Message: ### ad_connect  sys_ps7/DMA0_ACK  axi_spdif_tx_core/DMA_ACK 
+// Tcl Message: connect_bd_intf_net /sys_ps7/DMA0_ACK /axi_spdif_tx_core/DMA_ACK 
+// Tcl Message: ### ad_connect  sys_cpu_resetn    axi_spdif_tx_core/DMA_REQ_RSTN 
+// Tcl Message: connect_bd_net -net /sys_cpu_resetn /axi_spdif_tx_core/DMA_REQ_RSTN 
+// Tcl Message: ### ad_connect  sys_200m_clk      sys_audio_clkgen/clk_in1 
+// Tcl Message: connect_bd_net -net /sys_200m_clk /sys_audio_clkgen/clk_in1 
+// Tcl Message: ### ad_connect  sys_cpu_resetn    sys_audio_clkgen/resetn 
+// Tcl Message: connect_bd_net -net /sys_cpu_resetn /sys_audio_clkgen/resetn 
+// Tcl Message: ### ad_connect  sys_audio_clkgen/clk_out1 axi_spdif_tx_core/spdif_data_clk 
+// Tcl Message: connect_bd_net /sys_audio_clkgen/clk_out1 /axi_spdif_tx_core/spdif_data_clk 
+// Tcl Message: ### ad_connect  spdif             axi_spdif_tx_core/spdif_tx_o 
+// Tcl Message: connect_bd_net /spdif /axi_spdif_tx_core/spdif_tx_o 
+// Tcl Message: ### ad_connect  sys_cpu_clk axi_i2s_adi/DMA_REQ_RX_ACLK 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_i2s_adi/DMA_REQ_RX_ACLK 
+// Tcl Message: ### ad_connect  sys_cpu_clk axi_i2s_adi/DMA_REQ_TX_ACLK 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_i2s_adi/DMA_REQ_TX_ACLK 
+// Tcl Message: ### ad_connect  sys_cpu_clk sys_ps7/DMA1_ACLK 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /sys_ps7/DMA1_ACLK 
+// Tcl Message: ### ad_connect  sys_cpu_clk sys_ps7/DMA2_ACLK 
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /sys_ps7/DMA2_ACLK 
+// Tcl Message: ### ad_connect  sys_audio_clkgen/clk_out1   i2s_mclk 
+// Tcl Message: connect_bd_net /sys_audio_clkgen/clk_out1 /i2s_mclk 
+// Tcl Message: ### ad_connect  sys_audio_clkgen/clk_out1   axi_i2s_adi/DATA_CLK_I 
+// Tcl Message: connect_bd_net /sys_audio_clkgen/clk_out1 /axi_i2s_adi/DATA_CLK_I 
+// Tcl Message: ### ad_connect  i2s axi_i2s_adi/I2S 
+// Tcl Message: connect_bd_intf_net /i2s /axi_i2s_adi/I2S 
+// Tcl Message: ### ad_connect  sys_ps7/DMA1_REQ   axi_i2s_adi/DMA_REQ_TX 
+// Tcl Message: connect_bd_intf_net /sys_ps7/DMA1_REQ /axi_i2s_adi/DMA_REQ_TX 
+// Tcl Message: ### ad_connect  sys_ps7/DMA1_ACK   axi_i2s_adi/DMA_ACK_TX 
+// Tcl Message: connect_bd_intf_net /sys_ps7/DMA1_ACK /axi_i2s_adi/DMA_ACK_TX 
+// Tcl Message: ### ad_connect  sys_cpu_resetn     axi_i2s_adi/DMA_REQ_TX_RSTN 
+// Tcl Message: connect_bd_net -net /sys_cpu_resetn /axi_i2s_adi/DMA_REQ_TX_RSTN 
+// Tcl Message: ### ad_connect  sys_ps7/DMA2_REQ   axi_i2s_adi/DMA_REQ_RX 
+// Tcl Message: connect_bd_intf_net /sys_ps7/DMA2_REQ /axi_i2s_adi/DMA_REQ_RX 
+// Tcl Message: ### ad_connect  sys_ps7/DMA2_ACK   axi_i2s_adi/DMA_ACK_RX 
+// Tcl Message: connect_bd_intf_net /sys_ps7/DMA2_ACK /axi_i2s_adi/DMA_ACK_RX 
+// Tcl Message: ### ad_connect  sys_cpu_resetn     axi_i2s_adi/DMA_REQ_RX_RSTN 
+// Tcl Message: connect_bd_net -net /sys_cpu_resetn /axi_i2s_adi/DMA_REQ_RX_RSTN 
+// Tcl Message: ### ad_connect  sys_concat_intc/dout  sys_ps7/IRQ_F2P 
+// Tcl Message: connect_bd_net /sys_concat_intc/dout /sys_ps7/IRQ_F2P 
+// Tcl Message: ### ad_connect  sys_concat_intc/In15  axi_hdmi_dma/mm2s_introut 
+// Tcl Message: connect_bd_net /sys_concat_intc/In15 /axi_hdmi_dma/mm2s_introut 
+// Tcl Message: ### ad_connect  sys_concat_intc/In14  axi_iic_main/iic2intc_irpt 
+// Tcl Message: connect_bd_net /sys_concat_intc/In14 /axi_iic_main/iic2intc_irpt 
+// Tcl Message: ### ad_connect  sys_concat_intc/In13  ps_intr_13 
+// Tcl Message: connect_bd_net /sys_concat_intc/In13 /ps_intr_13 
+// Tcl Message: ### ad_connect  sys_concat_intc/In12  ps_intr_12 
+// Tcl Message: connect_bd_net /sys_concat_intc/In12 /ps_intr_12 
+// Tcl Message: ### ad_connect  sys_concat_intc/In11  axi_iic_fmc/iic2intc_irpt 
+// Tcl Message: connect_bd_net /sys_concat_intc/In11 /axi_iic_fmc/iic2intc_irpt 
+// Tcl Message: ### ad_connect  sys_concat_intc/In10  ps_intr_10 
+// Tcl Message: connect_bd_net /sys_concat_intc/In10 /ps_intr_10 
+// Tcl Message: ### ad_connect  sys_concat_intc/In9   ps_intr_09 
+// Tcl Message: connect_bd_net /sys_concat_intc/In9 /ps_intr_09 
+// Tcl Message: ### ad_connect  sys_concat_intc/In8   ps_intr_08 
+// Tcl Message: connect_bd_net /sys_concat_intc/In8 /ps_intr_08 
+// Tcl Message: ### ad_connect  sys_concat_intc/In7   ps_intr_07 
+// Tcl Message: connect_bd_net /sys_concat_intc/In7 /ps_intr_07 
+// Tcl Message: ### ad_connect  sys_concat_intc/In6   ps_intr_06 
+// Tcl Message: connect_bd_net /sys_concat_intc/In6 /ps_intr_06 
+// Tcl Message: ### ad_connect  sys_concat_intc/In5   ps_intr_05 
+// Tcl Message: connect_bd_net /sys_concat_intc/In5 /ps_intr_05 
+// Tcl Message: ### ad_connect  sys_concat_intc/In4   ps_intr_04 
+// Tcl Message: connect_bd_net /sys_concat_intc/In4 /ps_intr_04 
+// Tcl Message: ### ad_connect  sys_concat_intc/In3   ps_intr_03 
+// Tcl Message: connect_bd_net /sys_concat_intc/In3 /ps_intr_03 
+// Tcl Message: ### ad_connect  sys_concat_intc/In2   ps_intr_02 
+// Tcl Message: connect_bd_net /sys_concat_intc/In2 /ps_intr_02 
+// Tcl Message: ### ad_connect  sys_concat_intc/In1   ps_intr_01 
+// Tcl Message: connect_bd_net /sys_concat_intc/In1 /ps_intr_01 
+// Tcl Message: ### ad_connect  sys_concat_intc/In0   ps_intr_00 
+// Tcl Message: connect_bd_net /sys_concat_intc/In0 /ps_intr_00 
+// Tcl Message: ### ad_cpu_interconnect 0x41600000 axi_iic_main 
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 5,201 MB (+41795kb) [00:11:59]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// [Engine Memory]: 5,204 MB (+2654kb) [00:12:00]
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /sys_ps7/M_AXI_GP0_ACLK connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/ACLK connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/S00_ACLK connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/ARESETN connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/S00_ARESETN connect_bd_intf_net /axi_cpu_interconnect/S00_AXI /sys_ps7/M_AXI_GP0 connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M00_ACLK connect_bd_net -net /sys_cpu_clk /axi_iic_main/s_axi_aclk connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M00_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_iic_main/s_axi_aresetn connect_bd_intf_net /axi_cpu_interconnect/M00_AXI /axi_iic_main/S_AXI 
+// Tcl Message: ### ad_cpu_interconnect 0x79000000 axi_hdmi_clkgen 
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 5,214 MB (+10616kb) [00:12:03]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// [GUI Memory]: 409 MB (+385kb) [00:12:03]
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M01_ACLK connect_bd_net -net /sys_cpu_clk /axi_hdmi_clkgen/s_axi_aclk connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M01_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_hdmi_clkgen/s_axi_aresetn connect_bd_intf_net /axi_cpu_interconnect/M01_AXI /axi_hdmi_clkgen/s_axi 
+// Tcl Message: ### ad_cpu_interconnect 0x43000000 axi_hdmi_dma 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M02_ACLK connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M02_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_hdmi_dma/axi_resetn connect_bd_intf_net /axi_cpu_interconnect/M02_AXI /axi_hdmi_dma/S_AXI_LITE 
+// Tcl Message: ### ad_cpu_interconnect 0x70e00000 axi_hdmi_core 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M03_ACLK connect_bd_net -net /sys_cpu_clk /axi_hdmi_core/s_axi_aclk connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M03_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_hdmi_core/s_axi_aresetn connect_bd_intf_net /axi_cpu_interconnect/M03_AXI /axi_hdmi_core/s_axi 
+// Tcl Message: ### ad_cpu_interconnect 0x75c00000 axi_spdif_tx_core 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M04_ACLK connect_bd_net -net /sys_cpu_clk /axi_spdif_tx_core/S_AXI_ACLK connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M04_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_spdif_tx_core/S_AXI_ARESETN connect_bd_intf_net /axi_cpu_interconnect/M04_AXI /axi_spdif_tx_core/S_AXI 
+// Tcl Message: ### ad_cpu_interconnect 0x77600000 axi_i2s_adi 
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M05_ACLK connect_bd_net -net /sys_cpu_clk /axi_i2s_adi/S_AXI_ACLK connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M05_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_i2s_adi/S_AXI_ARESETN connect_bd_intf_net /axi_cpu_interconnect/M05_AXI /axi_i2s_adi/S_AXI 
+// Tcl Message: ### ad_cpu_interconnect 0x41620000 axi_iic_fmc 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// Tcl Message: connect_bd_net -net /sys_cpu_clk /axi_cpu_interconnect/M06_ACLK connect_bd_net -net /sys_cpu_clk /axi_iic_fmc/s_axi_aclk connect_bd_net -net /sys_cpu_resetn /axi_cpu_interconnect/M06_ARESETN connect_bd_net -net /sys_cpu_resetn /axi_iic_fmc/s_axi_aresetn connect_bd_intf_net /axi_cpu_interconnect/M06_AXI /axi_iic_fmc/S_AXI 
+// Tcl Message: ### ad_mem_hp0_interconnect sys_cpu_clk sys_ps7/S_AXI_HP0 
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 5,221 MB (+7217kb) [00:12:08]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_SCRIPT_TASK
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_ADD_OBJECT
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: connect_bd_net -net /sys_cpu_resetn /axi_hp0_interconnect/ARESETN connect_bd_net -net /sys_cpu_clk /axi_hp0_interconnect/ACLK connect_bd_net -net /sys_cpu_resetn /axi_hp0_interconnect/M00_ARESETN connect_bd_net -net /sys_cpu_clk /axi_hp0_interconnect/M00_ACLK connect_bd_intf_net /axi_hp0_interconnect/M00_AXI /sys_ps7/S_AXI_HP0 connect_bd_net -net /sys_cpu_clk /sys_ps7/S_AXI_HP0_ACLK 
+// Tcl Message: ### ad_mem_hp0_interconnect sys_cpu_clk axi_hdmi_dma/M_AXI_MM2S 
+// Tcl Message: connect_bd_net -net /sys_cpu_resetn /axi_hp0_interconnect/S00_ARESETN connect_bd_net -net /sys_cpu_clk /axi_hp0_interconnect/S00_ACLK connect_bd_intf_net /axi_hp0_interconnect/S00_AXI /axi_hdmi_dma/M_AXI_MM2S 
+// Tcl Message: </sys_ps7/S_AXI_HP0/HP0_DDR_LOWOCM> is being mapped into </axi_hdmi_dma/Data_MM2S> at <0x00000000[ 512M ]> 
+// Tcl Message: ### set axi_ad9361_dac_dma [create_bd_cell -type ip -vlnv analog.com:user:axi_dmac:1.0 axi_ad9361_dac_dma] ### set_property -dict [list CONFIG.C_DMA_TYPE_SRC {0}] $axi_ad9361_dac_dma 
+// Tcl Message: INFO: [Common 17-17] undo 'set_property' 
+// Tcl Message: ERROR: [Common 17-39] 'set_property' failed due to earlier errors.      while executing "rdi::add_properties -dict {CONFIG.C_DMA_TYPE_SRC 0} /axi_ad9361_dac_dma"     invoked from within "set_property -dict [list CONFIG.C_DMA_TYPE_SRC {0}] $axi_ad9361_dac_dma"     (file "../common/fmcomms2_bd.tcl" line 33)      while executing "source ../common/fmcomms2_bd.tcl"     (file "system_bd.tcl" line 4)      while executing "source system_bd.tcl"     (procedure "adi_project_create" line 97)     invoked from within "adi_project_create fmcomms2_zed"     (file "./system_project.tcl" line 6) 
+// [GUI Memory]: 411 MB (+1525kb) [00:12:11]
+// [GUI Memory]: 412 MB (+770kb) [00:12:11]
+// [GUI Memory]: 412 MB (+770kb) [00:12:11]
+// [GUI Memory]: 413 MB (+770kb) [00:12:12]
+// [GUI Memory]: 414 MB (+770kb) [00:12:12]
+// [Engine Memory]: 5,230 MB (+9584kb) [00:12:12]
+// [Engine Memory]: 5,233 MB (+3145kb) [00:12:12]
+// Elapsed time: 31 seconds
+dismissDialog("Tcl Command Line"); // cm:N (ch:JFrame)
+// [GUI Memory]: 415 MB (+1041kb) [00:12:12]
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+closeMainWindow("axi_clkgen - [/home/girlop/Documents/hdl/library/axi_clkgen/axi_clkgen.xpr] - Vivado 2014.4.1"); // ch:JFrame
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// al:bE (ch:JFrame): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a:JButton (JPanel:JComponent, al:bE)
+// 'b' command handler elapsed time: 3 seconds
+dismissDialog("Close Project"); // al:bE (ch:JFrame)
+// [GUI Memory]: 419 MB (+4240kb) [00:13:17]
+// [GUI Memory]: 420 MB (+1650kb) [00:13:22]
+// [Engine Memory]: 5,235 MB (+2097kb) [00:13:26]
+// HMemoryUtils.trashcanNow. Engine heap size: 5,235 MB. GUI used memory: 377 MB. Current time: 5/31/17 4:59:34 PM
+// Elapsed time: 80 seconds
+selectTab((HResource) null, (HResource) null, "Sources", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints]", 2); // u:k (I:JPanel, ch:JFrame)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1]", 3, false); // u:k (I:JPanel, ch:JFrame)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1]", 3, false, false, false, false, false, true); // u:k (I:JPanel, ch:JFrame) - Double Click
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints]", 2); // u:k (I:JPanel, ch:JFrame)
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources]", 3); // u:k (I:JPanel, ch:JFrame)
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources]", 3); // u:k (I:JPanel, ch:JFrame)
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, system (system.bd)]", 1); // u:k (I:JPanel, ch:JFrame)
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, system (system.bd)]", 1); // u:k (I:JPanel, ch:JFrame)
+// [Engine Memory]: 5,236 MB (+1048kb) [00:13:54]
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 475, 147); // dT:J (JPanel:JComponent, ch:JFrame)
+// Elapsed time: 17 seconds
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, ch:JFrame)
+// [GUI Memory]: 421 MB (+54kb) [00:14:43]
+// [GUI Memory]: 421 MB (+991kb) [00:14:48]
+// [GUI Memory]: 422 MB (+303kb) [00:14:53]
+// [GUI Memory]: 423 MB (+988kb) [00:14:58]
+// [GUI Memory]: 423 MB (+312kb) [00:15:03]
+// [GUI Memory]: 424 MB (+1043kb) [00:15:08]
+// [GUI Memory]: 425 MB (+1283kb) [00:15:13]
+// [GUI Memory]: 425 MB (+90kb) [00:15:18]
+// [GUI Memory]: 426 MB (+303kb) [00:15:23]
+// Elapsed time: 81 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_dmac/", true); // W:an (F:R, ch:JFrame)
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "cd /home/girlop/Documents/hdl/library/axi_dmac/", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'cd /home/girlop/Documents/hdl/library/axi_dmac/'
+// Tcl Message: current_project axi_clkgen 
+// Tcl Message: cd /home/girlop/Documents/hdl/library/axi_dmac/ 
+// [GUI Memory]: 426 MB (+780kb) [00:15:53]
+// Elapsed time: 15 seconds
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "source ./axi_dmac_ip.tcl", true); // W:an (F:R, ch:JFrame)
+// Tcl Command: 'source ./axi_dmac_ip.tcl'
+// cm:N (ch:JFrame):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_NEW
+// Tcl Message: source ./axi_dmac_ip.tcl 
+// TclEventType: PROJECT_NEW
+// [Engine Memory]: 5,266 MB (+31711kb) [00:15:55]
+// [Engine Memory]: 5,281 MB (+15740kb) [00:15:55]
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2014.4/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 426 MB (+147kb) [00:15:56]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 427 MB (+496kb) [00:15:56]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 428 MB (+760kb) [00:15:57]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: RSB_BITABEN_IPREPODATA_REFRESH
+// TclEventType: CREATE_IP_CATALOG
+// HMemoryUtils.trashcanNow. Engine heap size: 5,291 MB. GUI used memory: 383 MB. Current time: 5/31/17 5:02:03 PM
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 5,291 MB (+10493kb) [00:15:59]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_CURRENT_CORE
+// Run Command: PAResourceCommand.PACommandNames_IP_PACKAGER
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/girlop/Documents/hdl/library'. 
+// Tcl Message: # adi_ip_files axi_dmac [list \ #   "$ad_hdl_dir/library/common/sync_bits.v" \ #   "$ad_hdl_dir/library/common/up_axi.v" \ #   "address_generator.v" \ #   "data_mover.v" \ #   "request_arb.v" \ #   "request_generator.v" \ #   "response_handler.v" \ #   "axi_register_slice.v" \ #   "2d_transfer.v" \ #   "dest_axi_mm.v" \ #   "dest_axi_stream.v" \ #   "dest_fifo_inf.v" \ #   "src_axi_mm.v" \ #   "src_axi_stream.v" \ #   "src_fifo_inf.v" \ #   "splitter.v" \ #   "response_generator.v" \ #   "axi_dmac.v" \ #   "axi_dmac_constr.ttcl" ] # adi_ip_properties axi_dmac 
+// TclEventType: PACKAGER_MESSAGE_RESET
+// TclEventType: PACKAGER_MESSAGE_UPDATE
+// [Engine Memory]: 5,299 MB (+8396kb) [00:16:00]
+// TclEventType: PACKAGER_OBJECT_DELETE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_ip_ttcl axi_dmac "axi_dmac_constr.ttcl" # adi_ip_add_core_dependencies { \ # 	analog.com:user:util_axis_resize:1.0 \ # 	analog.com:user:util_axis_fifo:1.0 \ # } 
+// Tcl Message: # set_property physical_name {s_axi_aclk} [ipx::get_port_map CLK \ #   [ipx::get_bus_interface s_axi_signal_clock [ipx::current_core]]] # adi_add_bus "s_axis" "slave" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	[list {"s_axis_ready" "TREADY"} \ # 	  {"s_axis_valid" "TVALID"} \ # 	  {"s_axis_data" "TDATA"} \ # 	  {"s_axis_user" "TUSER"} ] 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "s_axis_aclk" "s_axis" 
+// Tcl Message: # adi_add_bus "m_axis" "master" \ # 	"xilinx.com:interface:axis_rtl:1.0" \ # 	"xilinx.com:interface:axis:1.0" \ # 	[list {"m_axis_ready" "TREADY"} \ # 	  {"m_axis_valid" "TVALID"} \ # 	  {"m_axis_data" "TDATA"} ] 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "m_axis_aclk" "m_axis" 
+// Tcl Message: # adi_set_bus_dependency "m_src_axi" "m_src_axi" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_SRC')) = 0)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 442 MB (+14802kb) [00:16:08]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 449 MB (+7025kb) [00:16:09]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 450 MB (+1598kb) [00:16:11]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "m_dest_axi" "m_dest_axi" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 0)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 464 MB (+14978kb) [00:16:12]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 467 MB (+2337kb) [00:16:14]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "s_axis" "s_axis" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_SRC')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 473 MB (+6566kb) [00:16:15]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_bus_dependency "m_axis" "m_axis" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 1)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 483 MB (+11184kb) [00:16:17]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_set_ports_dependency "fifo_rd" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 2)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 489 MB (+5376kb) [00:16:18]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 494 MB (+6136kb) [00:16:19]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "fifo_wr" "slave" \ # 	"analog.com:interface:fifo_wr_rtl:1.0" \ # 	"analog.com:interface:fifo_wr:1.0" \ # 	{ \ # 		{"fifo_wr_en" "EN"} \ # 		{"fifo_wr_din" "DATA"} \ # 		{"fifo_wr_overflow" "OVERFLOW"} \ # 		{"fifo_wr_sync" "SYNC"} \ # 		{"fifo_wr_xfer_req" "XFER_REQ"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// [GUI Memory]: 503 MB (+8951kb) [00:16:22]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus_clock "fifo_wr_clk" "fifo_wr" 
+// Tcl Message: # adi_set_bus_dependency "fifo_wr" "fifo_wr" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_SRC')) = 2)" 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 513 MB (+10324kb) [00:16:24]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// Tcl Message: # adi_add_bus "fifo_rd" "slave" \ # 	"analog.com:interface:fifo_rd_rtl:1.0" \ # 	"analog.com:interface:fifo_rd:1.0" \ # 	{ # 		{"fifo_rd_en" "EN"} \ # 		{"fifo_rd_dout" "DATA"} \ # 		{"fifo_rd_valid" "VALID"} \ # 		{"fifo_rd_underflow" "UNDERFLOW"} \ # 	} 
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 515 MB (+2046kb) [00:16:25]
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 523 MB (+8667kb) [00:16:25]
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// [GUI Memory]: 527 MB (+3852kb) [00:16:26]
+// Tcl Message: # adi_add_bus_clock "fifo_rd_clk" "fifo_rd" 
+// Tcl Message: # adi_set_bus_dependency "fifo_rd" "fifo_rd" \ # 	"(spirit:decode(id('MODELPARAM_VALUE.C_DMA_TYPE_DEST')) = 2)" # foreach port {"m_dest_axi_aresetn" "m_src_axi_aresetn" "s_axis_valid" \ # 	"s_axis_data" "m_axis_ready" "fifo_wr_en" "fifo_wr_din" "fifo_rd_en"} { # 	set_property DRIVER_VALUE "0" [ipx::get_ports $port] # } 
+// TclEventType: PACKAGER_OBJECT_CHANGE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
